@@ -37,8 +37,8 @@ namespace rda
                 perception m_right_perception;
             }; // struct score_context
 
-            // returns the right bauer card for the given suit
-            static card right_bauer(const e_suit s)
+            // returns the right bower card for the given suit
+            static card right_bower(const e_suit s)
             {
                 switch (s)
                 {
@@ -55,8 +55,8 @@ namespace rda
                 }
             }
 
-            // returns the left bauder card for the given suit
-            static card left_bauer(const e_suit s)
+            // returns the left bower card for the given suit
+            static card left_bower(const e_suit s)
             {
                 switch (s)
                 {
@@ -78,17 +78,17 @@ namespace rda
             {
                 const double s = ctx.m_file_data->get_float_by_path("trump_call/have_right_bower_trump");
                 if (s != 0.0f)
-                    if (ctx.m_hand.contains(right_bauer(ctx.m_suit)))
+                    if (ctx.m_hand.contains(right_bower(ctx.m_suit)))
                         return s;
                 return 0.0f;
             }
 
-            // score having the left bauer of trump
+            // score having the left bower of trump
             static double score_have_left_bower_trump(const score_context& ctx)
             {
                 const double s = ctx.m_file_data->get_float_by_path("trump_call/have_left_bower_trump");
                 if (s != 0.0f)
-                    if (ctx.m_hand.contains(left_bauer(ctx.m_suit)))
+                    if (ctx.m_hand.contains(left_bower(ctx.m_suit)))
                         return s;
                 return 0.0f;
             }
@@ -143,7 +143,89 @@ namespace rda
                 return 0.0f;
             }
 
+            // score would pick up right bower trump
+            static double score_would_pick_up_right_bower_trump(const score_context& ctx)
+            {
+                const double s = ctx.m_file_data->get_float_by_path("trump_call/would_pick_up_right_bower_trump");
+                if (s != 0.0f)
+                    if (ctx.m_dealer_position == e_seat_position::SELF &&
+                        ctx.m_up_card == right_bower(ctx.m_suit))
+                        return s;
+                return 0.0f;
+            }
 
+            // score would pick up left bower trump
+            static double score_would_pick_up_left_bower_trump(const score_context& ctx)
+            {
+                const double s = ctx.m_file_data->get_float_by_path("trump_call/would_pick_up_left_bower_trump");
+                if (s != 0.0f)
+                    if (ctx.m_dealer_position == e_seat_position::SELF &&
+                        ctx.m_up_card == left_bower(ctx.m_suit))
+                        return s;
+                return 0.0f;
+            }
+
+            // score would pick up ace trump
+            static double score_would_pick_up_ace_trump(const score_context& ctx)
+            {
+                const double s = ctx.m_file_data->get_float_by_path("trump_call/would_pick_up_ace_trump");
+                if (s != 0.0f)
+                    if (ctx.m_dealer_position == e_seat_position::SELF &&
+                        ctx.m_up_card == card(ctx.m_suit, e_rank::ACE))
+                        return s;
+                return 0.0f;
+            }
+
+            // score would pick up king trump
+            static double score_would_pick_up_king_trump(const score_context& ctx)
+            {
+                const double s = ctx.m_file_data->get_float_by_path("trump_call/would_pick_up_king_trump");
+                if (s != 0.0f)
+                    if (ctx.m_dealer_position == e_seat_position::SELF &&
+                        ctx.m_up_card == card(ctx.m_suit, e_rank::KING))
+                        return s;
+                return 0.0f;
+            }
+
+            // score would pick up queen trump
+            static double score_would_pick_up_queen_trump(const score_context& ctx)
+            {
+                const double s = ctx.m_file_data->get_float_by_path("trump_call/would_pick_up_queen_trump");
+                if (s != 0.0f)
+                    if (ctx.m_dealer_position == e_seat_position::SELF &&
+                        ctx.m_up_card == card(ctx.m_suit, e_rank::QUEEN))
+                        return s;
+                return 0.0f;
+            }
+
+            // score would pick up ten trump
+            static double score_would_pick_up_ten_trump(const score_context& ctx)
+            {
+                const double s = ctx.m_file_data->get_float_by_path("trump_call/would_pick_up_ten_trump");
+                if (s != 0.0f)
+                    if (ctx.m_dealer_position == e_seat_position::SELF &&
+                        ctx.m_up_card == card(ctx.m_suit, e_rank::TEN))
+                        return s;
+                return 0.0f;
+            }
+
+            // score would pick up nine trump
+            static double score_would_pick_up_nine_trump(const score_context& ctx)
+            {
+                const double s = ctx.m_file_data->get_float_by_path("trump_call/would_pick_up_nine_trump");
+                if (s != 0.0f)
+                    if (ctx.m_dealer_position == e_seat_position::SELF &&
+                        ctx.m_up_card == card(ctx.m_suit, e_rank::NINE))
+                        return s;
+                return 0.0f;
+            }
+
+
+
+
+
+
+            // score the calling of a trump suit, given the provided game state
             static double score(const e_suit s,
                                 const hand &h,
                                 const card &up_card,
@@ -173,7 +255,13 @@ namespace rda
                 total += score_have_queen_trump(ctx);
                 total += score_have_ten_trump(ctx);
                 total += score_have_nine_trump(ctx);
-
+                total += score_would_pick_up_right_bower_trump(ctx);
+                total += score_would_pick_up_left_bower_trump(ctx);
+                total += score_would_pick_up_ace_trump(ctx);
+                total += score_would_pick_up_king_trump(ctx);
+                total += score_would_pick_up_queen_trump(ctx);
+                total += score_would_pick_up_ten_trump(ctx);
+                total += score_would_pick_up_nine_trump(ctx);
                 return total;
             }
 
