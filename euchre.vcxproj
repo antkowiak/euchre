@@ -144,6 +144,13 @@
   <ItemGroup>
     <ClCompile Include="src\main.cpp" />
   </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="src\algorithm_rda.h" />
+    <ClInclude Include="src\json.h" />
+    <ClInclude Include="src\platform_defs.h" />
+    <ClInclude Include="src\platform_defs_posix.h" />
+    <ClInclude Include="src\platform_defs_windows.h" />
+  </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
   </ImportGroup>
