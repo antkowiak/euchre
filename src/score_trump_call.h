@@ -42,16 +42,16 @@ namespace rda
             {
                 switch (s)
                 {
-                case e_suit::CLUBS:
-                    return card(e_suit::CLUBS, e_rank::JACK);
-                case e_suit::DIAMONDS:
-                    return card(e_suit::DIAMONDS, e_rank::JACK);
-                case e_suit::HEARTS:
-                    return card(e_suit::HEARTS, e_rank::JACK);
-                case e_suit::SPADES:
-                    return card(e_suit::SPADES, e_rank::JACK);
-                default:
-                    return card();
+                    case e_suit::CLUBS:
+                        return card(e_suit::CLUBS, e_rank::JACK);
+                    case e_suit::DIAMONDS:
+                        return card(e_suit::DIAMONDS, e_rank::JACK);
+                    case e_suit::HEARTS:
+                        return card(e_suit::HEARTS, e_rank::JACK);
+                    case e_suit::SPADES:
+                        return card(e_suit::SPADES, e_rank::JACK);
+                    default:
+                        return card();
                 }
             }
 
@@ -60,21 +60,21 @@ namespace rda
             {
                 switch (s)
                 {
-                case e_suit::CLUBS:
-                    return card(e_suit::SPADES, e_rank::JACK);
-                case e_suit::DIAMONDS:
-                    return card(e_suit::HEARTS, e_rank::JACK);
-                case e_suit::HEARTS:
-                    return card(e_suit::DIAMONDS, e_rank::JACK);
-                case e_suit::SPADES:
-                    return card(e_suit::CLUBS, e_rank::JACK);
-                default:
-                    return card();
+                    case e_suit::CLUBS:
+                        return card(e_suit::SPADES, e_rank::JACK);
+                    case e_suit::DIAMONDS:
+                        return card(e_suit::HEARTS, e_rank::JACK);
+                    case e_suit::HEARTS:
+                        return card(e_suit::DIAMONDS, e_rank::JACK);
+                    case e_suit::SPADES:
+                        return card(e_suit::CLUBS, e_rank::JACK);
+                    default:
+                        return card();
                 }
             }
 
             // score having the right bower of trump
-            static double score_have_right_bower_trump(const score_context& ctx)
+            static double score_have_right_bower_trump(const score_context &ctx)
             {
                 const double s = ctx.m_file_data->get_float_by_path("trump_call/have_right_bower_trump");
                 if (s != 0.0f)
@@ -84,7 +84,7 @@ namespace rda
             }
 
             // score having the left bower of trump
-            static double score_have_left_bower_trump(const score_context& ctx)
+            static double score_have_left_bower_trump(const score_context &ctx)
             {
                 const double s = ctx.m_file_data->get_float_by_path("trump_call/have_left_bower_trump");
                 if (s != 0.0f)
@@ -94,7 +94,7 @@ namespace rda
             }
 
             // score having the ace of trump
-            static double score_have_ace_trump(const score_context& ctx)
+            static double score_have_ace_trump(const score_context &ctx)
             {
                 const double s = ctx.m_file_data->get_float_by_path("trump_call/have_ace_trump");
                 if (s != 0.0f)
@@ -104,7 +104,7 @@ namespace rda
             }
 
             // score having the king of trump
-            static double score_have_king_trump(const score_context& ctx)
+            static double score_have_king_trump(const score_context &ctx)
             {
                 const double s = ctx.m_file_data->get_float_by_path("trump_call/have_king_trump");
                 if (s != 0.0f)
@@ -114,7 +114,7 @@ namespace rda
             }
 
             // score having the queen of trump
-            static double score_have_queen_trump(const score_context& ctx)
+            static double score_have_queen_trump(const score_context &ctx)
             {
                 const double s = ctx.m_file_data->get_float_by_path("trump_call/have_queen_trump");
                 if (s != 0.0f)
@@ -124,7 +124,7 @@ namespace rda
             }
 
             // score having the ten of trump
-            static double score_have_ten_trump(const score_context& ctx)
+            static double score_have_ten_trump(const score_context &ctx)
             {
                 const double s = ctx.m_file_data->get_float_by_path("trump_call/have_ten_trump");
                 if (s != 0.0f)
@@ -134,7 +134,7 @@ namespace rda
             }
 
             // score having the nine of trump
-            static double score_have_nine_trump(const score_context& ctx)
+            static double score_have_nine_trump(const score_context &ctx)
             {
                 const double s = ctx.m_file_data->get_float_by_path("trump_call/have_nine_trump");
                 if (s != 0.0f)
@@ -144,7 +144,7 @@ namespace rda
             }
 
             // score would pick up right bower trump
-            static double score_would_pick_up_right_bower_trump(const score_context& ctx)
+            static double score_would_pick_up_right_bower_trump(const score_context &ctx)
             {
                 const double s = ctx.m_file_data->get_float_by_path("trump_call/would_pick_up_right_bower_trump");
                 if (s != 0.0f)
@@ -155,7 +155,7 @@ namespace rda
             }
 
             // score would pick up left bower trump
-            static double score_would_pick_up_left_bower_trump(const score_context& ctx)
+            static double score_would_pick_up_left_bower_trump(const score_context &ctx)
             {
                 const double s = ctx.m_file_data->get_float_by_path("trump_call/would_pick_up_left_bower_trump");
                 if (s != 0.0f)
@@ -166,7 +166,7 @@ namespace rda
             }
 
             // score would pick up ace trump
-            static double score_would_pick_up_ace_trump(const score_context& ctx)
+            static double score_would_pick_up_ace_trump(const score_context &ctx)
             {
                 const double s = ctx.m_file_data->get_float_by_path("trump_call/would_pick_up_ace_trump");
                 if (s != 0.0f)
@@ -177,7 +177,7 @@ namespace rda
             }
 
             // score would pick up king trump
-            static double score_would_pick_up_king_trump(const score_context& ctx)
+            static double score_would_pick_up_king_trump(const score_context &ctx)
             {
                 const double s = ctx.m_file_data->get_float_by_path("trump_call/would_pick_up_king_trump");
                 if (s != 0.0f)
@@ -188,7 +188,7 @@ namespace rda
             }
 
             // score would pick up queen trump
-            static double score_would_pick_up_queen_trump(const score_context& ctx)
+            static double score_would_pick_up_queen_trump(const score_context &ctx)
             {
                 const double s = ctx.m_file_data->get_float_by_path("trump_call/would_pick_up_queen_trump");
                 if (s != 0.0f)
@@ -199,7 +199,7 @@ namespace rda
             }
 
             // score would pick up ten trump
-            static double score_would_pick_up_ten_trump(const score_context& ctx)
+            static double score_would_pick_up_ten_trump(const score_context &ctx)
             {
                 const double s = ctx.m_file_data->get_float_by_path("trump_call/would_pick_up_ten_trump");
                 if (s != 0.0f)
@@ -210,7 +210,7 @@ namespace rda
             }
 
             // score would pick up nine trump
-            static double score_would_pick_up_nine_trump(const score_context& ctx)
+            static double score_would_pick_up_nine_trump(const score_context &ctx)
             {
                 const double s = ctx.m_file_data->get_float_by_path("trump_call/would_pick_up_nine_trump");
                 if (s != 0.0f)
@@ -220,10 +220,159 @@ namespace rda
                 return 0.0f;
             }
 
+            // score partner would pick up right bower trump
+            static double score_partner_would_pick_up_right_bower_trump(const score_context &ctx)
+            {
+                const double s = ctx.m_file_data->get_float_by_path("trump_call/partner_would_pick_up_right_bower_trump");
+                if (s != 0.0f)
+                    if (ctx.m_dealer_position == e_seat_position::ACROSS &&
+                        ctx.m_up_card == right_bower(ctx.m_suit))
+                        return s;
+                return 0.0f;
+            }
 
+            // score partner would pick up left bower trump
+            static double score_partner_would_pick_up_left_bower_trump(const score_context &ctx)
+            {
+                const double s = ctx.m_file_data->get_float_by_path("trump_call/partner_would_pick_up_left_bower_trump");
+                if (s != 0.0f)
+                    if (ctx.m_dealer_position == e_seat_position::ACROSS &&
+                        ctx.m_up_card == left_bower(ctx.m_suit))
+                        return s;
+                return 0.0f;
+            }
 
+            // score partner would pick up ace trump
+            static double score_partner_would_pick_up_ace_trump(const score_context &ctx)
+            {
+                const double s = ctx.m_file_data->get_float_by_path("trump_call/partner_would_pick_up_ace_trump");
+                if (s != 0.0f)
+                    if (ctx.m_dealer_position == e_seat_position::ACROSS &&
+                        ctx.m_up_card == card(ctx.m_suit, e_rank::ACE))
+                        return s;
+                return 0.0f;
+            }
 
+            // score partner would pick up king trump
+            static double score_partner_would_pick_up_king_trump(const score_context &ctx)
+            {
+                const double s = ctx.m_file_data->get_float_by_path("trump_call/partner_would_pick_up_king_trump");
+                if (s != 0.0f)
+                    if (ctx.m_dealer_position == e_seat_position::ACROSS &&
+                        ctx.m_up_card == card(ctx.m_suit, e_rank::KING))
+                        return s;
+                return 0.0f;
+            }
 
+            // score partner would pick up queen trump
+            static double score_partner_would_pick_up_queen_trump(const score_context &ctx)
+            {
+                const double s = ctx.m_file_data->get_float_by_path("trump_call/partner_would_pick_up_queen_trump");
+                if (s != 0.0f)
+                    if (ctx.m_dealer_position == e_seat_position::ACROSS &&
+                        ctx.m_up_card == card(ctx.m_suit, e_rank::QUEEN))
+                        return s;
+                return 0.0f;
+            }
+
+            // score partner would pick up ten trump
+            static double score_partner_would_pick_up_ten_trump(const score_context &ctx)
+            {
+                const double s = ctx.m_file_data->get_float_by_path("trump_call/partner_would_pick_up_ten_trump");
+                if (s != 0.0f)
+                    if (ctx.m_dealer_position == e_seat_position::ACROSS &&
+                        ctx.m_up_card == card(ctx.m_suit, e_rank::TEN))
+                        return s;
+                return 0.0f;
+            }
+
+            // score partner would pick up nine trump
+            static double score_partner_would_pick_up_nine_trump(const score_context &ctx)
+            {
+                const double s = ctx.m_file_data->get_float_by_path("trump_call/partner_would_pick_up_nine_trump");
+                if (s != 0.0f)
+                    if (ctx.m_dealer_position == e_seat_position::ACROSS &&
+                        ctx.m_up_card == card(ctx.m_suit, e_rank::NINE))
+                        return s;
+                return 0.0f;
+            }
+
+            // score opponent would pick up right bower trump
+            static double score_opponent_would_pick_up_right_bower_trump(const score_context &ctx)
+            {
+                const double s = ctx.m_file_data->get_float_by_path("trump_call/opponent_would_pick_up_right_bower_trump");
+                if (s != 0.0f)
+                    if ((ctx.m_dealer_position == e_seat_position::LEFT || ctx.m_dealer_position == e_seat_position::RIGHT) &&
+                        ctx.m_up_card == right_bower(ctx.m_suit))
+                        return s;
+                return 0.0f;
+            }
+
+            // score opponent would pick up left bower trump
+            static double score_opponent_would_pick_up_left_bower_trump(const score_context &ctx)
+            {
+                const double s = ctx.m_file_data->get_float_by_path("trump_call/opponent_would_pick_up_left_bower_trump");
+                if (s != 0.0f)
+                    if ((ctx.m_dealer_position == e_seat_position::LEFT || ctx.m_dealer_position == e_seat_position::RIGHT) &&
+                        ctx.m_up_card == left_bower(ctx.m_suit))
+                        return s;
+                return 0.0f;
+            }
+
+            // score opponent would pick up ace trump
+            static double score_opponent_would_pick_up_ace_trump(const score_context &ctx)
+            {
+                const double s = ctx.m_file_data->get_float_by_path("trump_call/opponent_would_pick_up_ace_trump");
+                if (s != 0.0f)
+                    if ((ctx.m_dealer_position == e_seat_position::LEFT || ctx.m_dealer_position == e_seat_position::RIGHT) &&
+                        ctx.m_up_card == card(ctx.m_suit, e_rank::ACE))
+                        return s;
+                return 0.0f;
+            }
+
+            // score opponent would pick up king trump
+            static double score_opponent_would_pick_up_king_trump(const score_context &ctx)
+            {
+                const double s = ctx.m_file_data->get_float_by_path("trump_call/opponent_would_pick_up_king_trump");
+                if (s != 0.0f)
+                    if ((ctx.m_dealer_position == e_seat_position::LEFT || ctx.m_dealer_position == e_seat_position::RIGHT) &&
+                        ctx.m_up_card == card(ctx.m_suit, e_rank::KING))
+                        return s;
+                return 0.0f;
+            }
+
+            // score opponent would pick up queen trump
+            static double score_opponent_would_pick_up_queen_trump(const score_context &ctx)
+            {
+                const double s = ctx.m_file_data->get_float_by_path("trump_call/opponent_would_pick_up_queen_trump");
+                if (s != 0.0f)
+                    if ((ctx.m_dealer_position == e_seat_position::LEFT || ctx.m_dealer_position == e_seat_position::RIGHT) &&
+                        ctx.m_up_card == card(ctx.m_suit, e_rank::QUEEN))
+                        return s;
+                return 0.0f;
+            }
+
+            // score opponent would pick up ten trump
+            static double score_opponent_would_pick_up_ten_trump(const score_context &ctx)
+            {
+                const double s = ctx.m_file_data->get_float_by_path("trump_call/opponent_would_pick_up_ten_trump");
+                if (s != 0.0f)
+                    if ((ctx.m_dealer_position == e_seat_position::LEFT || ctx.m_dealer_position == e_seat_position::RIGHT) &&
+                        ctx.m_up_card == card(ctx.m_suit, e_rank::TEN))
+                        return s;
+                return 0.0f;
+            }
+
+            // score opponent would pick up nine trump
+            static double score_opponent_would_pick_up_nine_trump(const score_context &ctx)
+            {
+                const double s = ctx.m_file_data->get_float_by_path("trump_call/opponent_would_pick_up_nine_trump");
+                if (s != 0.0f)
+                    if ((ctx.m_dealer_position == e_seat_position::LEFT || ctx.m_dealer_position == e_seat_position::RIGHT) &&
+                        ctx.m_up_card == card(ctx.m_suit, e_rank::NINE))
+                        return s;
+                return 0.0f;
+            }
 
             // score the calling of a trump suit, given the provided game state
             static double score(const e_suit s,
@@ -262,9 +411,26 @@ namespace rda
                 total += score_would_pick_up_queen_trump(ctx);
                 total += score_would_pick_up_ten_trump(ctx);
                 total += score_would_pick_up_nine_trump(ctx);
+                total += score_partner_would_pick_up_right_bower_trump(ctx);
+                total += score_partner_would_pick_up_left_bower_trump(ctx);
+                total += score_partner_would_pick_up_ace_trump(ctx);
+                total += score_partner_would_pick_up_king_trump(ctx);
+                total += score_partner_would_pick_up_queen_trump(ctx);
+                total += score_partner_would_pick_up_ten_trump(ctx);
+                total += score_partner_would_pick_up_nine_trump(ctx);
+                total += score_opponent_would_pick_up_right_bower_trump(ctx);
+                total += score_opponent_would_pick_up_left_bower_trump(ctx);
+                total += score_opponent_would_pick_up_ace_trump(ctx);
+                total += score_opponent_would_pick_up_king_trump(ctx);
+                total += score_opponent_would_pick_up_queen_trump(ctx);
+                total += score_opponent_would_pick_up_ten_trump(ctx);
+                total += score_opponent_would_pick_up_nine_trump(ctx);
+
                 return total;
             }
 
         } // namespace score_trump_call
-    }     // namespace euchre
+
+    } // namespace euchre
+
 } // namespace rda

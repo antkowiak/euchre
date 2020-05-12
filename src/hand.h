@@ -49,9 +49,19 @@ namespace rda
             }
 
             // return true if hand contains a card
-            bool contains(const card& c) const
+            bool contains(const card &c) const
             {
                 return std::find(cards.cbegin(), cards.cend(), c) != cards.cend();
+            }
+
+            // returns true if hand contains all of given cards
+            bool contains(const std::vector<card> &c) const
+            {
+                for (auto &a : c)
+                    if (std::find(cards.cbegin(), cards.cend(), a) == cards.cend())
+                        return false;
+
+                return true;
             }
 
             // return the number of cards in the hand
