@@ -4,12 +4,12 @@
 
 namespace rda
 {
-	namespace euchre
-	{
-		class player_human : public player
-		{
+    namespace euchre
+    {
+        class player_human : public player
+        {
 
-		}; // class player_human
+        }; // class player_human
 
-	} // namespace euchre
+    } // namespace euchre
 } // namespace rda

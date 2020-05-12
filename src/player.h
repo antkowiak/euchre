@@ -4,14 +4,14 @@
 
 namespace rda
 {
-	namespace euchre
-	{
-		class player
-		{
-		private:
-			hand m_hand;
+    namespace euchre
+    {
+        class player
+        {
+        private:
+            hand m_hand;
 
-		}; // class player
+        }; // class player
 
-	} // namespace euchre
+    } // namespace euchre
 } // namespace rda

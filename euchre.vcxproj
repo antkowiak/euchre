@@ -138,9 +138,12 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <None Include=".clang-format" />
     <None Include=".gitignore" />
     <None Include="Makefile" />
     <None Include="README.md" />
+    <None Include="src\.clang-format" />
+    <None Include="src\unit_tests\.clang-format" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\main.cpp" />

@@ -24,6 +24,13 @@
     <None Include=".gitignore" />
     <None Include="README.md" />
     <None Include="Makefile" />
+    <None Include=".clang-format" />
+    <None Include="src\unit_tests\.clang-format">
+      <Filter>Unit Tests</Filter>
+    </None>
+    <None Include="src\.clang-format">
+      <Filter>Source Files</Filter>
+    </None>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\main.cpp">
