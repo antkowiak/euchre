@@ -1,0 +1,8 @@
+
+namespace rda
+{
+    namespace euchre
+    {
+    }
+}
+
