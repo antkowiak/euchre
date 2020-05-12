@@ -16,6 +16,9 @@
     <Filter Include="Unit Tests">
       <UniqueIdentifier>{3a44745d-add1-4055-9455-bb1bc127212d}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Header Files\Library Headers">
+      <UniqueIdentifier>{459507d6-97ef-4957-bfc1-f5445ffd82f1}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <None Include=".gitignore" />
@@ -28,23 +31,50 @@
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="src\algorithm_rda.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="src\json.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="src\platform_defs.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="src\platform_defs_posix.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="src\platform_defs_windows.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="src\unit_tests\test_euchre.h">
       <Filter>Unit Tests</Filter>
+    </ClInclude>
+    <ClInclude Include="src\card.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\algorithm_rda.h">
+      <Filter>Header Files\Library Headers</Filter>
+    </ClInclude>
+    <ClInclude Include="src\json.h">
+      <Filter>Header Files\Library Headers</Filter>
+    </ClInclude>
+    <ClInclude Include="src\platform_defs.h">
+      <Filter>Header Files\Library Headers</Filter>
+    </ClInclude>
+    <ClInclude Include="src\platform_defs_posix.h">
+      <Filter>Header Files\Library Headers</Filter>
+    </ClInclude>
+    <ClInclude Include="src\platform_defs_windows.h">
+      <Filter>Header Files\Library Headers</Filter>
+    </ClInclude>
+    <ClInclude Include="src\deck.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\hand.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\random_seeder.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\player.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\player_human.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\player_computer.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\perception.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\fileio.h">
+      <Filter>Header Files\Library Headers</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>
