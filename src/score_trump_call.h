@@ -46,16 +46,16 @@ namespace rda
                 {
                     switch (s)
                     {
-                    case e_suit::CLUBS:
-                        return card(e_suit::CLUBS, e_rank::JACK);
-                    case e_suit::DIAMONDS:
-                        return card(e_suit::DIAMONDS, e_rank::JACK);
-                    case e_suit::HEARTS:
-                        return card(e_suit::HEARTS, e_rank::JACK);
-                    case e_suit::SPADES:
-                        return card(e_suit::SPADES, e_rank::JACK);
-                    default:
-                        return card();
+                        case e_suit::CLUBS:
+                            return card(e_suit::CLUBS, e_rank::JACK);
+                        case e_suit::DIAMONDS:
+                            return card(e_suit::DIAMONDS, e_rank::JACK);
+                        case e_suit::HEARTS:
+                            return card(e_suit::HEARTS, e_rank::JACK);
+                        case e_suit::SPADES:
+                            return card(e_suit::SPADES, e_rank::JACK);
+                        default:
+                            return card();
                     }
                 }
 
@@ -64,31 +64,32 @@ namespace rda
                 {
                     switch (s)
                     {
-                    case e_suit::CLUBS:
-                        return card(e_suit::SPADES, e_rank::JACK);
-                    case e_suit::DIAMONDS:
-                        return card(e_suit::HEARTS, e_rank::JACK);
-                    case e_suit::HEARTS:
-                        return card(e_suit::DIAMONDS, e_rank::JACK);
-                    case e_suit::SPADES:
-                        return card(e_suit::CLUBS, e_rank::JACK);
-                    default:
-                        return card();
+                        case e_suit::CLUBS:
+                            return card(e_suit::SPADES, e_rank::JACK);
+                        case e_suit::DIAMONDS:
+                            return card(e_suit::HEARTS, e_rank::JACK);
+                        case e_suit::HEARTS:
+                            return card(e_suit::DIAMONDS, e_rank::JACK);
+                        case e_suit::SPADES:
+                            return card(e_suit::CLUBS, e_rank::JACK);
+                        default:
+                            return card();
                     }
                 }
 
-                static size_t count_suits(const hand& h)
+                // count the number of suits in a hand
+                static size_t count_suits(const hand &h)
                 {
                     std::unordered_set<e_suit> suits;
-                    std::for_each(h.cbegin(), h.cend(), [&suits] (auto& cd)
-                        {
-                            suits.insert(cd.suit());
-                        });
+                    std::for_each(h.cbegin(), h.cend(), [&suits](auto &cd) {
+                        suits.insert(cd.suit());
+                    });
 
                     return suits.size();
                 }
 
-                static size_t count_non_trump_winners(const score_context& ctx)
+                // count the number of non-trump "winning" cards in a hand
+                static size_t count_non_trump_winners(const score_context &ctx)
                 {
                     size_t winners = 0;
 
@@ -99,7 +100,7 @@ namespace rda
                         if (s != ctx.m_suit)
                         {
                             // check if contains ACE and KING suited, 2 winners
-                            if (ctx.m_hand.contains({ card(s, e_rank::ACE), card(s, e_rank::KING) }))
+                            if (ctx.m_hand.contains({card(s, e_rank::ACE), card(s, e_rank::KING)}))
                             {
                                 winners += 2;
                                 continue;
@@ -108,7 +109,7 @@ namespace rda
                             // check if ace is turned down and contains KING and QUEEN suited, 2 winners
                             if (ctx.m_up_card_was_turned_down &&
                                 ctx.m_up_card == card(s, e_rank::ACE) &&
-                                ctx.m_hand.contains({ card(s, e_rank::KING), card(s, e_rank::QUEEN) }))
+                                ctx.m_hand.contains({card(s, e_rank::KING), card(s, e_rank::QUEEN)}))
                             {
                                 winners += 2;
                                 continue;
@@ -117,7 +118,7 @@ namespace rda
                             // check if king is turned down and contains ACE and QUEEN suited, 2 winners
                             if (ctx.m_up_card_was_turned_down &&
                                 ctx.m_up_card == card(s, e_rank::KING) &&
-                                ctx.m_hand.contains({ card(s, e_rank::ACE), card(s, e_rank::QUEEN) }))
+                                ctx.m_hand.contains({card(s, e_rank::ACE), card(s, e_rank::QUEEN)}))
                             {
                                 winners += 2;
                                 continue;
@@ -127,7 +128,7 @@ namespace rda
                             if (ctx.m_hand.contains(card(s, e_rank::ACE)))
                             {
                                 winners += 1;
-                                    continue;
+                                continue;
                             }
 
                             // check if ace is turned down and contains king
@@ -142,6 +143,20 @@ namespace rda
                     }
 
                     return winners;
+                }
+
+                // count the number of opponents who passed on the up-card
+                size_t count_opponents_passed_on_up_card(const score_context &ctx)
+                {
+                    size_t opponents = 0;
+
+                    if (ctx.m_left_perception.passed_on_ordering_up)
+                        ++opponents;
+
+                    if (ctx.m_right_perception.passed_on_ordering_up)
+                        ++opponents;
+
+                    return opponents;
                 }
 
             } // namespace utils
@@ -448,7 +463,7 @@ namespace rda
             }
 
             // score having one suit
-            static double score_have_one_suited(const score_context& ctx)
+            static double score_have_one_suited(const score_context &ctx)
             {
                 const double s = ctx.m_file_data->get_float_by_path("trump_call/have_one_suited");
                 if (s != 0.0f)
@@ -458,7 +473,7 @@ namespace rda
             }
 
             // score having two suits
-            static double score_have_two_suited(const score_context& ctx)
+            static double score_have_two_suited(const score_context &ctx)
             {
                 const double s = ctx.m_file_data->get_float_by_path("trump_call/have_two_suited");
                 if (s != 0.0f)
@@ -468,7 +483,7 @@ namespace rda
             }
 
             // score having three suits
-            static double score_have_three_suited(const score_context& ctx)
+            static double score_have_three_suited(const score_context &ctx)
             {
                 const double s = ctx.m_file_data->get_float_by_path("trump_call/have_three_suited");
                 if (s != 0.0f)
@@ -478,7 +493,7 @@ namespace rda
             }
 
             // score having four suits
-            static double score_have_four_suited(const score_context& ctx)
+            static double score_have_four_suited(const score_context &ctx)
             {
                 const double s = ctx.m_file_data->get_float_by_path("trump_call/have_four_suited");
                 if (s != 0.0f)
@@ -488,7 +503,7 @@ namespace rda
             }
 
             // score having four non trump winners
-            static double score_have_four_non_trump_winners(const score_context& ctx)
+            static double score_have_four_non_trump_winners(const score_context &ctx)
             {
                 const double s = ctx.m_file_data->get_float_by_path("trump_call/have_four_non_trump_winners");
                 if (s != 0.0f)
@@ -498,7 +513,7 @@ namespace rda
             }
 
             // score having three non trump winners
-            static double score_have_three_non_trump_winners(const score_context& ctx)
+            static double score_have_three_non_trump_winners(const score_context &ctx)
             {
                 const double s = ctx.m_file_data->get_float_by_path("trump_call/have_three_non_trump_winners");
                 if (s != 0.0f)
@@ -508,7 +523,7 @@ namespace rda
             }
 
             // score having two non trump winners
-            static double score_have_two_non_trump_winners(const score_context& ctx)
+            static double score_have_two_non_trump_winners(const score_context &ctx)
             {
                 const double s = ctx.m_file_data->get_float_by_path("trump_call/have_two_non_trump_winners");
                 if (s != 0.0f)
@@ -518,7 +533,7 @@ namespace rda
             }
 
             // score having one non trump winners
-            static double score_have_one_non_trump_winners(const score_context& ctx)
+            static double score_have_one_non_trump_winners(const score_context &ctx)
             {
                 const double s = ctx.m_file_data->get_float_by_path("trump_call/have_one_non_trump_winners");
                 if (s != 0.0f)
@@ -528,11 +543,47 @@ namespace rda
             }
 
             // score having zero non trump winners
-            static double score_have_zero_non_trump_winners(const score_context& ctx)
+            static double score_have_zero_non_trump_winners(const score_context &ctx)
             {
                 const double s = ctx.m_file_data->get_float_by_path("trump_call/have_zero_non_trump_winners");
                 if (s != 0.0f)
                     if (utils::count_non_trump_winners(ctx) == 0)
+                        return s;
+                return 0.0f;
+            }
+
+            // score partner passed on up card
+            static double score_partner_passed_on_up_card(const score_context &ctx)
+            {
+                const double s = ctx.m_file_data->get_float_by_path("trump_call/partner_passed_on_up_card");
+                if (s != 0.0f)
+                    if (ctx.m_up_card_was_turned_down == false &&
+                        ctx.m_suit == ctx.m_up_card.suit() &&
+                        ctx.m_partner_perception.passed_on_ordering_up)
+                        return s;
+                return 0.0f;
+            }
+
+            // score one opponent passed on up card
+            static double score_one_opponent_passed_on_up_card(const score_context &ctx)
+            {
+                const double s = ctx.m_file_data->get_float_by_path("trump_call/one_opponent_passed_on_up_card");
+                if (s != 0.0f)
+                    if (ctx.m_up_card_was_turned_down == false &&
+                        ctx.m_suit == ctx.m_up_card.suit() &&
+                        utils::count_opponents_passed_on_up_card(ctx) == 1)
+                        return s;
+                return 0.0f;
+            }
+
+            // score two opponents passed on up card
+            static double score_two_opponents_passed_on_up_card(const score_context &ctx)
+            {
+                const double s = ctx.m_file_data->get_float_by_path("trump_call/two_opponents_passed_on_up_card");
+                if (s != 0.0f)
+                    if (ctx.m_up_card_was_turned_down == false &&
+                        ctx.m_suit == ctx.m_up_card.suit() &&
+                        utils::count_opponents_passed_on_up_card(ctx) == 2)
                         return s;
                 return 0.0f;
             }
@@ -589,7 +640,7 @@ namespace rda
                 total += score_opponent_would_pick_up_king_trump(ctx);
                 total += score_opponent_would_pick_up_queen_trump(ctx);
                 total += score_opponent_would_pick_up_ten_trump(ctx);
-                total += score_opponent_would_pick_up_nine_trump(ctx);                
+                total += score_opponent_would_pick_up_nine_trump(ctx);
                 total += score_have_one_suited(ctx);
                 total += score_have_two_suited(ctx);
                 total += score_have_three_suited(ctx);
@@ -599,6 +650,9 @@ namespace rda
                 total += score_have_two_non_trump_winners(ctx);
                 total += score_have_one_non_trump_winners(ctx);
                 total += score_have_zero_non_trump_winners(ctx);
+                total += score_partner_passed_on_up_card(ctx);
+                total += score_one_opponent_passed_on_up_card(ctx);
+                total += score_two_opponents_passed_on_up_card(ctx);
                 return total;
             }
 

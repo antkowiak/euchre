@@ -88,7 +88,6 @@ namespace rda
                 return cards.cend();
             }
 
-
         }; // class hand
 
     } // namespace euchre
