@@ -29,10 +29,10 @@ namespace rda
 			// constructor
 			euchre_game()
 			{
-				players.push_back(std::make_unique<player>(player_human()));
-				players.push_back(std::make_unique<player>(player_computer()));
-				players.push_back(std::make_unique<player>(player_computer()));
-				players.push_back(std::make_unique<player>(player_computer()));
+				players.push_back(std::make_unique<player>(player_human(0)));
+				players.push_back(std::make_unique<player>(player_computer(1)));
+				players.push_back(std::make_unique<player>(player_computer(2)));
+				players.push_back(std::make_unique<player>(player_computer(3)));
 
 				init_game();
 			}
@@ -91,6 +91,10 @@ namespace rda
 				init_hand();
 				shuffle_deck();
 				deal_hand();
+				update_perceptions_after_deal();
+
+				// TODO - Offer trump to the players (for "ordering up")
+
 				std::cout << to_string() << std::endl;
 			}
 
@@ -116,6 +120,13 @@ namespace rda
 				}
 
 				up_card = euchre_deck.draw();
+			}
+
+			// update player perceptions after initial card deal
+			void update_perceptions_after_deal()
+			{
+				for (size_t i = 0; i < 4; ++i)
+					players[i]->update_perceptions_after_deal(dealer, up_card);
 			}
 
 			// determine seat position of the dealer

@@ -15,6 +15,12 @@ namespace rda
         // computer player in a euchre game
         class player_computer : public player
         {
+        public:
+            player_computer(const uint8_t pos)
+                : player(pos)
+            {
+            }
+
         }; // class player_computer
 
     } // namespace euchre
