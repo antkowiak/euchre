@@ -88,6 +88,19 @@ namespace rda
                 return cards.cend();
             }
 
+            // return a string representation of the hand
+            std::string to_string() const
+            {
+                std::stringstream ss;
+
+                ss << "hand:  ";
+                for (auto& c : cards)
+                    ss << " " << c.to_string();
+                ss << std::endl;
+
+                return ss.str();
+            }
+
         }; // class hand
 
     } // namespace euchre

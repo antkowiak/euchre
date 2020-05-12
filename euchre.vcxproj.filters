@@ -93,5 +93,11 @@
     <ClInclude Include="src\score_trump_call.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="src\euchre_game.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\scoreboard.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>

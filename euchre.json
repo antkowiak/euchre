@@ -1,5 +1,6 @@
 {
   "trump_call": {
+    "loner_call_threshold": 20.000000,
     "trump_call_threshold": 14.000000,
     "have_right_bower_trump": 8.000000,
     "have_left_bower_trump": 6.000000,

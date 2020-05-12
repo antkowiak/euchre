@@ -66,6 +66,20 @@ namespace rda
                 }
             }
 
+            // draw one card from top of the deck
+            card draw()
+            {
+                card c;
+
+                if (!cards.empty())
+                {
+                    c = cards[0];
+                    cards.erase(cards.begin(), cards.begin() + 1);
+                }
+
+                return c;
+            }
+
             // put cards into the discard pile
             void discard(const std::vector<card> &d)
             {
