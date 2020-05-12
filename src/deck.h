@@ -35,8 +35,6 @@ namespace rda
             // default constructor
             deck()
             {
-                init();
-                shuffle();
             }
 
             // initialize cards in a euchre deck
