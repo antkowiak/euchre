@@ -20,7 +20,6 @@ int main()
 
     rda::euchre::euchre_game game;
     game.play();
-    std::cout << game.to_string() << std::endl;
 
     return 0;
 }

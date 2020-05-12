@@ -38,6 +38,12 @@ namespace rda
 				team2_tricks = 0;
 			}
 
+			// return true if game is over
+			bool is_over() const
+			{
+				return team1_score >= 10 || team2_score >= 10;
+			}
+
 		}; // class scoreboard
 
 	} // namespace euchre

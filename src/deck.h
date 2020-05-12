@@ -51,7 +51,8 @@ namespace rda
             // shuffle the deck
             void shuffle()
             {
-                std::shuffle(cards.begin(), cards.end(), rda::euchre::random_engine());
+                rda::euchre::seed_randomizer();
+                std::random_shuffle(cards.begin(), cards.end());
             }
 
             // deal n cards out of the deck and into hand

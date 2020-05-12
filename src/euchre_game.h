@@ -34,17 +34,28 @@ namespace rda
 				players.push_back(std::make_unique<player>(player_computer()));
 				players.push_back(std::make_unique<player>(player_computer()));
 
-				init();
+				init_game();
 			}
 
 			// initialize the euchre game
-			void init()
+			void init_game()
 			{
 				up_card = card();
 				trump_suit = e_suit::INVALID;
 				euchre_scoreboard.reset_score();
 				
 				for (auto & p : players)
+					p->reset();
+			}
+
+			// initialize a euchre hand
+			void init_hand()
+			{
+				up_card = card();
+				trump_suit = e_suit::INVALID;
+				euchre_scoreboard.reset_hand();
+
+				for (auto& p : players)
 					p->reset();
 			}
 
@@ -66,8 +77,21 @@ namespace rda
 			{
 				dealer = determine_dealer();
 
+				while (!euchre_scoreboard.is_over())
+				{
+					play_hand();
+
+					++dealer;
+					dealer = dealer % 4;
+				}
+			}
+
+			void play_hand()
+			{
+				init_hand();
 				shuffle_deck();
 				deal_hand();
+				std::cout << to_string() << std::endl;
 			}
 
 			// shuffle the deck
