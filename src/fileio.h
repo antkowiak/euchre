@@ -118,7 +118,7 @@ namespace rda
                 else
                     throw(std::exception());
             }
-            catch (std::exception& e)
+            catch (std::exception &e)
             {
                 static_cast<void>(e); // unused
                 success = false;
@@ -129,7 +129,7 @@ namespace rda
             {
                 ifs.close();
             }
-            catch (std::exception& e)
+            catch (std::exception &e)
             {
                 static_cast<void>(e); // unused
                 success = false;
@@ -255,7 +255,7 @@ namespace rda
                         success = false;
                 }
             }
-            catch (std::exception& e)
+            catch (std::exception &e)
             {
                 static_cast<void>(e); // unused
                 success = false;
@@ -265,7 +265,7 @@ namespace rda
             {
                 ofs.close();
             }
-            catch (std::exception& e)
+            catch (std::exception &e)
             {
                 static_cast<void>(e); // unused
                 success = false;

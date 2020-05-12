@@ -48,6 +48,12 @@ namespace rda
                 cards.clear();
             }
 
+            // return true if hand contains a card
+            bool contains(const card& c) const
+            {
+                return std::find(cards.cbegin(), cards.cend(), c) != cards.cend();
+            }
+
             // return the number of cards in the hand
             size_t size() const
             {

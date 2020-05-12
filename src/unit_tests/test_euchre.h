@@ -26,6 +26,7 @@
 #include "../player_computer.h"
 #include "../player_human.h"
 #include "../random_seeder.h"
+#include "../score_trump_call.h"
 
 PUSH_WARN_DISABLE
 WARN_DISABLE(4100, "-Wunused-parameter")
@@ -64,8 +65,8 @@ namespace rda
 
         static void test_001(const size_t testNum, TestInput &input)
         {
-            auto j = rda::json::node_object{ "", std::vector<std::shared_ptr<rda::json::node>>() };
-            
+            auto j = rda::json::node_object{"", std::vector<std::shared_ptr<rda::json::node>>()};
+
             auto trump_call = std::make_shared<rda::json::node_object>(rda::json::node_object("trump_call", std::vector<std::shared_ptr<rda::json::node>>()));
             trump_call->add_child(std::make_shared<rda::json::node_float>("trump_call_threshold", 14.0));
 
@@ -125,6 +126,17 @@ namespace rda
 
         static void test_002(const size_t testNum, TestInput &input)
         {
+            using namespace rda::euchre;
+
+            hand h;
+            card up_card;
+            e_seat_position dealer_pos = e_seat_position::LEFT;
+            perception left_per;
+            perception partner_per;
+            perception right_per;
+
+            double score = score_trump_call::score(e_suit::SPADES, h, up_card, dealer_pos, left_per, partner_per, right_per);
+            static_cast<void>(score); // unused
         }
 
         static void test_003(const size_t testNum, TestInput &input)

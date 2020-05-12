@@ -90,5 +90,8 @@
     <ClInclude Include="src\unit_tests\unit_test_utils.h">
       <Filter>Unit Tests</Filter>
     </ClInclude>
+    <ClInclude Include="src\score_trump_call.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>

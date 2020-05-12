@@ -164,6 +164,7 @@
     <ClInclude Include="src\player_computer.h" />
     <ClInclude Include="src\player_human.h" />
     <ClInclude Include="src\random_seeder.h" />
+    <ClInclude Include="src\score_trump_call.h" />
     <ClInclude Include="src\unit_tests\test_euchre.h" />
     <ClInclude Include="src\unit_tests\unit_test_template.h" />
     <ClInclude Include="src\unit_tests\unit_test_utils.h" />
