@@ -164,6 +164,8 @@
     <ClInclude Include="src\player_human.h" />
     <ClInclude Include="src\random_seeder.h" />
     <ClInclude Include="src\unit_tests\test_euchre.h" />
+    <ClInclude Include="src\unit_tests\unit_test_template.h" />
+    <ClInclude Include="src\unit_tests\unit_test_utils.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

@@ -1,7 +1,7 @@
 #pragma once
 
 //
-// test_euchre.h - Unit tests for euchre
+// test_INSERT_TEXT_HERE.h - Unit tests for INSERT_TEST_HERE.h.
 //
 // Written by Ryan Antkowiak (antkowiak@gmail.com)
 //
@@ -14,22 +14,14 @@
 #include "unit_test_utils.h"
 
 #include "../platform_defs.h"
-
-#include "../card.h"
-#include "../deck.h"
-#include "../hand.h"
-#include "../perception.h"
-#include "../player.h"
-#include "../player_computer.h"
-#include "../player_human.h"
-#include "../random_seeder.h"
+// TODO #include "../INSERT_TEXT_HERE.h"
 
 PUSH_WARN_DISABLE
 WARN_DISABLE(4100, "-Wunused-parameter")
 
 namespace rda
 {
-    namespace test_euchre
+    namespace test_INSERT_TEXT_HERE // TODO
     {
         using unit_test_utils::ASSERT_FALSE;
         using unit_test_utils::ASSERT_NO_THROW;
@@ -39,12 +31,15 @@ namespace rda
 
         struct TestInput
         {
+            // TODO
         };
 
         static void setup(const size_t testNum, TestInput &input)
         {
-            std::cout << "Running euchre test: " << testNum
-                      << std::endl;
+            std::cout << "Running INSERT_TEXT_HERE test: " << testNum
+                      << std::endl; // TODO
+
+            // TODO
         }
 
         static void teardown(const size_t testNum, TestInput &input)
@@ -55,8 +50,6 @@ namespace rda
 
         static void test_000(const size_t testNum, TestInput &input)
         {
-            rda::euchre::deck d;
-            std::cout << d.to_string();
         }
 
         static void test_001(const size_t testNum, TestInput &input)
@@ -121,7 +114,7 @@ namespace rda
                 teardown(i, input);
             }
         }
-    } // namespace test_euchre
+    } // namespace test_INSERT_TEXT_HERE
 } // namespace rda
 
 POP_WARN_DISABLE

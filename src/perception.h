@@ -1,6 +1,10 @@
 #pragma once
 
-// The "perception" of an opponent player
+//
+// perception.h - The perception of another player in a euchre game
+//
+// Written by Ryan Antkowiak (antkowiak@gmail.com)
+//
 
 #include <cstdint>
 #include <vector>
@@ -11,6 +15,7 @@ namespace rda
 {
     namespace euchre
     {
+        // seat position in relation to the player
         enum class e_seat_position : uint8_t
         {
             SELF = 0,
@@ -18,8 +23,9 @@ namespace rda
             ACROSS = 2,
             RIGHT = 3,
             INVALID = 4
-        };
+        }; // enum e_seat_position
 
+        // the perception of another player in a euchre game
         class perception
         {
         public:
@@ -68,6 +74,8 @@ namespace rda
                 cards_in_hand.clear();
                 cards_not_in_hand.clear();
             }
-        };
+
+        }; // class perception
+
     } // namespace euchre
 } // namespace rda

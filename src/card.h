@@ -1,27 +1,42 @@
 #pragma once
 
+//
+// card.h - Playing card in a euchre deck
+//
+// Written by Ryan Antkowiak (antkowiak@gmail.com)
+//
+
 #include <cstdint>
+#include <sstream>
+#include <string>
 
 namespace rda
 {
     namespace euchre
     {
+        // card color
         enum class e_color : uint8_t
         {
+            BEGIN = 0,
             BLACK = 0,
             RED = 1,
-            INVALID = 2
+            INVALID = 2,
+            END = 2
         }; // enum color
 
+        // card suit
         enum class e_suit
         {
+            BEGIN = 0,
             CLUBS = 0,
             DIAMONDS = 1,
             HEARTS = 2,
             SPADES = 3,
-            INVALID = 4
+            INVALID = 4,
+            END = 4
         }; // enum suit
 
+        // operator for iterating over suits
         static e_suit operator++(e_suit &rhs)
         {
             switch (rhs)
@@ -43,17 +58,39 @@ namespace rda
             return rhs;
         }
 
+        // convert a suit to a string
+        static std::string to_string(const e_suit &s)
+        {
+            switch (s)
+            {
+                case e_suit::CLUBS:
+                    return "C";
+                case e_suit::DIAMONDS:
+                    return "D";
+                case e_suit::HEARTS:
+                    return "H";
+                case e_suit::SPADES:
+                    return "S";
+                default:
+                    return "X";
+            }
+        }
+
+        // card rank
         enum class e_rank : uint8_t
         {
+            BEGIN = 9,
             NINE = 9,
             TEN = 10,
             JACK = 11,
             QUEEN = 12,
             KING = 13,
             ACE = 14,
-            INVALID = 15
+            INVALID = 15,
+            END = 15
         }; // enum rank
 
+        // operator for iterating over card ranks
         static e_rank operator++(e_rank &rhs)
         {
             switch (rhs)
@@ -81,19 +118,45 @@ namespace rda
             return rhs;
         }
 
+        // convert a suit to a string
+        static std::string to_string(const e_rank &r)
+        {
+            switch (r)
+            {
+                case e_rank::NINE:
+                    return "9";
+                case e_rank::TEN:
+                    return "10";
+                case e_rank::JACK:
+                    return "J";
+                case e_rank::QUEEN:
+                    return "Q";
+                case e_rank::KING:
+                    return "K";
+                case e_rank::ACE:
+                    return "A";
+                default:
+                    return "X";
+            }
+        }
+
+        // playing card in a euchre deck
         class card
         {
         public:
+            // default constructor
             card()
                 : m_suit(e_suit::INVALID), m_rank(e_rank::INVALID)
             {
             }
 
+            // initializing constructor
             card(const e_suit s, const e_rank r)
                 : m_suit(s), m_rank(r)
             {
             }
 
+            // returns the card color
             e_color color() const
             {
                 if (m_suit == e_suit::INVALID)
@@ -103,24 +166,42 @@ namespace rda
                 return e_color::RED;
             }
 
+            // returns the card suit
             e_suit suit() const
             {
                 return m_suit;
             }
 
+            // returns the card rank
             e_rank rank() const
             {
                 return m_rank;
             }
 
+            // returns true if the cards are equal
             bool operator==(const card &rhs) const
             {
                 return (m_rank == rhs.m_rank) && (m_suit == rhs.m_suit);
             }
 
+            // returns string representation of the card
+            std::string to_string() const
+            {
+                std::stringstream ss;
+
+                ss << "[" << rda::euchre::to_string(m_rank)
+                   << rda::euchre::to_string(m_suit) << "]";
+
+                return ss.str();
+            }
+
         private:
+            // the card suit
             e_suit m_suit;
+
+            // the card rank
             e_rank m_rank;
+
         }; // class card
 
     } // namespace euchre

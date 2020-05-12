@@ -83,5 +83,11 @@
     <ClInclude Include="src\fileio.h">
       <Filter>Header Files\Library Headers</Filter>
     </ClInclude>
+    <ClInclude Include="src\unit_tests\unit_test_template.h">
+      <Filter>Unit Tests</Filter>
+    </ClInclude>
+    <ClInclude Include="src\unit_tests\unit_test_utils.h">
+      <Filter>Unit Tests</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>

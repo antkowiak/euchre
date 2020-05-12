@@ -1,3 +1,6 @@
 /.vs
 /x64
 *.swp
+euchre_clang
+euchre_gnu
+
