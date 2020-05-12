@@ -32,7 +32,7 @@ namespace rda
             // add vector of cards to the hand
             void add_cards(const std::vector<card> &new_cards)
             {
-                std::copy(new_cards.cbegin(), new_cards.cend(), cards.end());
+                cards.insert(cards.end(), new_cards.cbegin(), new_cards.cend());
             }
 
             // remove a card from the hand
@@ -75,6 +75,19 @@ namespace rda
             {
                 return cards.empty();
             }
+
+            // const iterator for beginning of cards
+            std::vector<card>::const_iterator cbegin() const
+            {
+                return cards.cbegin();
+            }
+
+            // const iterator for end of cards
+            std::vector<card>::const_iterator cend() const
+            {
+                return cards.cend();
+            }
+
 
         }; // class hand
 

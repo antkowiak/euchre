@@ -17,8 +17,8 @@ namespace rda
         // card color
         enum class e_color : uint8_t
         {
-            BEGIN = 0,
             BLACK = 0,
+            BEGIN = 0,
             RED = 1,
             INVALID = 2,
             END = 2
@@ -27,8 +27,8 @@ namespace rda
         // card suit
         enum class e_suit
         {
-            BEGIN = 0,
             CLUBS = 0,
+            BEGIN = 0,
             DIAMONDS = 1,
             HEARTS = 2,
             SPADES = 3,
@@ -79,8 +79,8 @@ namespace rda
         // card rank
         enum class e_rank : uint8_t
         {
-            BEGIN = 9,
             NINE = 9,
+            BEGIN = 9,
             TEN = 10,
             JACK = 11,
             QUEEN = 12,

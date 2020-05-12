@@ -7,6 +7,7 @@
 //
 
 #include <memory>
+#include <unordered_set>
 
 #include "fileio.h"
 #include "json.h"
@@ -30,6 +31,7 @@ namespace rda
 
                 hand m_hand;
                 card m_up_card;
+                bool m_up_card_was_turned_down = false;
                 e_seat_position m_dealer_position = e_seat_position::INVALID;
 
                 perception m_left_perception;
@@ -37,11 +39,13 @@ namespace rda
                 perception m_right_perception;
             }; // struct score_context
 
-            // returns the right bower card for the given suit
-            static card right_bower(const e_suit s)
+            namespace utils
             {
-                switch (s)
+                // returns the right bower card for the given suit
+                static card right_bower(const e_suit s)
                 {
+                    switch (s)
+                    {
                     case e_suit::CLUBS:
                         return card(e_suit::CLUBS, e_rank::JACK);
                     case e_suit::DIAMONDS:
@@ -52,14 +56,14 @@ namespace rda
                         return card(e_suit::SPADES, e_rank::JACK);
                     default:
                         return card();
+                    }
                 }
-            }
 
-            // returns the left bower card for the given suit
-            static card left_bower(const e_suit s)
-            {
-                switch (s)
+                // returns the left bower card for the given suit
+                static card left_bower(const e_suit s)
                 {
+                    switch (s)
+                    {
                     case e_suit::CLUBS:
                         return card(e_suit::SPADES, e_rank::JACK);
                     case e_suit::DIAMONDS:
@@ -70,15 +74,84 @@ namespace rda
                         return card(e_suit::CLUBS, e_rank::JACK);
                     default:
                         return card();
+                    }
                 }
-            }
+
+                static size_t count_suits(const hand& h)
+                {
+                    std::unordered_set<e_suit> suits;
+                    std::for_each(h.cbegin(), h.cend(), [&suits] (auto& cd)
+                        {
+                            suits.insert(cd.suit());
+                        });
+
+                    return suits.size();
+                }
+
+                static size_t count_non_trump_winners(const score_context& ctx)
+                {
+                    size_t winners = 0;
+
+                    // iterate through suits
+                    for (auto s = e_suit::BEGIN; s != e_suit::END; ++s)
+                    {
+                        // for any suit that isn't being considered for trump
+                        if (s != ctx.m_suit)
+                        {
+                            // check if contains ACE and KING suited, 2 winners
+                            if (ctx.m_hand.contains({ card(s, e_rank::ACE), card(s, e_rank::KING) }))
+                            {
+                                winners += 2;
+                                continue;
+                            }
+
+                            // check if ace is turned down and contains KING and QUEEN suited, 2 winners
+                            if (ctx.m_up_card_was_turned_down &&
+                                ctx.m_up_card == card(s, e_rank::ACE) &&
+                                ctx.m_hand.contains({ card(s, e_rank::KING), card(s, e_rank::QUEEN) }))
+                            {
+                                winners += 2;
+                                continue;
+                            }
+
+                            // check if king is turned down and contains ACE and QUEEN suited, 2 winners
+                            if (ctx.m_up_card_was_turned_down &&
+                                ctx.m_up_card == card(s, e_rank::KING) &&
+                                ctx.m_hand.contains({ card(s, e_rank::ACE), card(s, e_rank::QUEEN) }))
+                            {
+                                winners += 2;
+                                continue;
+                            }
+
+                            // check if contains ACE
+                            if (ctx.m_hand.contains(card(s, e_rank::ACE)))
+                            {
+                                winners += 1;
+                                    continue;
+                            }
+
+                            // check if ace is turned down and contains king
+                            if (ctx.m_up_card_was_turned_down &&
+                                ctx.m_up_card == card(s, e_rank::ACE) &&
+                                ctx.m_hand.contains(card(s, e_rank::KING)))
+                            {
+                                winners += 1;
+                                continue;
+                            }
+                        }
+                    }
+
+                    return winners;
+                }
+
+            } // namespace utils
 
             // score having the right bower of trump
             static double score_have_right_bower_trump(const score_context &ctx)
             {
                 const double s = ctx.m_file_data->get_float_by_path("trump_call/have_right_bower_trump");
                 if (s != 0.0f)
-                    if (ctx.m_hand.contains(right_bower(ctx.m_suit)))
+                    if (ctx.m_hand.contains(utils::right_bower(ctx.m_suit)))
                         return s;
                 return 0.0f;
             }
@@ -88,7 +161,7 @@ namespace rda
             {
                 const double s = ctx.m_file_data->get_float_by_path("trump_call/have_left_bower_trump");
                 if (s != 0.0f)
-                    if (ctx.m_hand.contains(left_bower(ctx.m_suit)))
+                    if (ctx.m_hand.contains(utils::left_bower(ctx.m_suit)))
                         return s;
                 return 0.0f;
             }
@@ -149,7 +222,7 @@ namespace rda
                 const double s = ctx.m_file_data->get_float_by_path("trump_call/would_pick_up_right_bower_trump");
                 if (s != 0.0f)
                     if (ctx.m_dealer_position == e_seat_position::SELF &&
-                        ctx.m_up_card == right_bower(ctx.m_suit))
+                        ctx.m_up_card == utils::right_bower(ctx.m_suit))
                         return s;
                 return 0.0f;
             }
@@ -160,7 +233,7 @@ namespace rda
                 const double s = ctx.m_file_data->get_float_by_path("trump_call/would_pick_up_left_bower_trump");
                 if (s != 0.0f)
                     if (ctx.m_dealer_position == e_seat_position::SELF &&
-                        ctx.m_up_card == left_bower(ctx.m_suit))
+                        ctx.m_up_card == utils::left_bower(ctx.m_suit))
                         return s;
                 return 0.0f;
             }
@@ -226,7 +299,7 @@ namespace rda
                 const double s = ctx.m_file_data->get_float_by_path("trump_call/partner_would_pick_up_right_bower_trump");
                 if (s != 0.0f)
                     if (ctx.m_dealer_position == e_seat_position::ACROSS &&
-                        ctx.m_up_card == right_bower(ctx.m_suit))
+                        ctx.m_up_card == utils::right_bower(ctx.m_suit))
                         return s;
                 return 0.0f;
             }
@@ -237,7 +310,7 @@ namespace rda
                 const double s = ctx.m_file_data->get_float_by_path("trump_call/partner_would_pick_up_left_bower_trump");
                 if (s != 0.0f)
                     if (ctx.m_dealer_position == e_seat_position::ACROSS &&
-                        ctx.m_up_card == left_bower(ctx.m_suit))
+                        ctx.m_up_card == utils::left_bower(ctx.m_suit))
                         return s;
                 return 0.0f;
             }
@@ -303,7 +376,7 @@ namespace rda
                 const double s = ctx.m_file_data->get_float_by_path("trump_call/opponent_would_pick_up_right_bower_trump");
                 if (s != 0.0f)
                     if ((ctx.m_dealer_position == e_seat_position::LEFT || ctx.m_dealer_position == e_seat_position::RIGHT) &&
-                        ctx.m_up_card == right_bower(ctx.m_suit))
+                        ctx.m_up_card == utils::right_bower(ctx.m_suit))
                         return s;
                 return 0.0f;
             }
@@ -314,7 +387,7 @@ namespace rda
                 const double s = ctx.m_file_data->get_float_by_path("trump_call/opponent_would_pick_up_left_bower_trump");
                 if (s != 0.0f)
                     if ((ctx.m_dealer_position == e_seat_position::LEFT || ctx.m_dealer_position == e_seat_position::RIGHT) &&
-                        ctx.m_up_card == left_bower(ctx.m_suit))
+                        ctx.m_up_card == utils::left_bower(ctx.m_suit))
                         return s;
                 return 0.0f;
             }
@@ -374,10 +447,101 @@ namespace rda
                 return 0.0f;
             }
 
+            // score having one suit
+            static double score_have_one_suited(const score_context& ctx)
+            {
+                const double s = ctx.m_file_data->get_float_by_path("trump_call/have_one_suited");
+                if (s != 0.0f)
+                    if (utils::count_suits(ctx.m_hand) == 1)
+                        return s;
+                return 0.0f;
+            }
+
+            // score having two suits
+            static double score_have_two_suited(const score_context& ctx)
+            {
+                const double s = ctx.m_file_data->get_float_by_path("trump_call/have_two_suited");
+                if (s != 0.0f)
+                    if (utils::count_suits(ctx.m_hand) == 2)
+                        return s;
+                return 0.0f;
+            }
+
+            // score having three suits
+            static double score_have_three_suited(const score_context& ctx)
+            {
+                const double s = ctx.m_file_data->get_float_by_path("trump_call/have_three_suited");
+                if (s != 0.0f)
+                    if (utils::count_suits(ctx.m_hand) == 3)
+                        return s;
+                return 0.0f;
+            }
+
+            // score having four suits
+            static double score_have_four_suited(const score_context& ctx)
+            {
+                const double s = ctx.m_file_data->get_float_by_path("trump_call/have_four_suited");
+                if (s != 0.0f)
+                    if (utils::count_suits(ctx.m_hand) == 4)
+                        return s;
+                return 0.0f;
+            }
+
+            // score having four non trump winners
+            static double score_have_four_non_trump_winners(const score_context& ctx)
+            {
+                const double s = ctx.m_file_data->get_float_by_path("trump_call/have_four_non_trump_winners");
+                if (s != 0.0f)
+                    if (utils::count_non_trump_winners(ctx) == 4)
+                        return s;
+                return 0.0f;
+            }
+
+            // score having three non trump winners
+            static double score_have_three_non_trump_winners(const score_context& ctx)
+            {
+                const double s = ctx.m_file_data->get_float_by_path("trump_call/have_three_non_trump_winners");
+                if (s != 0.0f)
+                    if (utils::count_non_trump_winners(ctx) == 3)
+                        return s;
+                return 0.0f;
+            }
+
+            // score having two non trump winners
+            static double score_have_two_non_trump_winners(const score_context& ctx)
+            {
+                const double s = ctx.m_file_data->get_float_by_path("trump_call/have_two_non_trump_winners");
+                if (s != 0.0f)
+                    if (utils::count_non_trump_winners(ctx) == 2)
+                        return s;
+                return 0.0f;
+            }
+
+            // score having one non trump winners
+            static double score_have_one_non_trump_winners(const score_context& ctx)
+            {
+                const double s = ctx.m_file_data->get_float_by_path("trump_call/have_one_non_trump_winners");
+                if (s != 0.0f)
+                    if (utils::count_non_trump_winners(ctx) == 1)
+                        return s;
+                return 0.0f;
+            }
+
+            // score having zero non trump winners
+            static double score_have_zero_non_trump_winners(const score_context& ctx)
+            {
+                const double s = ctx.m_file_data->get_float_by_path("trump_call/have_zero_non_trump_winners");
+                if (s != 0.0f)
+                    if (utils::count_non_trump_winners(ctx) == 0)
+                        return s;
+                return 0.0f;
+            }
+
             // score the calling of a trump suit, given the provided game state
             static double score(const e_suit s,
                                 const hand &h,
                                 const card &up_card,
+                                const bool up_card_turned_down,
                                 e_seat_position dealer_position,
                                 const perception &left_perception,
                                 const perception &partner_perception,
@@ -391,6 +555,7 @@ namespace rda
                 ctx.m_suit = s;
                 ctx.m_hand = h;
                 ctx.m_up_card = up_card;
+                ctx.m_up_card_was_turned_down = up_card_turned_down;
                 ctx.m_dealer_position = dealer_position;
                 ctx.m_left_perception = left_perception;
                 ctx.m_partner_perception = partner_perception;
@@ -424,8 +589,16 @@ namespace rda
                 total += score_opponent_would_pick_up_king_trump(ctx);
                 total += score_opponent_would_pick_up_queen_trump(ctx);
                 total += score_opponent_would_pick_up_ten_trump(ctx);
-                total += score_opponent_would_pick_up_nine_trump(ctx);
-
+                total += score_opponent_would_pick_up_nine_trump(ctx);                
+                total += score_have_one_suited(ctx);
+                total += score_have_two_suited(ctx);
+                total += score_have_three_suited(ctx);
+                total += score_have_four_suited(ctx);
+                total += score_have_four_non_trump_winners(ctx);
+                total += score_have_three_non_trump_winners(ctx);
+                total += score_have_two_non_trump_winners(ctx);
+                total += score_have_one_non_trump_winners(ctx);
+                total += score_have_zero_non_trump_winners(ctx);
                 return total;
             }
 

@@ -135,7 +135,7 @@ namespace rda
             perception partner_per;
             perception right_per;
 
-            double score = score_trump_call::score(e_suit::SPADES, h, up_card, dealer_pos, left_per, partner_per, right_per);
+            double score = score_trump_call::score(e_suit::SPADES, h, up_card, false, dealer_pos, left_per, partner_per, right_per);
             static_cast<void>(score); // unused
         }
 

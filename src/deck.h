@@ -61,7 +61,7 @@ namespace rda
             {
                 if (n <= cards.size())
                 {
-                    hand.add_cards(std::vector<card>(cards.begin(), cards.begin() + n));
+                    hand.add_cards(std::vector<card>(cards.cbegin(), cards.cbegin() + n));
                     cards.erase(cards.begin(), cards.begin() + n);
                 }
             }
