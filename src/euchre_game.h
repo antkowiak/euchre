@@ -43,7 +43,7 @@ namespace rda
             void init_game()
             {
                 up_card = euchre_card();
-                trump_suit = e_suit::INVALID;
+                suit_called_trump = e_suit::INVALID;
                 scoreboard.reset_score();
 
                 for (auto &player : players)
@@ -54,7 +54,7 @@ namespace rda
             void init_hand()
             {
                 up_card = euchre_card();
-                trump_suit = e_suit::INVALID;
+                suit_called_trump = e_suit::INVALID;
                 scoreboard.reset_hand();
 
                 for (auto &player : players)
@@ -97,7 +97,7 @@ namespace rda
                 update_perceptions_after_deal();
                 offer_up_card_trump_to_players();
 
-                // TODO - Offer trump to the players (for "ordering up")
+                // TODO - continue playing hand
 
                 std::cout << to_string() << std::endl;
             }
@@ -138,24 +138,29 @@ namespace rda
                 for (uint8_t index = 0; index < 4; ++index)
                 {
                     const uint8_t offer_index = (dealer_index + 1 + index) % 4;
+                    const e_trump_decision decision = players[offer_index]->offer_up_card_trump(up_card);
 
-                    e_trump_decision decision = players[offer_index]->offer_up_card_trump(up_card);
+                    update_perceptions_after_up_card_offer(offer_index, decision);
 
-                    if (decision == e_trump_decision::PASS)
+                    if (decision == e_trump_decision::ORDER_UP)
                     {
-                        // TODO
-                    }
-                    else if (decision == e_trump_decision::ORDER_UP)
-                    {
-                        // TODO
+                        suit_called_trump = up_card.suit();
                         break;
                     }
-                    else if (decision == e_trump_decision::ORDER_UP_LONER)
+
+                    if (decision == e_trump_decision::ORDER_UP_LONER)
                     {
-                        // TODO
+                        suit_called_trump = up_card.suit();
                         break;
                     }
                 }
+            }
+
+            // update player perceptions after a player was offered to order up trump
+            void update_perceptions_after_up_card_offer(const uint8_t seat_index, const e_trump_decision decision)
+            {
+                for (auto& player : players)
+                    player->update_perceptions_after_up_card_offer(seat_index, decision);
             }
 
             // determine seat position of the dealer
@@ -193,7 +198,7 @@ namespace rda
             euchre_card up_card;
 
             // the trump suit
-            e_suit trump_suit = e_suit::INVALID;
+            e_suit suit_called_trump = e_suit::INVALID;
 
             // the dealer position
             uint8_t dealer_index = 0;

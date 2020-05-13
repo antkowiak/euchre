@@ -11,6 +11,7 @@
 
 #include "euchre_card.h"
 #include "euchre_seat_position.h"
+#include "euchre_trump_decision.h"
 #include "euchre_utils.h"
 
 namespace rda
@@ -31,17 +32,11 @@ namespace rda
             // the "up card"
             euchre_card up_card;
 
-            // true if this player ordered up the card for trump
-            bool ordered_up = false;
+            // decision the player made after being offerd the up card for trump
+            e_trump_decision up_card_offer_decision = e_trump_decision::INVALID;
 
-            // true if this player passed on ordering up the card
-            bool passed_on_ordering_up = false;
-
-            // true if this player called trump
-            bool called_trump = false;
-
-            // true if this player passed on calling trump
-            bool passed_on_calling_trump = false;
+            // decision the player made after being offered to call any other trump suit
+            e_trump_decision call_trump_offer_decision = e_trump_decision::INVALID;
 
             // cards that this player has played
             std::vector<euchre_card> cards_played;
@@ -65,10 +60,8 @@ namespace rda
                 dealer_index = 4;
                 dealer_position = euchre_seat_position::INVALID;
                 up_card = euchre_card();
-                ordered_up = false;
-                passed_on_ordering_up = false;
-                called_trump = false;
-                passed_on_calling_trump = false;
+                up_card_offer_decision = e_trump_decision::INVALID;
+                call_trump_offer_decision = e_trump_decision::INVALID;
 
                 cards_played.clear();
                 cards_in_hand.clear();
@@ -81,6 +74,13 @@ namespace rda
                 up_card = up_card_;
                 dealer_index = dealer_index_;
                 dealer_position = euchre_utils::relative_seat_position(seat_index, dealer_index);
+            }
+
+            // update after up card offer
+            void update_after_up_card_offer(const uint8_t offer_index, const e_trump_decision decision)
+            {
+                if (offer_index == seat_index)
+                    up_card_offer_decision = decision;
             }
 
         }; // class perception

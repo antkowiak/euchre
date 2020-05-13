@@ -19,6 +19,7 @@
 #include "euchre_hand.h"
 #include "euchre_perception.h"
 #include "euchre_seat_position.h"
+#include "euchre_trump_decision.h"
 
 namespace rda
 {
@@ -193,10 +194,10 @@ namespace rda
             {
                 uint8_t opponents = 0;
 
-                if (m_left_perception.passed_on_ordering_up)
+                if (m_left_perception.up_card_offer_decision == e_trump_decision::PASS)
                     ++opponents;
 
-                if (m_right_perception.passed_on_ordering_up)
+                if (m_right_perception.up_card_offer_decision == e_trump_decision::PASS)
                     ++opponents;
 
                 return opponents;

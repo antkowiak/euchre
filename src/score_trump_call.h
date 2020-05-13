@@ -421,7 +421,7 @@ namespace rda
                 if (s != 0.0f)
                     if (ctx.m_up_card_was_turned_down == false &&
                         ctx.m_suit == ctx.m_up_card.suit() &&
-                        ctx.m_partner_perception.passed_on_ordering_up)
+                        ctx.m_partner_perception.up_card_offer_decision == e_trump_decision::PASS)
                         return s;
                 return 0.0f;
             }

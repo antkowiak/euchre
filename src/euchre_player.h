@@ -37,6 +37,9 @@ namespace rda
             // the card that is currently observed to be turned up
             euchre_card m_up_card;
 
+            // the current called suit
+            e_suit m_suit_called_trump = e_suit::INVALID;
+
             // the player's hand of cards remaining
             euchre_hand m_hand;
 
@@ -69,6 +72,7 @@ namespace rda
                 m_dealer_position = euchre_seat_position::INVALID;
 
                 m_up_card = euchre_card();
+                m_suit_called_trump = e_suit::INVALID;
                 m_hand.clear();
 
                 m_left_perception.reset();
@@ -85,13 +89,13 @@ namespace rda
             }
 
             // return a reference to this player's hand
-            euchre_hand &get_hand()
+            euchre_hand & get_hand()
             {
                 return m_hand;
             }
 
             // update perceptions of over players, after the initial cards have been dealt
-            void update_perceptions_after_deal(const uint8_t dealer_index, const euchre_card &up_card)
+            void update_perceptions_after_deal(const uint8_t dealer_index, const euchre_card& up_card)
             {
                 // save the up card
                 m_up_card = up_card;
@@ -103,47 +107,6 @@ namespace rda
                 m_left_perception.update_after_deal(dealer_index, up_card);
                 m_partner_perception.update_after_deal(dealer_index, up_card);
                 m_right_perception.update_after_deal(dealer_index, up_card);
-
-                //m_left_perception.up_card = up_card;
-                //m_partner_perception.up_card = up_card;
-                //m_right_perception.up_card = up_card;
-
-                //////
-
-                // for players who aren't the dealer, make sure we remember that they do not have the up-card in their hand
-                if (m_dealer_position != euchre_seat_position::LEFT)
-                    m_left_perception.cards_not_in_hand.push_back(up_card);
-                if (m_dealer_position != euchre_seat_position::ACROSS)
-                    m_partner_perception.cards_not_in_hand.push_back(up_card);
-                if (m_dealer_position != euchre_seat_position::RIGHT)
-                    m_right_perception.cards_not_in_hand.push_back(up_card);
-
-                // update each perception of where the dealer is relatively
-                switch (m_dealer_position)
-                {
-                    case euchre_seat_position::SELF:
-                        m_left_perception.dealer_position = euchre_seat_position::RIGHT;
-                        m_partner_perception.dealer_position = euchre_seat_position::ACROSS;
-                        m_right_perception.dealer_position = euchre_seat_position::LEFT;
-                        break;
-                    case euchre_seat_position::LEFT:
-                        m_left_perception.dealer_position = euchre_seat_position::SELF;
-                        m_partner_perception.dealer_position = euchre_seat_position::RIGHT;
-                        m_right_perception.dealer_position = euchre_seat_position::ACROSS;
-                        break;
-                    case euchre_seat_position::ACROSS:
-                        m_left_perception.dealer_position = euchre_seat_position::LEFT;
-                        m_partner_perception.dealer_position = euchre_seat_position::SELF;
-                        m_right_perception.dealer_position = euchre_seat_position::RIGHT;
-                        break;
-                    case euchre_seat_position::RIGHT:
-                        m_left_perception.dealer_position = euchre_seat_position::ACROSS;
-                        m_partner_perception.dealer_position = euchre_seat_position::LEFT;
-                        m_right_perception.dealer_position = euchre_seat_position::SELF;
-                        break;
-                    default:
-                        break;
-                }
             }
 
             // handle an offer of making the up_card trump
@@ -165,6 +128,17 @@ namespace rda
                     return e_trump_decision::ORDER_UP;
 
                 return e_trump_decision::PASS;
+            }
+
+            // update perceptions of other players, after getting the result of an offer of trump from an up-card
+            void update_perceptions_after_up_card_offer(const uint8_t seat_index, const e_trump_decision decision)
+            {
+                if (decision == e_trump_decision::ORDER_UP || decision == e_trump_decision::ORDER_UP_LONER)
+                    m_suit_called_trump = m_up_card.suit();
+
+                m_left_perception.update_after_up_card_offer(seat_index, decision);
+                m_partner_perception.update_after_up_card_offer(seat_index, decision);
+                m_right_perception.update_after_up_card_offer(seat_index, decision);
             }
 
         }; // class player
