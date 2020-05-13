@@ -114,5 +114,8 @@
     <ClInclude Include="src\euchre_perception.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="src\score_trump_call_context.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>

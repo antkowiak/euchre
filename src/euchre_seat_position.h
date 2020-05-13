@@ -10,8 +10,8 @@
 
 namespace rda
 {
-	namespace euchre
-	{
+    namespace euchre
+    {
         // seat position in relation to the player
         enum class euchre_seat_position : uint8_t
         {
@@ -22,6 +22,6 @@ namespace rda
             INVALID = 4
         }; // enum e_seat_position
 
-	} // namespace euchre
+    } // namespace euchre
 
 } // namespace rda

@@ -68,14 +68,11 @@ namespace rda
             }
 
             // update after deal
-            void update_after_deal(const uint8_t dealer, const euchre_card& up_card_)
+            void update_after_deal(const uint8_t dealer, const euchre_card &up_card_)
             {
                 up_card = up_card_;
                 //dealer_position = dealer;
                 // TODO
-
-
-
             }
 
         }; // class perception

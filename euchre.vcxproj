@@ -171,6 +171,7 @@
     <ClInclude Include="src\euchre_scoreboard.h" />
     <ClInclude Include="src\score_trump_call.h" />
     <ClInclude Include="src\euchre_seat_position.h" />
+    <ClInclude Include="src\score_trump_call_context.h" />
     <ClInclude Include="src\unit_tests\test_euchre.h" />
     <ClInclude Include="src\unit_tests\unit_test_template.h" />
     <ClInclude Include="src\unit_tests\unit_test_utils.h" />

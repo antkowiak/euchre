@@ -10,25 +10,25 @@
 
 namespace rda
 {
-        namespace euchre
+    namespace euchre
+    {
+        // card suit
+        enum class e_suit : uint8_t
         {
-            // card suit
-            enum class e_suit
-            {
-                CLUBS = 0,
-                BEGIN = 0,
-                DIAMONDS = 1,
-                HEARTS = 2,
-                SPADES = 3,
-                INVALID = 4,
-                END = 4
-            }; // enum suit
+            CLUBS = 0,
+            BEGIN = 0,
+            DIAMONDS = 1,
+            HEARTS = 2,
+            SPADES = 3,
+            INVALID = 4,
+            END = 4
+        }; // enum suit
 
-            // operator for iterating over suits
-            static e_suit operator++(e_suit& rhs)
+        // operator for iterating over suits
+        static e_suit operator++(e_suit &rhs)
+        {
+            switch (rhs)
             {
-                switch (rhs)
-                {
                 case e_suit::CLUBS:
                     rhs = e_suit::DIAMONDS;
                     break;
@@ -42,15 +42,15 @@ namespace rda
                 default:
                     rhs = e_suit::INVALID;
                     break;
-                }
-                return rhs;
             }
+            return rhs;
+        }
 
-            // convert a suit to a string
-            static std::string to_string(const e_suit& s)
+        // convert a suit to a string
+        static std::string to_string(const e_suit &s)
+        {
+            switch (s)
             {
-                switch (s)
-                {
                 case e_suit::CLUBS:
                     return "C";
                 case e_suit::DIAMONDS:
@@ -61,8 +61,8 @@ namespace rda
                     return "S";
                 default:
                     return "X";
-                }
             }
+        }
 
     } // namespace euchre
 

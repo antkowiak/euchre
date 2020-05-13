@@ -94,7 +94,7 @@ namespace rda
                 std::stringstream ss;
 
                 ss << "hand:  ";
-                for (auto& c : cards)
+                for (auto &c : cards)
                     ss << " " << c.to_string();
                 ss << std::endl;
 
