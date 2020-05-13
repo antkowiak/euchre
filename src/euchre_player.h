@@ -6,8 +6,11 @@
 // Written by Ryan Antkowiak (antkowiak@gmail.com)
 //
 
+#include <algorithm>
+#include <limits>
 #include <sstream>
 #include <string>
+#include <vector>
 
 #include "euchre_card.h"
 #include "euchre_constants.h"
@@ -15,6 +18,7 @@
 #include "euchre_perception.h"
 #include "euchre_trump_decision.h"
 #include "euchre_utils.h"
+#include "random_seeder.h"
 #include "score_trump_call.h"
 #include "score_trump_call_context.h"
 
@@ -145,10 +149,65 @@ namespace rda
             // handle an offer of calling any trump suit
             e_trump_decision offer_trump()
             {
-                // TODO
-                return e_trump_decision::INVALID;
+                // start with all suits
+                std::vector<e_suit> suits = {e_suit::CLUBS, e_suit::DIAMONDS, e_suit::HEARTS, e_suit::SPADES};
+
+                // remove the "up card" suit from consideration
+                auto unused = std::remove(suits.begin(), suits.end(), m_up_card.suit());
+                static_cast<void>(unused);
+
+                // randomize the order of the suits
+                rda::euchre::seed_randomizer();
+                std::random_shuffle(suits.begin(), suits.end());
+
+                // create a vector for all of the suit scoring contexts
+                std::vector<score_trump_call_context> contexts;
+
+                // initialize max_score and best index
+                double max_score = std::numeric_limits<double>::lowest();
+                size_t best_score_index = 0;
+
+                // iterate over the suits
+                for (size_t i = 0; i < suits.size(); ++i)
+                {
+                    // create the score context for this suit
+                    contexts.push_back(score_trump_call::score(suits[i],
+                                                               m_hand,
+                                                               m_up_card,
+                                                               false,
+                                                               m_dealer_position,
+                                                               m_left_perception,
+                                                               m_partner_perception,
+                                                               m_right_perception));
+
+                    // extract the score
+                    const double suit_score = contexts[i].get_total_score();
+
+                    // check if the score is the best
+                    if (suit_score > max_score)
+                    {
+                        max_score = suit_score;
+                        best_score_index = i;
+                    }
+                }
+
+                // if a best score was found
+                if (best_score_index < contexts.size())
+                {
+                    // check if the score meets or exceeds the loner-call threshold
+                    if (contexts[best_score_index].get_total_score() >= contexts[best_score_index].get_loner_call_threshold())
+                        return suit_to_loner_call(contexts[best_score_index].m_suit);
+
+                    // check if the score meets or exceeds the trump-call threshold
+                    if (contexts[best_score_index].get_total_score() >= contexts[best_score_index].get_trump_call_threshold())
+                        return suit_to_call(contexts[best_score_index].m_suit);
+                }
+
+                // not a good enough hand, so pass
+                return e_trump_decision::PASS;
             }
 
+            // update perceptino of other players, after getting results of an offer for someone to call trump
             void update_perceptions_after_trump_offer(const uint8_t seat_index, const e_trump_decision decision)
             {
                 if (is_calling_suit(decision))

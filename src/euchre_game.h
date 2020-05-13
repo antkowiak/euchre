@@ -98,8 +98,9 @@ namespace rda
             {
                 std::stringstream ss;
 
-                for (auto& player : players)
-                    ss << "player: " << std::endl << player->to_string() << std::endl;
+                for (auto &player : players)
+                    ss << "player: " << std::endl
+                       << player->to_string();
 
                 ss << "up card: " << up_card.to_string() << std::endl;
 

@@ -70,6 +70,42 @@ namespace rda
             }
         }
 
+        // return the loner decision for a given suit
+        static e_trump_decision suit_to_loner_call(const e_suit suit)
+        {
+            switch (suit)
+            {
+                case e_suit::CLUBS:
+                    return e_trump_decision::CALL_CLUBS_LONER;
+                case e_suit::DIAMONDS:
+                    return e_trump_decision::CALL_DIAMONDS_LONER;
+                case e_suit::HEARTS:
+                    return e_trump_decision::CALL_HEARTS_LONER;
+                case e_suit::SPADES:
+                    return e_trump_decision::CALL_SPADES_LONER;
+                default:
+                    return e_trump_decision::INVALID;
+            }
+        }
+
+        // return the non-loner decision for a given suit
+        static e_trump_decision suit_to_call(const e_suit suit)
+        {
+            switch (suit)
+            {
+                case e_suit::CLUBS:
+                    return e_trump_decision::CALL_CLUBS;
+                case e_suit::DIAMONDS:
+                    return e_trump_decision::CALL_DIAMONDS;
+                case e_suit::HEARTS:
+                    return e_trump_decision::CALL_HEARTS;
+                case e_suit::SPADES:
+                    return e_trump_decision::CALL_SPADES;
+                default:
+                    return e_trump_decision::INVALID;
+            }
+        }
+
         // returns true if the decision represents a loner call
         static bool is_loner(const e_trump_decision decision)
         {

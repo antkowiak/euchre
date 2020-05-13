@@ -8,17 +8,16 @@
 
 namespace rda
 {
-	namespace euchre
-	{
-		class euchre_constants
-		{
-		public:
+    namespace euchre
+    {
+        class euchre_constants
+        {
+        public:
+            const static uint8_t NUM_PLAYERS = 4;
+            const static uint8_t INVALID_INDEX = 4;
 
-			const static uint8_t NUM_PLAYERS = 4;
-			const static uint8_t INVALID_INDEX = 4;
+        }; // class euchre_constants
 
-		}; // class euchre_constants
-
-	} // namespace euchre
+    } // namespace euchre
 
 } // namespace rda
