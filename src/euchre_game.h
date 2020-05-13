@@ -120,6 +120,32 @@ namespace rda
                 }
             }
 
+            // determine seat position of the dealer
+            uint8_t determine_dealer() const
+            {
+                // the deck for determining the dealer
+                euchre_deck dealer_deck;
+                dealer_deck.init();
+                dealer_deck.shuffle();
+
+                // draw cards until a black jack is found
+                uint8_t position = 0;
+                while (!dealer_deck.empty())
+                {
+                    euchre_card card = dealer_deck.draw();
+
+                    // if a black jack was found, this position is dealer
+                    if (card.rank() == e_rank::JACK && card.color() == e_color::BLACK)
+                        return position;
+
+                    // cycle the position among 4 seats
+                    ++position;
+                    position = position % 4;
+                }
+
+                return 0;
+            }
+
             void play_hand()
             {
                 init_hand();
@@ -219,36 +245,6 @@ namespace rda
             {
                 for (auto &player : players)
                     player->update_perceptions_after_trump_offer(seat_index, decision);
-            }
-
-            // determine seat position of the dealer
-            uint8_t determine_dealer() const
-            {
-                static const euchre_card JACK_CLUBS(e_suit::CLUBS, e_rank::JACK);
-                static const euchre_card JACK_SPADES(e_suit::SPADES, e_rank::JACK);
-
-                // the deck for determining the dealer
-                euchre_deck dealer_deck;
-                dealer_deck.init();
-                dealer_deck.shuffle();
-
-                // draw cards until a black jack is found
-                uint8_t position = 0;
-                while (!dealer_deck.empty())
-                {
-                    euchre_hand h;
-                    dealer_deck.deal(h, 1);
-
-                    // if a black jack was found, this position is dealer
-                    if (h.contains(JACK_CLUBS) || h.contains(JACK_SPADES))
-                        return position;
-
-                    // cycle the position among 4 seats
-                    ++position;
-                    position = position % 4;
-                }
-
-                return 0;
             }
 
         }; // class euchre_game
