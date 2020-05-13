@@ -128,14 +128,13 @@ namespace rda
                 dealer_deck.init();
                 dealer_deck.shuffle();
 
-                // draw cards until a black jack is found
                 uint8_t position = 0;
+
+                // draw cards until a black jack is found
                 while (!dealer_deck.empty())
                 {
-                    euchre_card card = dealer_deck.draw();
-
-                    // if a black jack was found, this position is dealer
-                    if (card.rank() == e_rank::JACK && card.color() == e_color::BLACK)
+                    // if a black jack was drawn, this position is dealer
+                    if (euchre_utils::is_black_jack(dealer_deck.draw()))
                         return position;
 
                     // cycle the position among 4 seats

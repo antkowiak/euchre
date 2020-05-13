@@ -68,6 +68,12 @@ namespace rda
                 }
             }
 
+            // returns true if the card is a black jack
+            static bool is_black_jack(const euchre_card &card)
+            {
+                return (card.rank() == e_rank::JACK && card.color() == e_color::BLACK);
+            }
+
         } // namespace euchre_utils
 
     } // namespace euchre
