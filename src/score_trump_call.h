@@ -451,14 +451,14 @@ namespace rda
             }
 
             // score the calling of a trump suit, given the provided game state
-            static double score(const e_suit suit,
-                                const euchre_hand &hand,
-                                const euchre_card &up_card,
-                                const bool up_card_was_turned_down,
-                                const euchre_seat_position dealer_seat_position,
-                                const euchre_perception &left_perception,
-                                const euchre_perception &partner_perception,
-                                const euchre_perception &right_perception)
+            static score_trump_call_context score(const e_suit suit,
+                                                  const euchre_hand &hand,
+                                                  const euchre_card &up_card,
+                                                  const bool up_card_was_turned_down,
+                                                  const euchre_seat_position dealer_seat_position,
+                                                  const euchre_perception &left_perception,
+                                                  const euchre_perception &partner_perception,
+                                                  const euchre_perception &right_perception)
             {
                 rda::fileio f("euchre.json");
                 f.read();
@@ -513,7 +513,9 @@ namespace rda
                 total += score_partner_passed_on_up_card(ctx);
                 total += score_one_opponent_passed_on_up_card(ctx);
                 total += score_two_opponents_passed_on_up_card(ctx);
-                return total;
+                ctx.set_total_score(total);
+
+                return ctx;
             }
 
         } // namespace score_trump_call

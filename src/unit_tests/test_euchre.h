@@ -126,6 +126,7 @@ namespace rda
 
         static void test_002(const size_t testNum, TestInput &input)
         {
+            /*
             using namespace rda::euchre;
 
             euchre_hand h;
@@ -135,8 +136,9 @@ namespace rda
             euchre_perception partner_per(2);
             euchre_perception right_per(3);
 
-            double score = score_trump_call::score(e_suit::SPADES, h, up_card, false, dealer_pos, left_per, partner_per, right_per);
-            static_cast<void>(score); // unused
+            //double score = score_trump_call::score(e_suit::SPADES, h, up_card, false, dealer_pos, left_per, partner_per, right_per);
+            //static_cast<void>(score); // unused
+            */
         }
 
         static void test_003(const size_t testNum, TestInput &input)

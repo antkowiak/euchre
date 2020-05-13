@@ -43,6 +43,13 @@ namespace rda
             const uint8_t m_num_non_trump_winners;
             const uint8_t m_num_opponents_passed_on_up_card;
 
+        private:
+
+            // score
+            double m_total_score = 0.0f;
+            double m_trump_call_threshold = 0.0f;
+            double m_loner_call_threshhold = 0.0f;
+
         public:
             // constructor
             score_trump_call_context(const e_suit suit,
@@ -65,16 +72,37 @@ namespace rda
                   m_num_non_trump_winners(count_num_non_trump_winners()),
                   m_num_opponents_passed_on_up_card(count_num_opponents_passed_on_up_card())
             {
+                m_trump_call_threshold = get_json_file_data()->get_float_by_path("trump_call/trump_call_threshold");
+                m_loner_call_threshhold = get_json_file_data()->get_float_by_path("trump_call/loner_call_threshold");
             }
 
             // return the value of a score for given key
-            double get_score_value(const std::string& score_key) const
+            double get_score_value(const std::string &score_key) const
             {
                 return get_json_file_data()->get_float_by_path(score_key);
             }
 
-        private:
+            void set_total_score(const double total_score)
+            {
+                m_total_score = total_score;
+            }
 
+            double get_total_score() const
+            {
+                return m_total_score;
+            }
+
+            double get_trump_call_threshold() const
+            {
+                return m_trump_call_threshold;
+            }
+
+            double get_loner_call_threshold() const
+            {
+                return m_loner_call_threshhold;
+            }
+
+        private:
             // keep a singleton static instance of json file data
             static std::shared_ptr<rda::json::node_object> get_json_file_data()
             {
@@ -96,10 +124,9 @@ namespace rda
                 std::array<uint8_t, static_cast<size_t>(e_suit::END)> suits{};
 
                 std::for_each(m_hand.cbegin(), m_hand.cend(),
-                    [&] (const auto &card)
-                    {
-                        suits[static_cast<size_t>(card.suit())] = 1;
-                    });
+                              [&](const auto &card) {
+                                  suits[static_cast<size_t>(card.suit())] = 1;
+                              });
 
                 return std::accumulate(suits.begin(), suits.end(), 0);
             }

@@ -157,6 +157,7 @@
     <ClInclude Include="src\euchre_card_suit.h" />
     <ClInclude Include="src\euchre_deck.h" />
     <ClInclude Include="src\euchre_game.h" />
+    <ClInclude Include="src\euchre_trump_decision.h" />
     <ClInclude Include="src\fileio.h" />
     <ClInclude Include="src\euchre_hand.h" />
     <ClInclude Include="src\json.h" />

@@ -21,7 +21,6 @@ namespace rda
         class euchre_perception
         {
         public:
-
             // the seat index where this player is sitting
             const uint8_t seat_index;
 
@@ -54,7 +53,6 @@ namespace rda
             std::vector<euchre_card> cards_not_in_hand;
 
         public:
-
             // constructor
             euchre_perception(const uint8_t index)
                 : seat_index(index)
@@ -88,4 +86,5 @@ namespace rda
         }; // class perception
 
     } // namespace euchre
+
 } // namespace rda
