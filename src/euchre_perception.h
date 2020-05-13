@@ -1,7 +1,7 @@
 #pragma once
 
 //
-// perception.h - The perception of another player in a euchre game
+// euchre_perception.h - The perception of another player in a euchre game
 //
 // Written by Ryan Antkowiak (antkowiak@gmail.com)
 //
@@ -18,7 +18,7 @@ namespace rda
     namespace euchre
     {
         // the perception of another player in a euchre game
-        class perception
+        class euchre_perception
         {
         public:
             // where this player is sitting, in relation

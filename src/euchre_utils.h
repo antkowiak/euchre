@@ -8,7 +8,7 @@
 
 #include <cstdint>
 
-#include "perception.h"
+#include "euchre_perception.h"
 
 namespace rda
 {

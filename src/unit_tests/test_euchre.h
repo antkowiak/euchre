@@ -21,7 +21,7 @@
 #include "../euchre_card.h"
 #include "../euchre_deck.h"
 #include "../euchre_hand.h"
-#include "../perception.h"
+#include "../euchre_perception.h"
 #include "../euchre_player.h"
 #include "../euchre_player_computer.h"
 #include "../euchre_player_human.h"
@@ -131,9 +131,9 @@ namespace rda
             euchre_hand h;
             euchre_card up_card;
             euchre_seat_position dealer_pos = euchre_seat_position::LEFT;
-            perception left_per;
-            perception partner_per;
-            perception right_per;
+            euchre_perception left_per;
+            euchre_perception partner_per;
+            euchre_perception right_per;
 
             double score = score_trump_call::score(e_suit::SPADES, h, up_card, false, dealer_pos, left_per, partner_per, right_per);
             static_cast<void>(score); // unused

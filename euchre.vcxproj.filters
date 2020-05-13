@@ -60,9 +60,6 @@
     <ClInclude Include="src\random_seeder.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="src\perception.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="src\fileio.h">
       <Filter>Header Files\Library Headers</Filter>
     </ClInclude>
@@ -112,6 +109,9 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="src\euchre_seat_position.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\euchre_perception.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

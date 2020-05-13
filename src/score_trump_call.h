@@ -14,7 +14,7 @@
 
 #include "euchre_card.h"
 #include "euchre_hand.h"
-#include "perception.h"
+#include "euchre_perception.h"
 
 namespace rda
 {
@@ -34,9 +34,9 @@ namespace rda
                 bool m_up_card_was_turned_down = false;
                 euchre_seat_position m_dealer_position = euchre_seat_position::INVALID;
 
-                perception m_left_perception;
-                perception m_partner_perception;
-                perception m_right_perception;
+                euchre_perception m_left_perception;
+                euchre_perception m_partner_perception;
+                euchre_perception m_right_perception;
             }; // struct score_context
 
             namespace utils
@@ -594,9 +594,9 @@ namespace rda
                                 const euchre_card&up_card,
                                 const bool up_card_turned_down,
                                 euchre_seat_position dealer_position,
-                                const perception &left_perception,
-                                const perception &partner_perception,
-                                const perception &right_perception)
+                                const euchre_perception &left_perception,
+                                const euchre_perception &partner_perception,
+                                const euchre_perception &right_perception)
             {
                 rda::fileio f("euchre.json");
                 f.read();

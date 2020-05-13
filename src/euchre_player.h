@@ -11,7 +11,7 @@
 
 #include "euchre_card.h"
 #include "euchre_hand.h"
-#include "perception.h"
+#include "euchre_perception.h"
 #include "euchre_utils.h"
 
 namespace rda
@@ -31,9 +31,9 @@ namespace rda
             euchre_card m_up_card;
             euchre_hand m_hand;
 
-            perception m_left_perception;
-            perception m_partner_perception;
-            perception m_right_perception;
+            euchre_perception m_left_perception;
+            euchre_perception m_partner_perception;
+            euchre_perception m_right_perception;
 
         public:
 
