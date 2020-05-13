@@ -89,13 +89,13 @@ namespace rda
             }
 
             // return a reference to this player's hand
-            euchre_hand & get_hand()
+            euchre_hand &get_hand()
             {
                 return m_hand;
             }
 
             // update perceptions of over players, after the initial cards have been dealt
-            void update_perceptions_after_deal(const uint8_t dealer_index, const euchre_card& up_card)
+            void update_perceptions_after_deal(const uint8_t dealer_index, const euchre_card &up_card)
             {
                 // save the up card
                 m_up_card = up_card;
@@ -139,6 +139,26 @@ namespace rda
                 m_left_perception.update_after_up_card_offer(seat_index, decision);
                 m_partner_perception.update_after_up_card_offer(seat_index, decision);
                 m_right_perception.update_after_up_card_offer(seat_index, decision);
+            }
+
+            // handle an offer of calling any trump suit
+            e_trump_decision offer_trump()
+            {
+                // TODO
+                return e_trump_decision::INVALID;
+            }
+
+            void update_perceptions_after_trump_offer(const uint8_t seat_index, const e_trump_decision decision)
+            {
+                if (is_calling_suit(decision))
+                    m_suit_called_trump = decision_to_suit(decision);
+
+                const e_suit suit = decision_to_suit(decision);
+
+                if (suit != e_suit::INVALID)
+                    m_suit_called_trump = suit;
+
+                // TODO update left, partner, right
             }
 
         }; // class player

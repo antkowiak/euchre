@@ -45,7 +45,6 @@ namespace rda
             const uint8_t m_num_opponents_passed_on_up_card;
 
         private:
-
             // score
             double m_total_score = 0.0f;
             double m_trump_call_threshold = 0.0f;

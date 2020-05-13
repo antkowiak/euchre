@@ -27,6 +27,31 @@ namespace rda
     {
         class euchre_game
         {
+        private:
+            // the card that is turned up for trump calling
+            euchre_card up_card;
+
+            // the trump suit
+            e_suit suit_called_trump = e_suit::INVALID;
+
+            // true if this hand is being played alone
+            bool loner = false;
+
+            // index of the player who called trump
+            uint8_t trump_caller_index = 4;
+
+            // the dealer position
+            uint8_t dealer_index = 4;
+
+            // the deck of cards
+            euchre_deck deck;
+
+            // the scoreboard
+            euchre_scoreboard scoreboard;
+
+            // vector of the 4 players
+            std::vector<std::unique_ptr<euchre_player>> players;
+
         public:
             // constructor
             euchre_game()
@@ -44,6 +69,9 @@ namespace rda
             {
                 up_card = euchre_card();
                 suit_called_trump = e_suit::INVALID;
+                loner = false;
+                trump_caller_index = 4;
+
                 scoreboard.reset_score();
 
                 for (auto &player : players)
@@ -55,6 +83,9 @@ namespace rda
             {
                 up_card = euchre_card();
                 suit_called_trump = e_suit::INVALID;
+                loner = false;
+                trump_caller_index = 4;
+
                 scoreboard.reset_hand();
 
                 for (auto &player : players)
@@ -94,8 +125,8 @@ namespace rda
                 init_hand();
                 shuffle_deck();
                 deal_hand();
-                update_perceptions_after_deal();
                 offer_up_card_trump_to_players();
+                offer_trump_to_players();
 
                 // TODO - continue playing hand
 
@@ -124,6 +155,8 @@ namespace rda
                 }
 
                 up_card = deck.draw();
+
+                update_perceptions_after_deal();
             }
 
             // update player perceptions after initial card deal
@@ -133,6 +166,7 @@ namespace rda
                     player->update_perceptions_after_deal(dealer_index, up_card);
             }
 
+            // let players choose if they want the up-card to be trump
             void offer_up_card_trump_to_players()
             {
                 for (uint8_t index = 0; index < 4; ++index)
@@ -144,12 +178,15 @@ namespace rda
 
                     if (decision == e_trump_decision::ORDER_UP)
                     {
+                        trump_caller_index = offer_index;
+                        loner = false;
                         suit_called_trump = up_card.suit();
                         break;
                     }
-
-                    if (decision == e_trump_decision::ORDER_UP_LONER)
+                    else if (decision == e_trump_decision::ORDER_UP_LONER)
                     {
+                        trump_caller_index = offer_index;
+                        loner = true;
                         suit_called_trump = up_card.suit();
                         break;
                     }
@@ -159,8 +196,37 @@ namespace rda
             // update player perceptions after a player was offered to order up trump
             void update_perceptions_after_up_card_offer(const uint8_t seat_index, const e_trump_decision decision)
             {
-                for (auto& player : players)
+                for (auto &player : players)
                     player->update_perceptions_after_up_card_offer(seat_index, decision);
+            }
+
+            // let players choose to call trump, if it hasn't been called already
+            void offer_trump_to_players()
+            {
+                if (suit_called_trump == e_suit::INVALID)
+                {
+                    for (uint8_t index = 0; index < 4; ++index)
+                    {
+                        const uint8_t offer_index = (dealer_index + 1 + index) % 4;
+                        const e_trump_decision decision = players[offer_index]->offer_trump();
+
+                        update_perceptions_after_trump_offer(offer_index, decision);
+
+                        if (is_calling_suit(decision))
+                        {
+                            suit_called_trump = decision_to_suit(decision);
+                            loner = is_loner(decision);
+                            break;
+                        }
+                    }
+                }
+            }
+
+            // update player perceptions after a player was offered to call any trump
+            void update_perceptions_after_trump_offer(const uint8_t seat_index, const e_trump_decision decision)
+            {
+                for (auto &player : players)
+                    player->update_perceptions_after_trump_offer(seat_index, decision);
             }
 
             // determine seat position of the dealer
@@ -192,25 +258,6 @@ namespace rda
 
                 return 0;
             }
-
-        private:
-            // the card that is turned up for trump calling
-            euchre_card up_card;
-
-            // the trump suit
-            e_suit suit_called_trump = e_suit::INVALID;
-
-            // the dealer position
-            uint8_t dealer_index = 0;
-
-            // the deck of cards
-            euchre_deck deck;
-
-            // the scoreboard
-            euchre_scoreboard scoreboard;
-
-            // vector of the 4 players
-            std::vector<std::unique_ptr<euchre_player>> players;
 
         }; // class euchre_game
 
