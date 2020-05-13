@@ -12,8 +12,8 @@
 #include "fileio.h"
 #include "json.h"
 
-#include "card.h"
-#include "hand.h"
+#include "euchre_card.h"
+#include "euchre_hand.h"
 #include "perception.h"
 
 namespace rda
@@ -29,10 +29,10 @@ namespace rda
 
                 e_suit m_suit = e_suit::INVALID;
 
-                hand m_hand;
-                card m_up_card;
+                euchre_hand m_hand;
+                euchre_card m_up_card;
                 bool m_up_card_was_turned_down = false;
-                e_seat_position m_dealer_position = e_seat_position::INVALID;
+                euchre_seat_position m_dealer_position = euchre_seat_position::INVALID;
 
                 perception m_left_perception;
                 perception m_partner_perception;
@@ -42,43 +42,43 @@ namespace rda
             namespace utils
             {
                 // returns the right bower card for the given suit
-                static card right_bower(const e_suit s)
+                static euchre_card right_bower(const e_suit s)
                 {
                     switch (s)
                     {
                         case e_suit::CLUBS:
-                            return card(e_suit::CLUBS, e_rank::JACK);
+                            return euchre_card(e_suit::CLUBS, e_rank::JACK);
                         case e_suit::DIAMONDS:
-                            return card(e_suit::DIAMONDS, e_rank::JACK);
+                            return euchre_card(e_suit::DIAMONDS, e_rank::JACK);
                         case e_suit::HEARTS:
-                            return card(e_suit::HEARTS, e_rank::JACK);
+                            return euchre_card(e_suit::HEARTS, e_rank::JACK);
                         case e_suit::SPADES:
-                            return card(e_suit::SPADES, e_rank::JACK);
+                            return euchre_card(e_suit::SPADES, e_rank::JACK);
                         default:
-                            return card();
+                            return euchre_card();
                     }
                 }
 
                 // returns the left bower card for the given suit
-                static card left_bower(const e_suit s)
+                static euchre_card left_bower(const e_suit s)
                 {
                     switch (s)
                     {
                         case e_suit::CLUBS:
-                            return card(e_suit::SPADES, e_rank::JACK);
+                            return euchre_card(e_suit::SPADES, e_rank::JACK);
                         case e_suit::DIAMONDS:
-                            return card(e_suit::HEARTS, e_rank::JACK);
+                            return euchre_card(e_suit::HEARTS, e_rank::JACK);
                         case e_suit::HEARTS:
-                            return card(e_suit::DIAMONDS, e_rank::JACK);
+                            return euchre_card(e_suit::DIAMONDS, e_rank::JACK);
                         case e_suit::SPADES:
-                            return card(e_suit::CLUBS, e_rank::JACK);
+                            return euchre_card(e_suit::CLUBS, e_rank::JACK);
                         default:
-                            return card();
+                            return euchre_card();
                     }
                 }
 
                 // count the number of suits in a hand
-                static size_t count_suits(const hand &h)
+                static size_t count_suits(const euchre_hand &h)
                 {
                     std::unordered_set<e_suit> suits;
                     std::for_each(h.cbegin(), h.cend(), [&suits](auto &cd) {
@@ -100,7 +100,7 @@ namespace rda
                         if (s != ctx.m_suit)
                         {
                             // check if contains ACE and KING suited, 2 winners
-                            if (ctx.m_hand.contains({card(s, e_rank::ACE), card(s, e_rank::KING)}))
+                            if (ctx.m_hand.contains({ euchre_card(s, e_rank::ACE), euchre_card(s, e_rank::KING)}))
                             {
                                 winners += 2;
                                 continue;
@@ -108,8 +108,8 @@ namespace rda
 
                             // check if ace is turned down and contains KING and QUEEN suited, 2 winners
                             if (ctx.m_up_card_was_turned_down &&
-                                ctx.m_up_card == card(s, e_rank::ACE) &&
-                                ctx.m_hand.contains({card(s, e_rank::KING), card(s, e_rank::QUEEN)}))
+                                ctx.m_up_card == euchre_card(s, e_rank::ACE) &&
+                                ctx.m_hand.contains({ euchre_card(s, e_rank::KING), euchre_card(s, e_rank::QUEEN)}))
                             {
                                 winners += 2;
                                 continue;
@@ -117,15 +117,15 @@ namespace rda
 
                             // check if king is turned down and contains ACE and QUEEN suited, 2 winners
                             if (ctx.m_up_card_was_turned_down &&
-                                ctx.m_up_card == card(s, e_rank::KING) &&
-                                ctx.m_hand.contains({card(s, e_rank::ACE), card(s, e_rank::QUEEN)}))
+                                ctx.m_up_card == euchre_card(s, e_rank::KING) &&
+                                ctx.m_hand.contains({ euchre_card(s, e_rank::ACE), euchre_card(s, e_rank::QUEEN)}))
                             {
                                 winners += 2;
                                 continue;
                             }
 
                             // check if contains ACE
-                            if (ctx.m_hand.contains(card(s, e_rank::ACE)))
+                            if (ctx.m_hand.contains(euchre_card(s, e_rank::ACE)))
                             {
                                 winners += 1;
                                 continue;
@@ -133,8 +133,8 @@ namespace rda
 
                             // check if ace is turned down and contains king
                             if (ctx.m_up_card_was_turned_down &&
-                                ctx.m_up_card == card(s, e_rank::ACE) &&
-                                ctx.m_hand.contains(card(s, e_rank::KING)))
+                                ctx.m_up_card == euchre_card(s, e_rank::ACE) &&
+                                ctx.m_hand.contains(euchre_card(s, e_rank::KING)))
                             {
                                 winners += 1;
                                 continue;
@@ -186,7 +186,7 @@ namespace rda
             {
                 const double s = ctx.m_file_data->get_float_by_path("trump_call/have_ace_trump");
                 if (s != 0.0f)
-                    if (ctx.m_hand.contains(card(ctx.m_suit, e_rank::ACE)))
+                    if (ctx.m_hand.contains(euchre_card(ctx.m_suit, e_rank::ACE)))
                         return s;
                 return 0.0f;
             }
@@ -196,7 +196,7 @@ namespace rda
             {
                 const double s = ctx.m_file_data->get_float_by_path("trump_call/have_king_trump");
                 if (s != 0.0f)
-                    if (ctx.m_hand.contains(card(ctx.m_suit, e_rank::KING)))
+                    if (ctx.m_hand.contains(euchre_card(ctx.m_suit, e_rank::KING)))
                         return s;
                 return 0.0f;
             }
@@ -206,7 +206,7 @@ namespace rda
             {
                 const double s = ctx.m_file_data->get_float_by_path("trump_call/have_queen_trump");
                 if (s != 0.0f)
-                    if (ctx.m_hand.contains(card(ctx.m_suit, e_rank::QUEEN)))
+                    if (ctx.m_hand.contains(euchre_card(ctx.m_suit, e_rank::QUEEN)))
                         return s;
                 return 0.0f;
             }
@@ -216,7 +216,7 @@ namespace rda
             {
                 const double s = ctx.m_file_data->get_float_by_path("trump_call/have_ten_trump");
                 if (s != 0.0f)
-                    if (ctx.m_hand.contains(card(ctx.m_suit, e_rank::TEN)))
+                    if (ctx.m_hand.contains(euchre_card(ctx.m_suit, e_rank::TEN)))
                         return s;
                 return 0.0f;
             }
@@ -226,7 +226,7 @@ namespace rda
             {
                 const double s = ctx.m_file_data->get_float_by_path("trump_call/have_nine_trump");
                 if (s != 0.0f)
-                    if (ctx.m_hand.contains(card(ctx.m_suit, e_rank::NINE)))
+                    if (ctx.m_hand.contains(euchre_card(ctx.m_suit, e_rank::NINE)))
                         return s;
                 return 0.0f;
             }
@@ -236,7 +236,7 @@ namespace rda
             {
                 const double s = ctx.m_file_data->get_float_by_path("trump_call/would_pick_up_right_bower_trump");
                 if (s != 0.0f)
-                    if (ctx.m_dealer_position == e_seat_position::SELF &&
+                    if (ctx.m_dealer_position == euchre_seat_position::SELF &&
                         ctx.m_up_card == utils::right_bower(ctx.m_suit))
                         return s;
                 return 0.0f;
@@ -247,7 +247,7 @@ namespace rda
             {
                 const double s = ctx.m_file_data->get_float_by_path("trump_call/would_pick_up_left_bower_trump");
                 if (s != 0.0f)
-                    if (ctx.m_dealer_position == e_seat_position::SELF &&
+                    if (ctx.m_dealer_position == euchre_seat_position::SELF &&
                         ctx.m_up_card == utils::left_bower(ctx.m_suit))
                         return s;
                 return 0.0f;
@@ -258,8 +258,8 @@ namespace rda
             {
                 const double s = ctx.m_file_data->get_float_by_path("trump_call/would_pick_up_ace_trump");
                 if (s != 0.0f)
-                    if (ctx.m_dealer_position == e_seat_position::SELF &&
-                        ctx.m_up_card == card(ctx.m_suit, e_rank::ACE))
+                    if (ctx.m_dealer_position == euchre_seat_position::SELF &&
+                        ctx.m_up_card == euchre_card(ctx.m_suit, e_rank::ACE))
                         return s;
                 return 0.0f;
             }
@@ -269,8 +269,8 @@ namespace rda
             {
                 const double s = ctx.m_file_data->get_float_by_path("trump_call/would_pick_up_king_trump");
                 if (s != 0.0f)
-                    if (ctx.m_dealer_position == e_seat_position::SELF &&
-                        ctx.m_up_card == card(ctx.m_suit, e_rank::KING))
+                    if (ctx.m_dealer_position == euchre_seat_position::SELF &&
+                        ctx.m_up_card == euchre_card(ctx.m_suit, e_rank::KING))
                         return s;
                 return 0.0f;
             }
@@ -280,8 +280,8 @@ namespace rda
             {
                 const double s = ctx.m_file_data->get_float_by_path("trump_call/would_pick_up_queen_trump");
                 if (s != 0.0f)
-                    if (ctx.m_dealer_position == e_seat_position::SELF &&
-                        ctx.m_up_card == card(ctx.m_suit, e_rank::QUEEN))
+                    if (ctx.m_dealer_position == euchre_seat_position::SELF &&
+                        ctx.m_up_card == euchre_card(ctx.m_suit, e_rank::QUEEN))
                         return s;
                 return 0.0f;
             }
@@ -291,8 +291,8 @@ namespace rda
             {
                 const double s = ctx.m_file_data->get_float_by_path("trump_call/would_pick_up_ten_trump");
                 if (s != 0.0f)
-                    if (ctx.m_dealer_position == e_seat_position::SELF &&
-                        ctx.m_up_card == card(ctx.m_suit, e_rank::TEN))
+                    if (ctx.m_dealer_position == euchre_seat_position::SELF &&
+                        ctx.m_up_card == euchre_card(ctx.m_suit, e_rank::TEN))
                         return s;
                 return 0.0f;
             }
@@ -302,8 +302,8 @@ namespace rda
             {
                 const double s = ctx.m_file_data->get_float_by_path("trump_call/would_pick_up_nine_trump");
                 if (s != 0.0f)
-                    if (ctx.m_dealer_position == e_seat_position::SELF &&
-                        ctx.m_up_card == card(ctx.m_suit, e_rank::NINE))
+                    if (ctx.m_dealer_position == euchre_seat_position::SELF &&
+                        ctx.m_up_card == euchre_card(ctx.m_suit, e_rank::NINE))
                         return s;
                 return 0.0f;
             }
@@ -313,7 +313,7 @@ namespace rda
             {
                 const double s = ctx.m_file_data->get_float_by_path("trump_call/partner_would_pick_up_right_bower_trump");
                 if (s != 0.0f)
-                    if (ctx.m_dealer_position == e_seat_position::ACROSS &&
+                    if (ctx.m_dealer_position == euchre_seat_position::ACROSS &&
                         ctx.m_up_card == utils::right_bower(ctx.m_suit))
                         return s;
                 return 0.0f;
@@ -324,7 +324,7 @@ namespace rda
             {
                 const double s = ctx.m_file_data->get_float_by_path("trump_call/partner_would_pick_up_left_bower_trump");
                 if (s != 0.0f)
-                    if (ctx.m_dealer_position == e_seat_position::ACROSS &&
+                    if (ctx.m_dealer_position == euchre_seat_position::ACROSS &&
                         ctx.m_up_card == utils::left_bower(ctx.m_suit))
                         return s;
                 return 0.0f;
@@ -335,8 +335,8 @@ namespace rda
             {
                 const double s = ctx.m_file_data->get_float_by_path("trump_call/partner_would_pick_up_ace_trump");
                 if (s != 0.0f)
-                    if (ctx.m_dealer_position == e_seat_position::ACROSS &&
-                        ctx.m_up_card == card(ctx.m_suit, e_rank::ACE))
+                    if (ctx.m_dealer_position == euchre_seat_position::ACROSS &&
+                        ctx.m_up_card == euchre_card(ctx.m_suit, e_rank::ACE))
                         return s;
                 return 0.0f;
             }
@@ -346,8 +346,8 @@ namespace rda
             {
                 const double s = ctx.m_file_data->get_float_by_path("trump_call/partner_would_pick_up_king_trump");
                 if (s != 0.0f)
-                    if (ctx.m_dealer_position == e_seat_position::ACROSS &&
-                        ctx.m_up_card == card(ctx.m_suit, e_rank::KING))
+                    if (ctx.m_dealer_position == euchre_seat_position::ACROSS &&
+                        ctx.m_up_card == euchre_card(ctx.m_suit, e_rank::KING))
                         return s;
                 return 0.0f;
             }
@@ -357,8 +357,8 @@ namespace rda
             {
                 const double s = ctx.m_file_data->get_float_by_path("trump_call/partner_would_pick_up_queen_trump");
                 if (s != 0.0f)
-                    if (ctx.m_dealer_position == e_seat_position::ACROSS &&
-                        ctx.m_up_card == card(ctx.m_suit, e_rank::QUEEN))
+                    if (ctx.m_dealer_position == euchre_seat_position::ACROSS &&
+                        ctx.m_up_card == euchre_card(ctx.m_suit, e_rank::QUEEN))
                         return s;
                 return 0.0f;
             }
@@ -368,8 +368,8 @@ namespace rda
             {
                 const double s = ctx.m_file_data->get_float_by_path("trump_call/partner_would_pick_up_ten_trump");
                 if (s != 0.0f)
-                    if (ctx.m_dealer_position == e_seat_position::ACROSS &&
-                        ctx.m_up_card == card(ctx.m_suit, e_rank::TEN))
+                    if (ctx.m_dealer_position == euchre_seat_position::ACROSS &&
+                        ctx.m_up_card == euchre_card(ctx.m_suit, e_rank::TEN))
                         return s;
                 return 0.0f;
             }
@@ -379,8 +379,8 @@ namespace rda
             {
                 const double s = ctx.m_file_data->get_float_by_path("trump_call/partner_would_pick_up_nine_trump");
                 if (s != 0.0f)
-                    if (ctx.m_dealer_position == e_seat_position::ACROSS &&
-                        ctx.m_up_card == card(ctx.m_suit, e_rank::NINE))
+                    if (ctx.m_dealer_position == euchre_seat_position::ACROSS &&
+                        ctx.m_up_card == euchre_card(ctx.m_suit, e_rank::NINE))
                         return s;
                 return 0.0f;
             }
@@ -390,7 +390,7 @@ namespace rda
             {
                 const double s = ctx.m_file_data->get_float_by_path("trump_call/opponent_would_pick_up_right_bower_trump");
                 if (s != 0.0f)
-                    if ((ctx.m_dealer_position == e_seat_position::LEFT || ctx.m_dealer_position == e_seat_position::RIGHT) &&
+                    if ((ctx.m_dealer_position == euchre_seat_position::LEFT || ctx.m_dealer_position == euchre_seat_position::RIGHT) &&
                         ctx.m_up_card == utils::right_bower(ctx.m_suit))
                         return s;
                 return 0.0f;
@@ -401,7 +401,7 @@ namespace rda
             {
                 const double s = ctx.m_file_data->get_float_by_path("trump_call/opponent_would_pick_up_left_bower_trump");
                 if (s != 0.0f)
-                    if ((ctx.m_dealer_position == e_seat_position::LEFT || ctx.m_dealer_position == e_seat_position::RIGHT) &&
+                    if ((ctx.m_dealer_position == euchre_seat_position::LEFT || ctx.m_dealer_position == euchre_seat_position::RIGHT) &&
                         ctx.m_up_card == utils::left_bower(ctx.m_suit))
                         return s;
                 return 0.0f;
@@ -412,8 +412,8 @@ namespace rda
             {
                 const double s = ctx.m_file_data->get_float_by_path("trump_call/opponent_would_pick_up_ace_trump");
                 if (s != 0.0f)
-                    if ((ctx.m_dealer_position == e_seat_position::LEFT || ctx.m_dealer_position == e_seat_position::RIGHT) &&
-                        ctx.m_up_card == card(ctx.m_suit, e_rank::ACE))
+                    if ((ctx.m_dealer_position == euchre_seat_position::LEFT || ctx.m_dealer_position == euchre_seat_position::RIGHT) &&
+                        ctx.m_up_card == euchre_card(ctx.m_suit, e_rank::ACE))
                         return s;
                 return 0.0f;
             }
@@ -423,8 +423,8 @@ namespace rda
             {
                 const double s = ctx.m_file_data->get_float_by_path("trump_call/opponent_would_pick_up_king_trump");
                 if (s != 0.0f)
-                    if ((ctx.m_dealer_position == e_seat_position::LEFT || ctx.m_dealer_position == e_seat_position::RIGHT) &&
-                        ctx.m_up_card == card(ctx.m_suit, e_rank::KING))
+                    if ((ctx.m_dealer_position == euchre_seat_position::LEFT || ctx.m_dealer_position == euchre_seat_position::RIGHT) &&
+                        ctx.m_up_card == euchre_card(ctx.m_suit, e_rank::KING))
                         return s;
                 return 0.0f;
             }
@@ -434,8 +434,8 @@ namespace rda
             {
                 const double s = ctx.m_file_data->get_float_by_path("trump_call/opponent_would_pick_up_queen_trump");
                 if (s != 0.0f)
-                    if ((ctx.m_dealer_position == e_seat_position::LEFT || ctx.m_dealer_position == e_seat_position::RIGHT) &&
-                        ctx.m_up_card == card(ctx.m_suit, e_rank::QUEEN))
+                    if ((ctx.m_dealer_position == euchre_seat_position::LEFT || ctx.m_dealer_position == euchre_seat_position::RIGHT) &&
+                        ctx.m_up_card == euchre_card(ctx.m_suit, e_rank::QUEEN))
                         return s;
                 return 0.0f;
             }
@@ -445,8 +445,8 @@ namespace rda
             {
                 const double s = ctx.m_file_data->get_float_by_path("trump_call/opponent_would_pick_up_ten_trump");
                 if (s != 0.0f)
-                    if ((ctx.m_dealer_position == e_seat_position::LEFT || ctx.m_dealer_position == e_seat_position::RIGHT) &&
-                        ctx.m_up_card == card(ctx.m_suit, e_rank::TEN))
+                    if ((ctx.m_dealer_position == euchre_seat_position::LEFT || ctx.m_dealer_position == euchre_seat_position::RIGHT) &&
+                        ctx.m_up_card == euchre_card(ctx.m_suit, e_rank::TEN))
                         return s;
                 return 0.0f;
             }
@@ -456,8 +456,8 @@ namespace rda
             {
                 const double s = ctx.m_file_data->get_float_by_path("trump_call/opponent_would_pick_up_nine_trump");
                 if (s != 0.0f)
-                    if ((ctx.m_dealer_position == e_seat_position::LEFT || ctx.m_dealer_position == e_seat_position::RIGHT) &&
-                        ctx.m_up_card == card(ctx.m_suit, e_rank::NINE))
+                    if ((ctx.m_dealer_position == euchre_seat_position::LEFT || ctx.m_dealer_position == euchre_seat_position::RIGHT) &&
+                        ctx.m_up_card == euchre_card(ctx.m_suit, e_rank::NINE))
                         return s;
                 return 0.0f;
             }
@@ -590,10 +590,10 @@ namespace rda
 
             // score the calling of a trump suit, given the provided game state
             static double score(const e_suit s,
-                                const hand &h,
-                                const card &up_card,
+                                const euchre_hand &h,
+                                const euchre_card&up_card,
                                 const bool up_card_turned_down,
-                                e_seat_position dealer_position,
+                                euchre_seat_position dealer_position,
                                 const perception &left_perception,
                                 const perception &partner_perception,
                                 const perception &right_perception)

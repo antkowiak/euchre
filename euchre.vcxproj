@@ -151,25 +151,30 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\algorithm_rda.h" />
-    <ClInclude Include="src\card.h" />
-    <ClInclude Include="src\deck.h" />
+    <ClInclude Include="src\euchre_card.h" />
+    <ClInclude Include="src\euchre_card_color.h" />
+    <ClInclude Include="src\euchre_card_rank.h" />
+    <ClInclude Include="src\euchre_card_suit.h" />
+    <ClInclude Include="src\euchre_deck.h" />
     <ClInclude Include="src\euchre_game.h" />
     <ClInclude Include="src\fileio.h" />
-    <ClInclude Include="src\hand.h" />
+    <ClInclude Include="src\euchre_hand.h" />
     <ClInclude Include="src\json.h" />
     <ClInclude Include="src\perception.h" />
     <ClInclude Include="src\platform_defs.h" />
     <ClInclude Include="src\platform_defs_posix.h" />
     <ClInclude Include="src\platform_defs_windows.h" />
-    <ClInclude Include="src\player.h" />
-    <ClInclude Include="src\player_computer.h" />
-    <ClInclude Include="src\player_human.h" />
+    <ClInclude Include="src\euchre_player.h" />
+    <ClInclude Include="src\euchre_player_computer.h" />
+    <ClInclude Include="src\euchre_player_human.h" />
     <ClInclude Include="src\random_seeder.h" />
-    <ClInclude Include="src\scoreboard.h" />
+    <ClInclude Include="src\euchre_scoreboard.h" />
     <ClInclude Include="src\score_trump_call.h" />
+    <ClInclude Include="src\euchre_seat_position.h" />
     <ClInclude Include="src\unit_tests\test_euchre.h" />
     <ClInclude Include="src\unit_tests\unit_test_template.h" />
     <ClInclude Include="src\unit_tests\unit_test_utils.h" />
+    <ClInclude Include="src\euchre_utils.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

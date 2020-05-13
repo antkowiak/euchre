@@ -1,7 +1,7 @@
 #pragma once
 
 //
-// hand.h - Hand of cards in a euchre game
+// euchre_hand.h - Hand of cards in a euchre game
 //
 // Written by Ryan Antkowiak (antkowiak@gmail.com)
 //
@@ -9,34 +9,34 @@
 #include <algorithm>
 #include <vector>
 
-#include "card.h"
+#include "euchre_card.h"
 
 namespace rda
 {
     namespace euchre
     {
         // hand of cards in a euchre game
-        class hand
+        class euchre_hand
         {
         private:
             // the cards in the hand
-            std::vector<card> cards;
+            std::vector<euchre_card> cards;
 
         public:
             // add one card to the hand
-            void add_card(const card &c)
+            void add_card(const euchre_card &c)
             {
                 cards.push_back(c);
             }
 
             // add vector of cards to the hand
-            void add_cards(const std::vector<card> &new_cards)
+            void add_cards(const std::vector<euchre_card> &new_cards)
             {
                 cards.insert(cards.end(), new_cards.cbegin(), new_cards.cend());
             }
 
             // remove a card from the hand
-            void remove_card(const card &c)
+            void remove_card(const euchre_card &c)
             {
                 auto unused = std::remove(cards.begin(), cards.end(), c);
                 static_cast<void>(unused);
@@ -49,13 +49,13 @@ namespace rda
             }
 
             // return true if hand contains a card
-            bool contains(const card &c) const
+            bool contains(const euchre_card &c) const
             {
                 return std::find(cards.cbegin(), cards.cend(), c) != cards.cend();
             }
 
             // returns true if hand contains all of given cards
-            bool contains(const std::vector<card> &c) const
+            bool contains(const std::vector<euchre_card> &c) const
             {
                 for (auto &a : c)
                     if (std::find(cards.cbegin(), cards.cend(), a) == cards.cend())
@@ -77,13 +77,13 @@ namespace rda
             }
 
             // const iterator for beginning of cards
-            std::vector<card>::const_iterator cbegin() const
+            std::vector<euchre_card>::const_iterator cbegin() const
             {
                 return cards.cbegin();
             }
 
             // const iterator for end of cards
-            std::vector<card>::const_iterator cend() const
+            std::vector<euchre_card>::const_iterator cend() const
             {
                 return cards.cend();
             }

@@ -42,9 +42,6 @@
     <ClInclude Include="src\unit_tests\test_euchre.h">
       <Filter>Unit Tests</Filter>
     </ClInclude>
-    <ClInclude Include="src\card.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="src\algorithm_rda.h">
       <Filter>Header Files\Library Headers</Filter>
     </ClInclude>
@@ -60,22 +57,7 @@
     <ClInclude Include="src\platform_defs_windows.h">
       <Filter>Header Files\Library Headers</Filter>
     </ClInclude>
-    <ClInclude Include="src\deck.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="src\hand.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="src\random_seeder.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="src\player.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="src\player_human.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="src\player_computer.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="src\perception.h">
@@ -96,7 +78,40 @@
     <ClInclude Include="src\euchre_game.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="src\scoreboard.h">
+    <ClInclude Include="src\euchre_card.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\euchre_deck.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\euchre_hand.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\euchre_scoreboard.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\euchre_player.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\euchre_player_computer.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\euchre_player_human.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\euchre_utils.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\euchre_card_color.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\euchre_card_suit.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\euchre_card_rank.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\euchre_seat_position.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

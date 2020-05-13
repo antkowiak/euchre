@@ -1,23 +1,23 @@
 #pragma once
 
 //
-// player_human.h - Human player in a euchre game
+// euchre_player_human.h - Human player in a euchre game
 //
 // Written by Ryan Antkowiak (antkowiak@gmail.com)
 //
 
-#include "player.h"
+#include "euchre_player.h"
 
 namespace rda
 {
     namespace euchre
     {
         // human player in a euchre game
-        class player_human : public player
+        class euchre_player_human : public euchre_player
         {
         public:
-            player_human(const uint8_t pos)
-                : player(pos)
+            euchre_player_human(const uint8_t pos)
+                : euchre_player(pos)
             {
             }
 

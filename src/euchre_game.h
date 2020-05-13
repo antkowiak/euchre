@@ -12,11 +12,12 @@
 #include <sstream>
 #include <string>
 
-#include "deck.h"
-#include "hand.h"
-#include "player_computer.h"
-#include "player_human.h"
-#include "scoreboard.h"
+#include "euchre_card.h"
+#include "euchre_deck.h"
+#include "euchre_hand.h"
+#include "euchre_player_computer.h"
+#include "euchre_player_human.h"
+#include "euchre_scoreboard.h"
 
 namespace rda
 {
@@ -29,10 +30,10 @@ namespace rda
 			// constructor
 			euchre_game()
 			{
-				players.push_back(std::make_unique<player>(player_human(0)));
-				players.push_back(std::make_unique<player>(player_computer(1)));
-				players.push_back(std::make_unique<player>(player_computer(2)));
-				players.push_back(std::make_unique<player>(player_computer(3)));
+				players.push_back(std::make_unique<euchre_player>(euchre_player_human(0)));
+				players.push_back(std::make_unique<euchre_player>(euchre_player_computer(1)));
+				players.push_back(std::make_unique<euchre_player>(euchre_player_computer(2)));
+				players.push_back(std::make_unique<euchre_player>(euchre_player_computer(3)));
 
 				init_game();
 			}
@@ -40,9 +41,9 @@ namespace rda
 			// initialize the euchre game
 			void init_game()
 			{
-				up_card = card();
+				up_card = euchre_card();
 				trump_suit = e_suit::INVALID;
-				euchre_scoreboard.reset_score();
+				scoreboard.reset_score();
 				
 				for (auto & p : players)
 					p->reset();
@@ -51,9 +52,9 @@ namespace rda
 			// initialize a euchre hand
 			void init_hand()
 			{
-				up_card = card();
+				up_card = euchre_card();
 				trump_suit = e_suit::INVALID;
-				euchre_scoreboard.reset_hand();
+				scoreboard.reset_hand();
 
 				for (auto& p : players)
 					p->reset();
@@ -77,7 +78,7 @@ namespace rda
 			{
 				dealer = determine_dealer();
 
-				while (!euchre_scoreboard.is_over())
+				while (!scoreboard.is_over())
 				{
 					play_hand();
 
@@ -101,8 +102,8 @@ namespace rda
 			// shuffle the deck
 			void shuffle_deck()
 			{
-				euchre_deck.init();
-				euchre_deck.shuffle();
+				deck.init();
+				deck.shuffle();
 			}
 
 			// deal a hand
@@ -114,12 +115,12 @@ namespace rda
 
 				for (auto& a : DEAL_STRATEGY)
 				{
-					euchre_deck.deal(players[deal_pos]->get_hand(), a);
+					deck.deal(players[deal_pos]->get_hand(), a);
 					++deal_pos;
 					deal_pos = deal_pos % 4;
 				}
 
-				up_card = euchre_deck.draw();
+				up_card = deck.draw();
 			}
 
 			// update player perceptions after initial card deal
@@ -132,11 +133,11 @@ namespace rda
 			// determine seat position of the dealer
 			uint8_t determine_dealer() const
 			{
-				static const card JACK_CLUBS(e_suit::CLUBS, e_rank::JACK);
-				static const card JACK_SPADES(e_suit::SPADES, e_rank::JACK);
+				static const euchre_card JACK_CLUBS(e_suit::CLUBS, e_rank::JACK);
+				static const euchre_card JACK_SPADES(e_suit::SPADES, e_rank::JACK);
 
 				// the deck for determining the dealer
-				deck dealer_deck;
+				euchre_deck dealer_deck;
 				dealer_deck.init();
 				dealer_deck.shuffle();
 
@@ -144,7 +145,7 @@ namespace rda
 				uint8_t position = 0;
 				while (!dealer_deck.empty())
 				{
-					hand h;
+					euchre_hand h;
 					dealer_deck.deal(h, 1);
 
 					// if a black jack was found, this position is dealer
@@ -162,7 +163,7 @@ namespace rda
 		private:
 
 			// the card that is turned up for trump calling
-			card up_card;
+			euchre_card up_card;
 
 			// the trump suit
 			e_suit trump_suit = e_suit::INVALID;
@@ -171,13 +172,13 @@ namespace rda
 			uint8_t dealer = 0;
 
 			// the deck of cards
-			deck euchre_deck;
+			euchre_deck deck;
 
 			// the scoreboard
-			scoreboard euchre_scoreboard;
+			euchre_scoreboard scoreboard;
 
 			// vector of the 4 players
-			std::vector<std::unique_ptr<player> > players;
+			std::vector<std::unique_ptr<euchre_player> > players;
 
 		}; // class euchre_game
 

@@ -18,13 +18,13 @@
 #include "../fileio.h"
 #include "../json.h"
 
-#include "../card.h"
-#include "../deck.h"
-#include "../hand.h"
+#include "../euchre_card.h"
+#include "../euchre_deck.h"
+#include "../euchre_hand.h"
 #include "../perception.h"
-#include "../player.h"
-#include "../player_computer.h"
-#include "../player_human.h"
+#include "../euchre_player.h"
+#include "../euchre_player_computer.h"
+#include "../euchre_player_human.h"
 #include "../random_seeder.h"
 #include "../score_trump_call.h"
 
@@ -59,7 +59,7 @@ namespace rda
 
         static void test_000(const size_t testNum, TestInput &input)
         {
-            rda::euchre::deck d;
+            rda::euchre::euchre_deck d;
             std::cout << d.to_string();
         }
 
@@ -128,9 +128,9 @@ namespace rda
         {
             using namespace rda::euchre;
 
-            hand h;
-            card up_card;
-            e_seat_position dealer_pos = e_seat_position::LEFT;
+            euchre_hand h;
+            euchre_card up_card;
+            euchre_seat_position dealer_pos = euchre_seat_position::LEFT;
             perception left_per;
             perception partner_per;
             perception right_per;

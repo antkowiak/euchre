@@ -1,7 +1,7 @@
 #pragma once
 
 //
-// scoreboard.h - The euchre game scoreboard
+// euchre_scoreboard.h - The euchre game scoreboard
 //
 // Written by Ryan Antkowiak (antkowiak@gmail.com)
 //
@@ -12,7 +12,7 @@ namespace rda
 {
 	namespace euchre
 	{
-		class scoreboard
+		class euchre_scoreboard
 		{
 		public:
 			uint8_t team1_score = 0;

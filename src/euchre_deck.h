@@ -1,7 +1,7 @@
 #pragma once
 
 //
-// deck.h - Euchre deck of cards
+// euchre_deck.h - Euchre deck of cards
 //
 // Written by Ryan Antkowiak (antkowiak@gmail.com)
 //
@@ -13,8 +13,8 @@
 #include <string>
 #include <vector>
 
-#include "card.h"
-#include "hand.h"
+#include "euchre_card.h"
+#include "euchre_hand.h"
 #include "random_seeder.h"
 
 namespace rda
@@ -22,18 +22,18 @@ namespace rda
     namespace euchre
     {
         // euchre deck of cards
-        class deck
+        class euchre_deck
         {
         private:
             // cards in the deck
-            std::vector<rda::euchre::card> cards;
+            std::vector<euchre_card> cards;
 
             // discarded cards
-            std::vector<rda::euchre::card> discard_pile;
+            std::vector<euchre_card> discard_pile;
 
         public:
             // default constructor
-            deck()
+            euchre_deck()
             {
             }
 
@@ -45,7 +45,7 @@ namespace rda
 
                 for (auto s = rda::euchre::e_suit::BEGIN; s != e_suit::END; ++s)
                     for (auto r = e_rank::BEGIN; r != e_rank::END; ++r)
-                        cards.push_back(card(s, r));
+                        cards.push_back(euchre_card(s, r));
             }
 
             // shuffle the deck
@@ -56,19 +56,19 @@ namespace rda
             }
 
             // deal n cards out of the deck and into hand
-            void deal(hand &hand, const size_t n)
+            void deal(euchre_hand &hand, const size_t n)
             {
                 if (n <= cards.size())
                 {
-                    hand.add_cards(std::vector<card>(cards.cbegin(), cards.cbegin() + n));
+                    hand.add_cards(std::vector<euchre_card>(cards.cbegin(), cards.cbegin() + n));
                     cards.erase(cards.begin(), cards.begin() + n);
                 }
             }
 
             // draw one card from top of the deck
-            card draw()
+            euchre_card draw()
             {
-                card c;
+                euchre_card c;
 
                 if (!cards.empty())
                 {
@@ -80,7 +80,7 @@ namespace rda
             }
 
             // put cards into the discard pile
-            void discard(const std::vector<card> &d)
+            void discard(const std::vector<euchre_card> &d)
             {
                 std::copy(d.cbegin(), d.cend(), discard_pile.end());
             }

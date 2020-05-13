@@ -9,34 +9,26 @@
 #include <cstdint>
 #include <vector>
 
-#include "card.h"
+#include "euchre_card.h"
+#include "euchre_seat_position.h"
+#include "euchre_utils.h"
 
 namespace rda
 {
     namespace euchre
     {
-        // seat position in relation to the player
-        enum class e_seat_position : uint8_t
-        {
-            SELF = 0,
-            LEFT = 1,
-            ACROSS = 2,
-            RIGHT = 3,
-            INVALID = 4
-        }; // enum e_seat_position
-
         // the perception of another player in a euchre game
         class perception
         {
         public:
             // where this player is sitting, in relation
-            e_seat_position seat_position = e_seat_position::INVALID;
+            euchre_seat_position seat_position = euchre_seat_position::INVALID;
 
             // where the dealer is sitting, in relation
-            e_seat_position dealer_position = e_seat_position::INVALID;
+            euchre_seat_position dealer_position = euchre_seat_position::INVALID;
 
             // the "up card"
-            card up_card;
+            euchre_card up_card;
 
             // true if this player ordered up the card for trump
             bool ordered_up = false;
@@ -51,20 +43,20 @@ namespace rda
             bool passed_on_calling_trump = false;
 
             // cards that this player has played
-            std::vector<card> cards_played;
+            std::vector<euchre_card> cards_played;
 
             // cards that are known to be in this player's hand
-            std::vector<card> cards_in_hand;
+            std::vector<euchre_card> cards_in_hand;
 
             // cards that are known to NOT be in this player's hand
-            std::vector<card> cards_not_in_hand;
+            std::vector<euchre_card> cards_not_in_hand;
 
             // reset the perception
             void reset()
             {
-                seat_position = e_seat_position::INVALID;
-                dealer_position = e_seat_position::INVALID;
-                up_card = card();
+                seat_position = euchre_seat_position::INVALID;
+                dealer_position = euchre_seat_position::INVALID;
+                up_card = euchre_card();
                 ordered_up = false;
                 passed_on_ordering_up = false;
                 called_trump = false;
@@ -73,6 +65,17 @@ namespace rda
                 cards_played.clear();
                 cards_in_hand.clear();
                 cards_not_in_hand.clear();
+            }
+
+            // update after deal
+            void update_after_deal(const uint8_t dealer, const euchre_card& up_card_)
+            {
+                up_card = up_card_;
+                //dealer_position = dealer;
+                // TODO
+
+
+
             }
 
         }; // class perception
