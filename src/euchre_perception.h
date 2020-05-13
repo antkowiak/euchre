@@ -21,10 +21,12 @@ namespace rda
         class euchre_perception
         {
         public:
-            // where this player is sitting, in relation
-            euchre_seat_position seat_position = euchre_seat_position::INVALID;
+
+            // the seat index where this player is sitting
+            const uint8_t seat_index;
 
             // where the dealer is sitting, in relation
+            uint8_t dealer_index = 4;
             euchre_seat_position dealer_position = euchre_seat_position::INVALID;
 
             // the "up card"
@@ -51,10 +53,18 @@ namespace rda
             // cards that are known to NOT be in this player's hand
             std::vector<euchre_card> cards_not_in_hand;
 
+        public:
+
+            // constructor
+            euchre_perception(const uint8_t index)
+                : seat_index(index)
+            {
+            }
+
             // reset the perception
             void reset()
             {
-                seat_position = euchre_seat_position::INVALID;
+                dealer_index = 4;
                 dealer_position = euchre_seat_position::INVALID;
                 up_card = euchre_card();
                 ordered_up = false;
@@ -68,11 +78,11 @@ namespace rda
             }
 
             // update after deal
-            void update_after_deal(const uint8_t dealer, const euchre_card &up_card_)
+            void update_after_deal(const uint8_t dealer_index_, const euchre_card &up_card_)
             {
                 up_card = up_card_;
-                //dealer_position = dealer;
-                // TODO
+                dealer_index = dealer_index_;
+                dealer_position = euchre_utils::relative_seat_position(seat_index, dealer_index);
             }
 
         }; // class perception

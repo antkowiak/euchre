@@ -23,7 +23,6 @@ namespace rda
         {
         protected:
             const uint8_t m_seat_index;
-            const euchre_seat_position m_seat_position = euchre_seat_position::SELF;
 
             uint8_t m_dealer_index = 4;
             euchre_seat_position m_dealer_position = euchre_seat_position::INVALID;
@@ -36,12 +35,12 @@ namespace rda
             euchre_perception m_right_perception;
 
         public:
-            euchre_player(const uint8_t index)
-                : m_seat_index(index)
+            euchre_player(const uint8_t seat_index)
+                : m_seat_index(seat_index),
+                m_left_perception((seat_index + 1) % 4),
+                m_partner_perception((seat_index + 2) % 4),
+                m_right_perception((seat_index + 3) % 4)
             {
-                m_left_perception.seat_position = euchre_seat_position::LEFT;
-                m_partner_perception.seat_position = euchre_seat_position::ACROSS;
-                m_right_perception.seat_position = euchre_seat_position::RIGHT;
             }
 
             virtual ~euchre_player() = default;
@@ -77,9 +76,13 @@ namespace rda
                 m_up_card = up_card;
 
                 // set the dealer's position in relation to ourself
+                m_dealer_index = dealer_index;
                 m_dealer_position = euchre_utils::relative_seat_position(m_seat_index, dealer_index);
 
                 m_left_perception.update_after_deal(dealer_index, up_card);
+                m_partner_perception.update_after_deal(dealer_index, up_card);
+                m_right_perception.update_after_deal(dealer_index, up_card);
+
 
                 //m_left_perception.up_card = up_card;
                 //m_partner_perception.up_card = up_card;

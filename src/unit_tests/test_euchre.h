@@ -131,9 +131,9 @@ namespace rda
             euchre_hand h;
             euchre_card up_card;
             euchre_seat_position dealer_pos = euchre_seat_position::LEFT;
-            euchre_perception left_per;
-            euchre_perception partner_per;
-            euchre_perception right_per;
+            euchre_perception left_per(1);
+            euchre_perception partner_per(2);
+            euchre_perception right_per(3);
 
             double score = score_trump_call::score(e_suit::SPADES, h, up_card, false, dealer_pos, left_per, partner_per, right_per);
             static_cast<void>(score); // unused

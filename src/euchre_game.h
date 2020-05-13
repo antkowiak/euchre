@@ -6,6 +6,7 @@
 // Written by Ryan Antkowiak (antkowiak@gmail.com)
 //
 
+#include <algorithm>
 #include <cstdint>
 #include <iostream>
 #include <memory>
@@ -44,8 +45,8 @@ namespace rda
                 trump_suit = e_suit::INVALID;
                 scoreboard.reset_score();
 
-                for (auto &p : players)
-                    p->reset();
+                for (auto& player : players)
+                    player->reset();
             }
 
             // initialize a euchre hand
@@ -55,8 +56,8 @@ namespace rda
                 trump_suit = e_suit::INVALID;
                 scoreboard.reset_hand();
 
-                for (auto &p : players)
-                    p->reset();
+                for (auto &player : players)
+                    player->reset();
             }
 
             // return string representation of this euchre game
@@ -65,7 +66,7 @@ namespace rda
                 std::stringstream ss;
 
                 for (size_t i = 0; i < 4; ++i)
-                    ss << "player[" << i << "]:" << std::endl
+                    ss << "players[" << i << "]:" << std::endl
                        << players[i]->to_string();
 
                 ss << "up card: " << up_card.to_string() << std::endl;
@@ -126,8 +127,8 @@ namespace rda
             // update player perceptions after initial card deal
             void update_perceptions_after_deal()
             {
-                for (size_t i = 0; i < 4; ++i)
-                    players[i]->update_perceptions_after_deal(dealer, up_card);
+                for (auto& player : players)
+                    player->update_perceptions_after_deal(dealer, up_card);
             }
 
             // determine seat position of the dealer

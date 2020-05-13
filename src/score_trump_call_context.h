@@ -28,6 +28,7 @@ namespace rda
         class score_trump_call_context
         {
         public:
+            // input values
             const e_suit m_suit;
             const euchre_hand m_hand;
             const euchre_card m_up_card;
@@ -37,11 +38,13 @@ namespace rda
             const euchre_perception m_partner_perception;
             const euchre_perception m_right_perception;
 
+            // calculated values
             const uint8_t m_num_suits;
             const uint8_t m_num_non_trump_winners;
             const uint8_t m_num_opponents_passed_on_up_card;
 
         public:
+            // constructor
             score_trump_call_context(const e_suit suit,
                                      const euchre_hand &hand,
                                      const euchre_card &up_card,

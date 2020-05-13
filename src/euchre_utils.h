@@ -18,15 +18,15 @@ namespace rda
         namespace euchre_utils
         {
             // calculate where "other_pos" is sitting, relative to "pos"
-            static euchre_seat_position relative_seat_position(const uint8_t pos, const uint8_t other_pos)
+            static euchre_seat_position relative_seat_position(const uint8_t index, const uint8_t other_index)
             {
-                if (other_pos == pos)
+                if (other_index == index)
                     return euchre_seat_position::SELF;
-                else if ((pos + 1) % 4 == pos)
+                else if ((index + 1) % 4 == other_index)
                     return euchre_seat_position::LEFT;
-                else if ((pos + 2) % 4 == pos)
+                else if ((index + 2) % 4 == other_index)
                     return euchre_seat_position::ACROSS;
-                else if ((pos + 3) % 4 == pos)
+                else if ((index + 3) % 4 == other_index)
                     return euchre_seat_position::RIGHT;
 
                 return euchre_seat_position::INVALID;
