@@ -120,5 +120,8 @@
     <ClInclude Include="src\euchre_trump_decision.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="src\euchre_constants.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>

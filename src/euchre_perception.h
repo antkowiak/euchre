@@ -10,6 +10,7 @@
 #include <vector>
 
 #include "euchre_card.h"
+#include "euchre_constants.h"
 #include "euchre_seat_position.h"
 #include "euchre_trump_decision.h"
 #include "euchre_utils.h"
@@ -26,7 +27,7 @@ namespace rda
             const uint8_t seat_index;
 
             // where the dealer is sitting, in relation
-            uint8_t dealer_index = 4;
+            uint8_t dealer_index = euchre_constants::INVALID_INDEX;
             euchre_seat_position dealer_position = euchre_seat_position::INVALID;
 
             // the "up card"
@@ -57,7 +58,7 @@ namespace rda
             // reset the perception
             void reset()
             {
-                dealer_index = 4;
+                dealer_index = euchre_constants::INVALID_INDEX;
                 dealer_position = euchre_seat_position::INVALID;
                 up_card = euchre_card();
                 up_card_offer_decision = e_trump_decision::INVALID;

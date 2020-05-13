@@ -19,7 +19,7 @@ int main()
     rda::test_euchre::run_tests();
 
     rda::euchre::euchre_game game;
-    game.play();
+    game.play_game();
 
     return 0;
 }

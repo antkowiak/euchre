@@ -14,6 +14,7 @@
 #include <string>
 
 #include "euchre_card.h"
+#include "euchre_constants.h"
 #include "euchre_deck.h"
 #include "euchre_hand.h"
 #include "euchre_player_computer.h"
@@ -38,10 +39,10 @@ namespace rda
             bool loner = false;
 
             // index of the player who called trump
-            uint8_t trump_caller_index = 4;
+            uint8_t trump_caller_index = euchre_constants::INVALID_INDEX;
 
             // the dealer position
-            uint8_t dealer_index = 4;
+            uint8_t dealer_index = euchre_constants::INVALID_INDEX;
 
             // the deck of cards
             euchre_deck deck;
@@ -49,7 +50,7 @@ namespace rda
             // the scoreboard
             euchre_scoreboard scoreboard;
 
-            // vector of the 4 players
+            // vector of the players
             std::vector<std::unique_ptr<euchre_player>> players;
 
         public:
@@ -70,7 +71,7 @@ namespace rda
                 up_card = euchre_card();
                 suit_called_trump = e_suit::INVALID;
                 loner = false;
-                trump_caller_index = 4;
+                trump_caller_index = euchre_constants::INVALID_INDEX;
 
                 scoreboard.reset_score();
 
@@ -84,7 +85,7 @@ namespace rda
                 up_card = euchre_card();
                 suit_called_trump = e_suit::INVALID;
                 loner = false;
-                trump_caller_index = 4;
+                trump_caller_index = euchre_constants::INVALID_INDEX;
 
                 scoreboard.reset_hand();
 
@@ -97,9 +98,8 @@ namespace rda
             {
                 std::stringstream ss;
 
-                for (size_t i = 0; i < 4; ++i)
-                    ss << "players[" << i << "]:" << std::endl
-                       << players[i]->to_string();
+                for (auto& player : players)
+                    ss << "player: " << std::endl << player->to_string() << std::endl;
 
                 ss << "up card: " << up_card.to_string() << std::endl;
 
@@ -107,7 +107,7 @@ namespace rda
             }
 
             // play the euchre game
-            void play()
+            void play_game()
             {
                 dealer_index = determine_dealer();
 
@@ -116,7 +116,7 @@ namespace rda
                     play_hand();
 
                     ++dealer_index;
-                    dealer_index = dealer_index % 4;
+                    dealer_index = dealer_index % euchre_constants::NUM_PLAYERS;
                 }
             }
 
@@ -137,9 +137,9 @@ namespace rda
                     if (euchre_utils::is_black_jack(dealer_deck.draw()))
                         return position;
 
-                    // cycle the position among 4 seats
+                    // cycle the position among player seats
                     ++position;
-                    position = position % 4;
+                    position = position % euchre_constants::NUM_PLAYERS;
                 }
 
                 return 0;
@@ -170,13 +170,13 @@ namespace rda
             {
                 const static std::vector<uint8_t> DEAL_STRATEGY = {3, 2, 3, 2, 2, 3, 2, 3};
 
-                uint8_t deal_pos = (dealer_index + 1) % 4;
+                uint8_t deal_pos = (dealer_index + 1) % euchre_constants::NUM_PLAYERS;
 
                 for (auto &a : DEAL_STRATEGY)
                 {
                     deck.deal(players[deal_pos]->get_hand(), a);
                     ++deal_pos;
-                    deal_pos = deal_pos % 4;
+                    deal_pos = deal_pos % euchre_constants::NUM_PLAYERS;
                 }
 
                 up_card = deck.draw();
@@ -194,9 +194,9 @@ namespace rda
             // let players choose if they want the up-card to be trump
             void offer_up_card_trump_to_players()
             {
-                for (uint8_t index = 0; index < 4; ++index)
+                for (uint8_t index = 0; index < euchre_constants::NUM_PLAYERS; ++index)
                 {
-                    const uint8_t offer_index = (dealer_index + 1 + index) % 4;
+                    const uint8_t offer_index = (dealer_index + 1 + index) % euchre_constants::NUM_PLAYERS;
                     const e_trump_decision decision = players[offer_index]->offer_up_card_trump(up_card);
 
                     update_perceptions_after_up_card_offer(offer_index, decision);
@@ -222,9 +222,9 @@ namespace rda
             {
                 if (suit_called_trump == e_suit::INVALID)
                 {
-                    for (uint8_t index = 0; index < 4; ++index)
+                    for (uint8_t index = 0; index < euchre_constants::NUM_PLAYERS; ++index)
                     {
-                        const uint8_t offer_index = (dealer_index + 1 + index) % 4;
+                        const uint8_t offer_index = (dealer_index + 1 + index) % euchre_constants::NUM_PLAYERS;
                         const e_trump_decision decision = players[offer_index]->offer_trump();
 
                         update_perceptions_after_trump_offer(offer_index, decision);

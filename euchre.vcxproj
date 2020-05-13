@@ -155,6 +155,7 @@
     <ClInclude Include="src\euchre_card_color.h" />
     <ClInclude Include="src\euchre_card_rank.h" />
     <ClInclude Include="src\euchre_card_suit.h" />
+    <ClInclude Include="src\euchre_constants.h" />
     <ClInclude Include="src\euchre_deck.h" />
     <ClInclude Include="src\euchre_game.h" />
     <ClInclude Include="src\euchre_trump_decision.h" />

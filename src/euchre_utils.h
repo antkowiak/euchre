@@ -9,6 +9,7 @@
 #include <cstdint>
 
 #include "euchre_card.h"
+#include "euchre_constants.h"
 #include "euchre_perception.h"
 
 namespace rda
@@ -22,11 +23,11 @@ namespace rda
             {
                 if (other_index == index)
                     return euchre_seat_position::SELF;
-                else if ((index + 1) % 4 == other_index)
+                else if ((index + 1) % euchre_constants::NUM_PLAYERS == other_index)
                     return euchre_seat_position::LEFT;
-                else if ((index + 2) % 4 == other_index)
+                else if ((index + 2) % euchre_constants::NUM_PLAYERS == other_index)
                     return euchre_seat_position::ACROSS;
-                else if ((index + 3) % 4 == other_index)
+                else if ((index + 3) % euchre_constants::NUM_PLAYERS == other_index)
                     return euchre_seat_position::RIGHT;
 
                 return euchre_seat_position::INVALID;

@@ -10,6 +10,7 @@
 #include <string>
 
 #include "euchre_card.h"
+#include "euchre_constants.h"
 #include "euchre_hand.h"
 #include "euchre_perception.h"
 #include "euchre_trump_decision.h"
@@ -29,7 +30,7 @@ namespace rda
             const uint8_t m_seat_index;
 
             // index 0-3 where the dealer is sitting
-            uint8_t m_dealer_index = 4;
+            uint8_t m_dealer_index = euchre_constants::INVALID_INDEX;
 
             // where the dealer sits, relative to this player
             euchre_seat_position m_dealer_position = euchre_seat_position::INVALID;
@@ -56,9 +57,9 @@ namespace rda
             // constructor
             euchre_player(const uint8_t seat_index)
                 : m_seat_index(seat_index),
-                  m_left_perception((seat_index + 1) % 4),
-                  m_partner_perception((seat_index + 2) % 4),
-                  m_right_perception((seat_index + 3) % 4)
+                  m_left_perception((seat_index + 1) % euchre_constants::NUM_PLAYERS),
+                  m_partner_perception((seat_index + 2) % euchre_constants::NUM_PLAYERS),
+                  m_right_perception((seat_index + 3) % euchre_constants::NUM_PLAYERS)
             {
             }
 
@@ -68,7 +69,7 @@ namespace rda
             // reset the player
             virtual void reset()
             {
-                m_dealer_index = 4;
+                m_dealer_index = euchre_constants::INVALID_INDEX;
                 m_dealer_position = euchre_seat_position::INVALID;
 
                 m_up_card = euchre_card();
