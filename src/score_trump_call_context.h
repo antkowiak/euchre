@@ -82,21 +82,25 @@ namespace rda
                 return get_json_file_data()->get_float_by_path(score_key);
             }
 
+            // set the score of this context
             void set_total_score(const double total_score)
             {
                 m_total_score = total_score;
             }
 
+            // return the score of this context
             double get_total_score() const
             {
                 return m_total_score;
             }
 
+            // return the score required to call trump
             double get_trump_call_threshold() const
             {
                 return m_trump_call_threshold;
             }
 
+            // return the score required to call a loner
             double get_loner_call_threshold() const
             {
                 return m_loner_call_threshhold;

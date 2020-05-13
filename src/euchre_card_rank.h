@@ -24,7 +24,7 @@ namespace rda
             ACE = 14,
             INVALID = 15,
             END = 15
-        }; // enum rank
+        }; // enum e_rank
 
         // operator for iterating over card ranks
         static e_rank operator++(e_rank &rhs)
@@ -54,7 +54,7 @@ namespace rda
             return rhs;
         }
 
-        // convert a suit to a string
+        // convert a rank to a string
         static std::string to_string(const e_rank &r)
         {
             switch (r)

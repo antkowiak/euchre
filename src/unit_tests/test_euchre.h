@@ -65,80 +65,10 @@ namespace rda
 
         static void test_001(const size_t testNum, TestInput &input)
         {
-            auto j = rda::json::node_object{"", std::vector<std::shared_ptr<rda::json::node>>()};
-
-            auto trump_call = std::make_shared<rda::json::node_object>(rda::json::node_object("trump_call", std::vector<std::shared_ptr<rda::json::node>>()));
-            trump_call->add_child(std::make_shared<rda::json::node_float>("trump_call_threshold", 14.0));
-
-            trump_call->add_child(std::make_shared<rda::json::node_float>("have_right_bower_trump", 8.0));
-            trump_call->add_child(std::make_shared<rda::json::node_float>("have_left_bower_trump", 6.0));
-            trump_call->add_child(std::make_shared<rda::json::node_float>("have_ace_trump", 5.0));
-            trump_call->add_child(std::make_shared<rda::json::node_float>("have_king_trump", 4.0));
-            trump_call->add_child(std::make_shared<rda::json::node_float>("have_queen_trump", 3.0));
-            trump_call->add_child(std::make_shared<rda::json::node_float>("have_ten_trump", 2.0));
-            trump_call->add_child(std::make_shared<rda::json::node_float>("have_nine_trump", 1.0));
-
-            trump_call->add_child(std::make_shared<rda::json::node_float>("would_pick_up_right_bower_trump", 8.0));
-            trump_call->add_child(std::make_shared<rda::json::node_float>("would_pick_up_ace_trump", 5.0));
-            trump_call->add_child(std::make_shared<rda::json::node_float>("would_pick_up_king_trump", 4.0));
-            trump_call->add_child(std::make_shared<rda::json::node_float>("would_pick_up_queen_trump", 3.0));
-            trump_call->add_child(std::make_shared<rda::json::node_float>("would_pick_up_ten_trump", 2.0));
-            trump_call->add_child(std::make_shared<rda::json::node_float>("would_pick_up_nine_trump", 1.0));
-
-            trump_call->add_child(std::make_shared<rda::json::node_float>("partner_would_pick_up_right_bower_trump", 6.0));
-            trump_call->add_child(std::make_shared<rda::json::node_float>("partner_would_pick_up_ace_trump", 4.0));
-            trump_call->add_child(std::make_shared<rda::json::node_float>("partner_would_pick_up_king_trump", 3.0));
-            trump_call->add_child(std::make_shared<rda::json::node_float>("partner_would_pick_up_queen_trump", 2.0));
-            trump_call->add_child(std::make_shared<rda::json::node_float>("partner_would_pick_up_ten_trump", 1.0));
-            trump_call->add_child(std::make_shared<rda::json::node_float>("partner_would_pick_up_nine_trump", 0.5));
-
-            trump_call->add_child(std::make_shared<rda::json::node_float>("would_pick_up_right_bower_trump", -8.0));
-            trump_call->add_child(std::make_shared<rda::json::node_float>("would_pick_up_ace_trump", -6.0));
-            trump_call->add_child(std::make_shared<rda::json::node_float>("would_pick_up_king_trump", -5.0));
-            trump_call->add_child(std::make_shared<rda::json::node_float>("would_pick_up_queen_trump", -4.0));
-            trump_call->add_child(std::make_shared<rda::json::node_float>("would_pick_up_ten_trump", -3.0));
-            trump_call->add_child(std::make_shared<rda::json::node_float>("would_pick_up_nine_trump", -2.0));
-
-            trump_call->add_child(std::make_shared<rda::json::node_float>("have_one_suited", 20.0));
-            trump_call->add_child(std::make_shared<rda::json::node_float>("have_two_suited", 5.0));
-            trump_call->add_child(std::make_shared<rda::json::node_float>("have_three_suited", 1.0));
-            trump_call->add_child(std::make_shared<rda::json::node_float>("have_four_suited", -2.0));
-
-            trump_call->add_child(std::make_shared<rda::json::node_float>("have_four_non_trump_winners", 5.0));
-            trump_call->add_child(std::make_shared<rda::json::node_float>("have_three_non_trump_winners", 5.0));
-            trump_call->add_child(std::make_shared<rda::json::node_float>("have_two_non_trump_winners", 4.0));
-            trump_call->add_child(std::make_shared<rda::json::node_float>("have_one_non_trump_winners", 2.0));
-
-            trump_call->add_child(std::make_shared<rda::json::node_float>("partner_passed_on_up_card", -2.0));
-
-            trump_call->add_child(std::make_shared<rda::json::node_float>("one_opponent_passed_on_up_card", 1.0));
-            trump_call->add_child(std::make_shared<rda::json::node_float>("two_opponents_passed_on_up_card", 2.0));
-
-            j.add_child(trump_call);
-
-            std::cout << j.to_pretty_string() << std::endl;
-
-            rda::fileio f("euchre.json");
-            f.set(j.to_pretty_string());
-            f.append("\n\n");
-            //f.write();
         }
 
         static void test_002(const size_t testNum, TestInput &input)
         {
-            /*
-            using namespace rda::euchre;
-
-            euchre_hand h;
-            euchre_card up_card;
-            euchre_seat_position dealer_pos = euchre_seat_position::LEFT;
-            euchre_perception left_per(1);
-            euchre_perception partner_per(2);
-            euchre_perception right_per(3);
-
-            //double score = score_trump_call::score(e_suit::SPADES, h, up_card, false, dealer_pos, left_per, partner_per, right_per);
-            //static_cast<void>(score); // unused
-            */
         }
 
         static void test_003(const size_t testNum, TestInput &input)

@@ -12,10 +12,14 @@
 #include <string>
 #include <vector>
 
+#include "euchre_algo_discarder.h"
 #include "euchre_card.h"
+#include "euchre_card_rank.h"
+#include "euchre_card_suit.h"
 #include "euchre_constants.h"
 #include "euchre_hand.h"
 #include "euchre_perception.h"
+#include "euchre_seat_position.h"
 #include "euchre_trump_decision.h"
 #include "euchre_utils.h"
 #include "random_seeder.h"
@@ -117,6 +121,7 @@ namespace rda
             // handle an offer of making the up_card trump
             e_trump_decision offer_up_card_trump(const euchre_card &up_card)
             {
+                // score the situation
                 const score_trump_call_context ctx = score_trump_call::score(up_card.suit(),
                                                                              m_hand,
                                                                              up_card,
@@ -126,12 +131,15 @@ namespace rda
                                                                              m_partner_perception,
                                                                              m_right_perception);
 
+                // check if should order up for a loner
                 if (ctx.get_total_score() >= ctx.get_loner_call_threshold())
                     return e_trump_decision::ORDER_UP_LONER;
 
+                // check if should order up
                 if (ctx.get_total_score() >= ctx.get_trump_call_threshold())
                     return e_trump_decision::ORDER_UP;
 
+                // not a good hand, pass
                 return e_trump_decision::PASS;
             }
 
@@ -144,6 +152,13 @@ namespace rda
                 m_left_perception.update_after_up_card_offer(seat_index, decision);
                 m_partner_perception.update_after_up_card_offer(seat_index, decision);
                 m_right_perception.update_after_up_card_offer(seat_index, decision);
+            }
+
+            // pick up the up-card into the player's hand
+            void pick_up_card(const euchre_card &card)
+            {
+                m_hand.add_card(card);
+                euchre_algo::discarder(m_hand, card, card.suit());
             }
 
             // handle an offer of calling any trump suit
@@ -223,7 +238,8 @@ namespace rda
                 m_right_perception.update_after_trump_offer(seat_index, decision);
             }
 
-        }; // class player
+        }; // class euchre_player
 
     } // namespace euchre
+
 } // namespace rda

@@ -75,6 +75,9 @@ namespace rda
                 up_card = up_card_;
                 dealer_index = dealer_index_;
                 dealer_position = euchre_utils::relative_seat_position(seat_index, dealer_index);
+
+                if (dealer_position != euchre_seat_position::SELF)
+                    cards_not_in_hand.push_back(up_card);
             }
 
             // update after up card offer
@@ -82,6 +85,16 @@ namespace rda
             {
                 if (offer_index == seat_index)
                     up_card_offer_decision = decision;
+
+                // if this is the perception of the dealer
+                if (dealer_position == euchre_seat_position::SELF)
+                {
+                    // the up-card will *probably* either be in the hand, or not
+                    if (is_ordering_up(decision))
+                        cards_in_hand.push_back(up_card);
+                    else
+                        cards_not_in_hand.push_back(up_card);
+                }
             }
 
             // update after trump offer
@@ -91,7 +104,7 @@ namespace rda
                     call_trump_offer_decision = decision;
             }
 
-        }; // class perception
+        }; // class euchre_perception
 
     } // namespace euchre
 

@@ -20,6 +20,7 @@ namespace rda
             ACROSS = 2,
             RIGHT = 3,
             INVALID = 4
+
         }; // enum e_seat_position
 
     } // namespace euchre

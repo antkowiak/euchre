@@ -19,6 +19,7 @@ namespace rda
 {
     namespace euchre
     {
+        // the decision made about calling trump
         enum class e_trump_decision : uint8_t
         {
             PASS = 0,

@@ -20,7 +20,7 @@ namespace rda
             RED = 1,
             INVALID = 2,
             END = 2
-        }; // enum color
+        }; // enum e_color
 
     } // namespace euchre
 

@@ -121,7 +121,9 @@ namespace rda
 
                 return ss.str();
             }
-        };
+
+        }; // class euchre_deck
 
     } // namespace euchre
+
 } // namespace rda

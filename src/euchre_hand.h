@@ -7,6 +7,7 @@
 //
 
 #include <algorithm>
+#include <string>
 #include <vector>
 
 #include "euchre_card.h"
@@ -38,8 +39,13 @@ namespace rda
             // remove a card from the hand
             void remove_card(const euchre_card &c)
             {
-                auto unused = std::remove(cards.begin(), cards.end(), c);
-                static_cast<void>(unused);
+                cards.erase(std::remove(cards.begin(), cards.end(), c));
+            }
+
+            // set the cards of the hand
+            void set_cards(const std::vector<euchre_card> &c)
+            {
+                cards = c;
             }
 
             // clear all cards from the hand
@@ -101,7 +107,8 @@ namespace rda
                 return ss.str();
             }
 
-        }; // class hand
+        }; // class euchre_hand
 
     } // namespace euchre
+
 } // namespace rda

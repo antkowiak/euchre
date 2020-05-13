@@ -6,6 +6,8 @@
 // Written by Ryan Antkowiak (antkowiak@gmail.com)
 //
 
+#include <cstdint>
+
 #include "euchre_player.h"
 
 namespace rda
@@ -21,7 +23,8 @@ namespace rda
             {
             }
 
-        }; // class player_human
+        }; // class euchre_player_human
 
     } // namespace euchre
+
 } // namespace rda

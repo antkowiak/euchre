@@ -26,6 +26,7 @@ namespace rda
 {
     namespace euchre
     {
+        // the euchre game
         class euchre_game
         {
         private:
@@ -209,6 +210,9 @@ namespace rda
                         suit_called_trump = up_card.suit();
                     }
                 }
+
+                if (suit_called_trump != e_suit::INVALID)
+                    players[dealer_index]->pick_up_card(up_card);
             }
 
             // update player perceptions after a player was offered to order up trump

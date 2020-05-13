@@ -15,12 +15,12 @@ namespace rda
 {
     namespace euchre
     {
-        // returns static (singleton) instance of a random generator
+        // seed the random number generator (once)
         static void seed_randomizer()
         {
             static bool seeded = false;
 
-            // seed the random engine once
+            // only seed the random engine once
             if (!seeded)
             {
                 std::srand(static_cast<unsigned int>(std::chrono::system_clock::now().time_since_epoch().count()));
@@ -29,4 +29,5 @@ namespace rda
         }
 
     } // namespace euchre
+
 } // namespace rda

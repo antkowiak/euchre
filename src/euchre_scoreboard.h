@@ -12,12 +12,15 @@ namespace rda
 {
     namespace euchre
     {
+        // the euchre game scoreboard
         class euchre_scoreboard
         {
         public:
+            // team scores for current game
             uint8_t team1_score = 0;
             uint8_t team2_score = 0;
 
+            // number of tricks won for current game
             uint8_t team1_tricks = 0;
             uint8_t team2_tricks = 0;
 
@@ -44,7 +47,7 @@ namespace rda
                 return team1_score >= 10 || team2_score >= 10;
             }
 
-        }; // class scoreboard
+        }; // class euchre_scoreboard
 
     } // namespace euchre
 

@@ -80,7 +80,7 @@ namespace rda
             // the card rank
             e_rank m_rank;
 
-        }; // class card
+        }; // class euchre_card
 
     } // namespace euchre
 

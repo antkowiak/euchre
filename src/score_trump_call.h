@@ -6,6 +6,7 @@
 // Written by Ryan Antkowiak (antkowiak@gmail.com)
 //
 
+#include <cstdint>
 #include <memory>
 
 #include "fileio.h"

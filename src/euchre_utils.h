@@ -9,8 +9,12 @@
 #include <cstdint>
 
 #include "euchre_card.h"
+#include "euchre_card_color.h"
+#include "euchre_card_rank.h"
+#include "euchre_card_suit.h"
 #include "euchre_constants.h"
 #include "euchre_perception.h"
+#include "euchre_seat_position.h"
 
 namespace rda
 {

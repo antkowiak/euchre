@@ -22,7 +22,7 @@ namespace rda
             SPADES = 3,
             INVALID = 4,
             END = 4
-        }; // enum suit
+        }; // enum e_suit
 
         // operator for iterating over suits
         static e_suit operator++(e_suit &rhs)

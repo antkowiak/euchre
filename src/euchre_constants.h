@@ -6,6 +6,8 @@
 // Written by Ryan Antkowiak (antkowiak@gmail.com)
 //
 
+#include <cstdint>
+
 namespace rda
 {
     namespace euchre
@@ -14,7 +16,10 @@ namespace rda
         {
         public:
             const static uint8_t NUM_PLAYERS = 4;
+
             const static uint8_t INVALID_INDEX = 4;
+
+            const static uint8_t EUCHRE_HAND_SIZE = 5;
 
         }; // class euchre_constants
 
