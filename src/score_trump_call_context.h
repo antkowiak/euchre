@@ -37,11 +37,9 @@ namespace rda
             const euchre_perception m_partner_perception;
             const euchre_perception m_right_perception;
 
-            std::shared_ptr<rda::json::node_object> m_file_data;
-
-            uint8_t m_num_suits = 0;
-            uint8_t m_num_non_trump_winners = 0;
-            uint8_t m_num_opponents_passed_on_up_card = 0;
+            const uint8_t m_num_suits;
+            const uint8_t m_num_non_trump_winners;
+            const uint8_t m_num_opponents_passed_on_up_card;
 
         public:
             score_trump_call_context(const e_suit suit,
@@ -59,18 +57,36 @@ namespace rda
                   m_dealer_seat_position(dealer_seat_position),
                   m_left_perception(left_perception),
                   m_partner_perception(partner_perception),
-                  m_right_perception(right_perception)
+                  m_right_perception(right_perception),
+                  m_num_suits(count_num_suits()),
+                  m_num_non_trump_winners(count_num_non_trump_winners()),
+                  m_num_opponents_passed_on_up_card(count_num_opponents_passed_on_up_card())
             {
-                rda::fileio f("euchre.json");
-                f.read();
-                m_file_data = rda::json::parse(f.to_string());
+            }
 
-                m_num_suits = count_num_suits();
-                m_num_non_trump_winners = count_num_non_trump_winners();
-                m_num_opponents_passed_on_up_card = count_num_opponents_passed_on_up_card();
+            // return the value of a score for given key
+            double get_score_value(const std::string& score_key) const
+            {
+                return get_json_file_data()->get_float_by_path(score_key);
             }
 
         private:
+
+            // keep a singleton static instance of json file data
+            static std::shared_ptr<rda::json::node_object> get_json_file_data()
+            {
+                static std::shared_ptr<rda::json::node_object> file_data = nullptr;
+
+                if (file_data == nullptr)
+                {
+                    rda::fileio f("euchre.json");
+                    f.read();
+                    file_data = rda::json::parse(f.to_string());
+                }
+
+                return file_data;
+            }
+
             // count the number of suits in a hand
             uint8_t count_num_suits() const
             {
