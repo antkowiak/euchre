@@ -83,6 +83,13 @@ namespace rda
                     up_card_offer_decision = decision;
             }
 
+            // update after trump offer
+            void update_after_trump_offer(const uint8_t offer_index, const e_trump_decision decision)
+            {
+                if (offer_index == seat_index)
+                    call_trump_offer_decision = decision;
+            }
+
         }; // class perception
 
     } // namespace euchre

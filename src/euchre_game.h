@@ -176,19 +176,11 @@ namespace rda
 
                     update_perceptions_after_up_card_offer(offer_index, decision);
 
-                    if (decision == e_trump_decision::ORDER_UP)
+                    if (is_ordering_up(decision))
                     {
                         trump_caller_index = offer_index;
-                        loner = false;
+                        loner = is_loner(decision);
                         suit_called_trump = up_card.suit();
-                        break;
-                    }
-                    else if (decision == e_trump_decision::ORDER_UP_LONER)
-                    {
-                        trump_caller_index = offer_index;
-                        loner = true;
-                        suit_called_trump = up_card.suit();
-                        break;
                     }
                 }
             }

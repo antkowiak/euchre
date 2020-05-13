@@ -87,8 +87,14 @@ namespace rda
             }
         }
 
-        // returns true if the decision is actually ordering a trump
-        static bool is_ordering_trump(const e_trump_decision decision)
+        // returns true if this is ordering up the trump
+        static bool is_ordering_up(const e_trump_decision decision)
+        {
+            return (decision == e_trump_decision::ORDER_UP || decision == e_trump_decision::ORDER_UP_LONER);
+        }
+
+        // returns true if the decision is actually making a trump
+        static bool is_making_trump(const e_trump_decision decision)
         {
             return (decision != e_trump_decision::PASS && decision != e_trump_decision::INVALID);
         }

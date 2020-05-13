@@ -158,7 +158,9 @@ namespace rda
                 if (suit != e_suit::INVALID)
                     m_suit_called_trump = suit;
 
-                // TODO update left, partner, right
+                m_left_perception.update_after_trump_offer(seat_index, decision);
+                m_partner_perception.update_after_trump_offer(seat_index, decision);
+                m_right_perception.update_after_trump_offer(seat_index, decision);
             }
 
         }; // class player
