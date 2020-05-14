@@ -70,8 +70,6 @@ namespace rda
                 // randomize the order of non trump suits
                 std::vector<e_suit> non_trump_suits = {e_suit::CLUBS, e_suit::DIAMONDS, e_suit::HEARTS, e_suit::SPADES};
                 non_trump_suits.erase(std::remove(non_trump_suits.begin(), non_trump_suits.end(), trump_suit));
-                rda::euchre::seed_randomizer();
-                std::random_shuffle(non_trump_suits.begin(), non_trump_suits.end());
 
                 // start with the trump cards
                 auto full_deck = get_trump_deck(trump_suit);
@@ -126,7 +124,7 @@ namespace rda
                 return (card.rank() == e_rank::JACK && card.suit() == get_hoyle_suit(trump));
             }
 
-            // comparator to compare euchre cards
+            // comparator to compare euchre cards when sorting by suit
             class card_comp_by_suit
             {
             private:
@@ -189,40 +187,48 @@ namespace rda
                 std::sort(deck.begin(), deck.end(), card_comp_by_suit(dm));
             }
 
+            // returns sorted vector of highest cards in deck, of a given suit, with given trump suit, and possibly excluding cards.
+            static std::vector<euchre_card> highest_cards_in_deck(const std::vector<euchre_card>& input_deck,
+                                                                  const e_suit suit,
+                                                                  const e_suit trump_suit,
+                                                                  const std::vector<euchre_card>& except = {})
+            {
+                // make a copy of the input deck
+                auto deck(input_deck);
+
+                // erase all excluded cards, and cards not matching effective suit
+                deck.erase(std::remove_if(deck.begin(), deck.end(),
+                    [=](auto& c) {
+                        // if is in list of exclusions, remove it
+                        if (std::find(except.cbegin(), except.cend(), c) != except.cend())
+                            return true;
+
+                        // if the suit doesn't match, remove it
+                        if (get_effective_suit(c, trump_suit) != suit)
+                            return true;
+
+                        // else, keep it
+                        return false;
+                    }),
+                    deck.end());
+
+                // sort the deck
+                sort_deck_by_suit(deck, trump_suit);
+
+                return deck;
+              }
+
             // returns highest card in deck, of a given suit, with given trump suit, and possibly excluding cards.
             static euchre_card highest_card_in_deck(const std::vector<euchre_card> &input_deck,
                                                     const e_suit suit,
                                                     const e_suit trump_suit,
                                                     const std::vector<euchre_card> &except = {})
             {
-                // first, copy the input deck
-                std::vector<euchre_card> deck(input_deck);
+                auto deck = highest_cards_in_deck(input_deck, suit, trump_suit, except);
 
-                // erase all excluded cards, and cards not matching effective suit
-                deck.erase(std::remove_if(deck.begin(), deck.end(),
-                                          [=](auto &c) {
-                                              // if is in list of exclusions, remove it
-                                              if (std::find(except.cbegin(), except.cend(), c) != except.cend())
-                                                  return true;
-
-                                              // if the suit doesn't match, remove it
-                                              if (get_effective_suit(c, trump_suit) != suit)
-                                                  return true;
-
-                                              // else, keep it
-                                              return false;
-                                          }),
-                           deck.end());
-
-                // if the deck is not empty
                 if (!deck.empty())
-                {
-                    // sort the deck, and return the first card
-                    sort_deck_by_suit(deck, trump_suit);
                     return deck.front();
-                }
 
-                // no card found. just return default invalid card.
                 return euchre_card();
             }
 
