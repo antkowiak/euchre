@@ -87,6 +87,16 @@ namespace rda
 				return ctx.trick_num == 0;
 			}
 
+			static bool pred_self_called_loner(const euchre_algo_choose_card_to_play_context& ctx)
+			{
+				return ctx.is_loner && ctx.who_called_trump == euchre_seat_position::SELF;
+			}
+
+			static bool pred_opponent_called_loner(const euchre_algo_choose_card_to_play_context& ctx)
+			{
+				return (ctx.is_loner && (ctx.who_called_trump == euchre_seat_position::LEFT || ctx.who_called_trump == euchre_seat_position::RIGHT));
+			}
+
 			static std::pair<bool, euchre_card> check_call_trump_leading_right(const euchre_algo_choose_card_to_play_context& ctx)
 			{
 				if (!pred_self_called_trump(ctx))
