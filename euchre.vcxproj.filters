@@ -126,5 +126,11 @@
     <ClInclude Include="src\euchre_algo_discarder.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="src\euchre_algo_card_sorter.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\unit_tests\test_euchre_algo_card_sorter.h">
+      <Filter>Unit Tests</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>

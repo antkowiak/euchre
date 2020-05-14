@@ -151,6 +151,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\algorithm_rda.h" />
+    <ClInclude Include="src\euchre_algo_card_sorter.h" />
     <ClInclude Include="src\euchre_algo_discarder.h" />
     <ClInclude Include="src\euchre_card.h" />
     <ClInclude Include="src\euchre_card_color.h" />
@@ -176,6 +177,7 @@
     <ClInclude Include="src\euchre_seat_position.h" />
     <ClInclude Include="src\score_trump_call_context.h" />
     <ClInclude Include="src\unit_tests\test_euchre.h" />
+    <ClInclude Include="src\unit_tests\test_euchre_algo_card_sorter.h" />
     <ClInclude Include="src\unit_tests\unit_test_template.h" />
     <ClInclude Include="src\unit_tests\unit_test_utils.h" />
     <ClInclude Include="src\euchre_utils.h" />
