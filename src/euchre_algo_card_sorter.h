@@ -130,16 +130,16 @@ namespace rda
             class card_comp_by_suit
             {
             private:
-                const deck_metrics& metrics;
+                const deck_metrics &metrics;
 
             public:
-                card_comp_by_suit(const deck_metrics& dm)
+                card_comp_by_suit(const deck_metrics &dm)
                     : metrics(dm)
                 {
                 }
 
                 // returns true if c1 comes before c2 in the sort
-                bool operator()(const euchre_card& c1, const euchre_card& c2) const
+                bool operator()(const euchre_card &c1, const euchre_card &c2) const
                 {
                     // if the cards are equal, just return
                     if (c1 == c2)
@@ -181,7 +181,7 @@ namespace rda
             };
 
             // sort a vector of cards, given a trump suit
-            static void sort_deck_by_suit(std::vector<euchre_card>& deck, const e_suit trump_suit)
+            static void sort_deck_by_suit(std::vector<euchre_card> &deck, const e_suit trump_suit)
             {
                 // create metrics for the deck
                 const deck_metrics dm(trump_suit, deck);
@@ -193,26 +193,26 @@ namespace rda
             static euchre_card highest_card_in_deck(const std::vector<euchre_card> &input_deck,
                                                     const e_suit suit,
                                                     const e_suit trump_suit,
-                                                    const std::vector<euchre_card>& except = {} )
+                                                    const std::vector<euchre_card> &except = {})
             {
                 // first, copy the input deck
                 std::vector<euchre_card> deck(input_deck);
 
                 // erase all excluded cards, and cards not matching effective suit
                 deck.erase(std::remove_if(deck.begin(), deck.end(),
-                    [=] (auto & c)
-                    {
-                        // if is in list of exclusions, remove it
-                        if (std::find(except.cbegin(), except.cend(), c) != except.cend())
-                            return true;
+                                          [=](auto &c) {
+                                              // if is in list of exclusions, remove it
+                                              if (std::find(except.cbegin(), except.cend(), c) != except.cend())
+                                                  return true;
 
-                        // if the suit doesn't match, remove it
-                        if (get_effective_suit(c, trump_suit) != suit)
-                            return true;
+                                              // if the suit doesn't match, remove it
+                                              if (get_effective_suit(c, trump_suit) != suit)
+                                                  return true;
 
-                        // else, keep it
-                        return false;
-                    }), deck.end());
+                                              // else, keep it
+                                              return false;
+                                          }),
+                           deck.end());
 
                 // if the deck is not empty
                 if (!deck.empty())

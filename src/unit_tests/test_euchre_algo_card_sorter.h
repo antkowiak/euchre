@@ -232,7 +232,7 @@ namespace rda
             ASSERT_TRUE(deck[23] == euchre_card{e_suit::SPADES, e_rank::NINE});
         }
 
-        static void test_010(const size_t testNum, TestInput& input)
+        static void test_010(const size_t testNum, TestInput &input)
         {
             using namespace rda::euchre::euchre_algo;
             using namespace rda::euchre;
@@ -243,20 +243,19 @@ namespace rda
 
             // highest card of trump suit is jack of trump
             auto card = highest_card_in_deck(deck, e_suit::SPADES, e_suit::SPADES);
-            ASSERT_TRUE(card == euchre_card{ e_suit::SPADES, e_rank::JACK });
+            ASSERT_TRUE(card == euchre_card{e_suit::SPADES, e_rank::JACK});
 
             // highest card of trump suit, when excluding jack of trump, will be left bower
-            card = highest_card_in_deck(deck, e_suit::SPADES, e_suit::SPADES, { {e_suit::SPADES, e_rank::JACK } });
-            ASSERT_TRUE(card == euchre_card{ e_suit::CLUBS, e_rank::JACK });
+            card = highest_card_in_deck(deck, e_suit::SPADES, e_suit::SPADES, {{e_suit::SPADES, e_rank::JACK}});
+            ASSERT_TRUE(card == euchre_card{e_suit::CLUBS, e_rank::JACK});
 
             // highest card of a non trump suit will be ace
             card = highest_card_in_deck(deck, e_suit::CLUBS, e_suit::SPADES);
-            ASSERT_TRUE(card == euchre_card{ e_suit::CLUBS, e_rank::ACE });
+            ASSERT_TRUE(card == euchre_card{e_suit::CLUBS, e_rank::ACE});
 
             // highest card of a non trump suit will be king, if ace is excluded
-            card = highest_card_in_deck(deck, e_suit::CLUBS, e_suit::SPADES, { {e_suit::CLUBS, e_rank::ACE} });
-            ASSERT_TRUE(card == euchre_card{ e_suit::CLUBS, e_rank::KING });
-
+            card = highest_card_in_deck(deck, e_suit::CLUBS, e_suit::SPADES, {{e_suit::CLUBS, e_rank::ACE}});
+            ASSERT_TRUE(card == euchre_card{e_suit::CLUBS, e_rank::KING});
         }
 
         static void run_tests()
