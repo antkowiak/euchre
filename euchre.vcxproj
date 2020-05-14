@@ -152,6 +152,7 @@
   <ItemGroup>
     <ClInclude Include="src\algorithm_rda.h" />
     <ClInclude Include="src\euchre_algo_card_sorter.h" />
+    <ClInclude Include="src\euchre_algo_choose_card_to_play.h" />
     <ClInclude Include="src\euchre_algo_discarder.h" />
     <ClInclude Include="src\euchre_card.h" />
     <ClInclude Include="src\euchre_card_color.h" />

@@ -132,5 +132,8 @@
     <ClInclude Include="src\unit_tests\test_euchre_algo_card_sorter.h">
       <Filter>Unit Tests</Filter>
     </ClInclude>
+    <ClInclude Include="src\euchre_algo_choose_card_to_play.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>
