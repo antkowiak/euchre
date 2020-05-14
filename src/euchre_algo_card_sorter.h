@@ -188,35 +188,35 @@ namespace rda
             }
 
             // returns sorted vector of highest cards in deck, of a given suit, with given trump suit, and possibly excluding cards.
-            static std::vector<euchre_card> highest_cards_in_deck(const std::vector<euchre_card>& input_deck,
+            static std::vector<euchre_card> highest_cards_in_deck(const std::vector<euchre_card> &input_deck,
                                                                   const e_suit suit,
                                                                   const e_suit trump_suit,
-                                                                  const std::vector<euchre_card>& except = {})
+                                                                  const std::vector<euchre_card> &except = {})
             {
                 // make a copy of the input deck
                 auto deck(input_deck);
 
                 // erase all excluded cards, and cards not matching effective suit
                 deck.erase(std::remove_if(deck.begin(), deck.end(),
-                    [=](auto& c) {
-                        // if is in list of exclusions, remove it
-                        if (std::find(except.cbegin(), except.cend(), c) != except.cend())
-                            return true;
+                                          [=](auto &c) {
+                                              // if is in list of exclusions, remove it
+                                              if (std::find(except.cbegin(), except.cend(), c) != except.cend())
+                                                  return true;
 
-                        // if the suit doesn't match, remove it
-                        if (get_effective_suit(c, trump_suit) != suit)
-                            return true;
+                                              // if the suit doesn't match, remove it
+                                              if (get_effective_suit(c, trump_suit) != suit)
+                                                  return true;
 
-                        // else, keep it
-                        return false;
-                    }),
-                    deck.end());
+                                              // else, keep it
+                                              return false;
+                                          }),
+                           deck.end());
 
                 // sort the deck
                 sort_deck_by_suit(deck, trump_suit);
 
                 return deck;
-              }
+            }
 
             // returns highest card in deck, of a given suit, with given trump suit, and possibly excluding cards.
             static euchre_card highest_card_in_deck(const std::vector<euchre_card> &input_deck,

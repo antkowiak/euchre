@@ -17,182 +17,207 @@
 
 namespace rda
 {
-	namespace euchre
-	{
-		namespace euchre_algo_choose_card_to_play
-		{
-			struct euchre_algo_choose_card_to_play_context
-			{
-				euchre_algo_choose_card_to_play_context(
-					const std::vector<euchre_card>& cards_played_,
-					const e_suit trump_suit_,
-					const euchre_hand& hand_,
-					const std::vector<euchre_card> hand_cards_,
-					const euchre_seat_position who_called_trump_,
-					const uint8_t trick_num_,
-					const uint8_t num_tricks_team_,
-					const uint8_t num_tricks_opponent_,
-					const bool is_loner_)
-					: cards_played(cards_played_),
-					trump_suit(trump_suit_),
-					hand(hand_),
-					hand_cards(hand_cards_),
-					who_called_trump(who_called_trump_),
-					trick_num(trick_num_),
-					num_tricks_team(num_tricks_team_),
-					num_tricks_opponent(num_tricks_opponent_),
-					is_loner(is_loner_)
-				{
-				}
+    namespace euchre
+    {
+        namespace euchre_algo_choose_card_to_play
+        {
+            // game context for making decisions
+            struct euchre_algo_choose_card_to_play_context
+            {
+                euchre_algo_choose_card_to_play_context(
+                    const std::vector<euchre_card> &cards_played_,
+                    const e_suit trump_suit_,
+                    const euchre_hand &hand_,
+                    const std::vector<euchre_card> hand_cards_,
+                    const euchre_seat_position who_called_trump_,
+                    const uint8_t trick_num_,
+                    const uint8_t num_tricks_team_,
+                    const uint8_t num_tricks_opponent_,
+                    const bool is_loner_)
+                    : cards_played(cards_played_),
+                      trump_suit(trump_suit_),
+                      hand(hand_),
+                      hand_cards(hand_cards_),
+                      who_called_trump(who_called_trump_),
+                      trick_num(trick_num_),
+                      num_tricks_team(num_tricks_team_),
+                      num_tricks_opponent(num_tricks_opponent_),
+                      is_loner(is_loner_)
+                {
+                }
 
-				const std::vector<euchre_card>& cards_played;
-				const e_suit trump_suit;
-				const euchre_hand& hand;
-				const std::vector<euchre_card> hand_cards;
-				const euchre_seat_position who_called_trump;
-				const uint8_t trick_num;
-				const uint8_t num_tricks_team;
-				const uint8_t num_tricks_opponent;
-				const bool is_loner;
-			};
+                // cards played (by other players) so far for this trick
+                const std::vector<euchre_card> &cards_played;
 
-			static std::pair<bool, euchre_card> no_match()
-			{
-				return { false, euchre_card() };
-			}
+                // the trump suit
+                const e_suit trump_suit;
 
-			static bool pred_hand_contains(const euchre_algo_choose_card_to_play_context& ctx, const euchre_card & card)
-			{
-				return std::find(ctx.hand_cards.cbegin(), ctx.hand.cend(), euchre_utils::right_bower(ctx.trump_suit)) != ctx.hand_cards.cend();
-			}
+                // the player's euchre hand
+                const euchre_hand &hand;
 
-			static bool pred_self_called_trump(const euchre_algo_choose_card_to_play_context& ctx)
-			{
-				return ctx.who_called_trump == euchre_seat_position::SELF;
-			}
+                // cards in the player's euchre hand
+                const std::vector<euchre_card> hand_cards;
 
-			static bool pred_partner_called_trump(const euchre_algo_choose_card_to_play_context& ctx)
-			{
-				return ctx.who_called_trump == euchre_seat_position::ACROSS;
-			}
+                // the seat position who called trump
+                const euchre_seat_position who_called_trump;
 
-			static bool pred_opponent_called_trump(const euchre_algo_choose_card_to_play_context& ctx)
-			{
-				return ctx.who_called_trump == euchre_seat_position::LEFT ||
-					ctx.who_called_trump == euchre_seat_position::RIGHT;
-			}
+                // the trick number 0-4
+                const uint8_t trick_num;
 
-			static bool pred_first_trick_of_hand(const euchre_algo_choose_card_to_play_context& ctx)
-			{
-				return ctx.trick_num == 0;
-			}
+                // the number of tricks our team has taken
+                const uint8_t num_tricks_team;
 
-			static bool pred_self_called_loner(const euchre_algo_choose_card_to_play_context& ctx)
-			{
-				return ctx.is_loner && ctx.who_called_trump == euchre_seat_position::SELF;
-			}
+                // the number of tricks the opponent team has taken
+                const uint8_t num_tricks_opponent;
 
-			static bool pred_opponent_called_loner(const euchre_algo_choose_card_to_play_context& ctx)
-			{
-				return (ctx.is_loner && (ctx.who_called_trump == euchre_seat_position::LEFT || ctx.who_called_trump == euchre_seat_position::RIGHT));
-			}
+                // true if this hand is being played alone by the caller of trump
+                const bool is_loner;
+            };
 
-			static std::pair<bool, euchre_card> check_call_trump_leading_right(const euchre_algo_choose_card_to_play_context& ctx)
-			{
-				if (!pred_self_called_trump(ctx))
-					return no_match();
+            // predicate to check if a hand contains a card
+            static bool pred_hand_contains(const euchre_algo_choose_card_to_play_context &ctx, const euchre_card &card)
+            {
+                return std::find(ctx.hand_cards.cbegin(), ctx.hand.cend(), euchre_utils::right_bower(ctx.trump_suit)) != ctx.hand_cards.cend();
+            }
 
-				if (!pred_first_trick_of_hand(ctx))
-					return no_match();
+            // predicate to check if this player called trump
+            static bool pred_self_called_trump(const euchre_algo_choose_card_to_play_context &ctx)
+            {
+                return ctx.who_called_trump == euchre_seat_position::SELF;
+            }
 
-				if (pred_hand_contains(ctx, euchre_utils::right_bower(ctx.trump_suit)))
-					return { true, euchre_utils::right_bower(ctx.trump_suit) };
+            // predicate to check if this player's partner called trump
+            static bool pred_partner_called_trump(const euchre_algo_choose_card_to_play_context &ctx)
+            {
+                return ctx.who_called_trump == euchre_seat_position::ACROSS;
+            }
 
-				return no_match();
-			}
+            // predicate to check if an opponent player called trump
+            static bool pred_opponent_called_trump(const euchre_algo_choose_card_to_play_context &ctx)
+            {
+                return ctx.who_called_trump == euchre_seat_position::LEFT ||
+                       ctx.who_called_trump == euchre_seat_position::RIGHT;
+            }
 
-			// choose what card to play, if we are leading the trick
-			static euchre_card choose_card_to_lead(const euchre_algo_choose_card_to_play_context & ctx)
-			{
-				// start with all cards in hand
-				std::vector<euchre_card> hand_cards(ctx.hand.cbegin(), ctx.hand.cend());
+            // predicate to check if this is the first trick of the hand
+            static bool pred_first_trick_of_hand(const euchre_algo_choose_card_to_play_context &ctx)
+            {
+                return ctx.trick_num == 0;
+            }
 
-				// TODO
-				return hand_cards.front();
-			}
+            // predicate to check if this player called a loner
+            static bool pred_self_called_loner(const euchre_algo_choose_card_to_play_context &ctx)
+            {
+                return ctx.is_loner && ctx.who_called_trump == euchre_seat_position::SELF;
+            }
 
-			// choose what card to play, if someone else already led
-			static euchre_card choose_card_to_follow(const euchre_algo_choose_card_to_play_context& ctx)
-			{
-				// start with all cards in hand
-				std::vector<euchre_card> hand_cards(ctx.hand.cbegin(), ctx.hand.cend());
+            // predicate to check if an opponent player has called a loner
+            static bool pred_opponent_called_loner(const euchre_algo_choose_card_to_play_context &ctx)
+            {
+                return (ctx.is_loner && (ctx.who_called_trump == euchre_seat_position::LEFT || ctx.who_called_trump == euchre_seat_position::RIGHT));
+            }
 
-				// what suit was lead
-				const e_suit suit_lead = euchre_algo::get_effective_suit(ctx.cards_played.front(), ctx.trump_suit);
+            // returns a true pair of a card to play has been selected
+            static std::pair<bool, euchre_card> no_match()
+            {
+                return {false, euchre_card()};
+            }
 
-				// check if this hand can follow suit
-				const bool can_follow_suit = std::any_of(hand_cards.cbegin(), hand_cards.cend(),
-					[ctx, suit_lead] (auto& c)
-					{
-						return euchre_algo::get_effective_suit(c.suit(), trump_suit) == ctx.suit_lead;
-					});
+            static std::pair<bool, euchre_card> check_call_trump_leading_right(const euchre_algo_choose_card_to_play_context &ctx)
+            {
+                if (!pred_self_called_trump(ctx))
+                    return no_match();
 
-				// if we can follow suit, remove all cards that aren't the suit lead
-				hand_cards.erase(std::remove_if(hand_cards.begin(), hand_cards.end(),
-					[ctx, suit_lead](auto& c) {
-						return euchre_algo::get_effective_suit(c.suit(), trump_suit) != ctx.suit_lead;
-					}),
-					hand_cards.end());
+                if (!pred_first_trick_of_hand(ctx))
+                    return no_match();
 
-				// if there is only one card, return it
-				if (hand_cards.size() == 1)
-					return hand_cards.front();
+                if (pred_hand_contains(ctx, euchre_utils::right_bower(ctx.trump_suit)))
+                    return {true, euchre_utils::right_bower(ctx.trump_suit)};
 
-				// we have multiple cards that can be played... Now to choose one.
+                return no_match();
+            }
 
-				// TODO
+            // choose what card to play, if we are leading the trick
+            static euchre_card choose_card_to_lead(const euchre_algo_choose_card_to_play_context &ctx)
+            {
+                // start with all cards in hand
+                std::vector<euchre_card> hand_cards(ctx.hand.cbegin(), ctx.hand.cend());
 
-				return hand_cards.front();
-			}
+                // TODO
+                return hand_cards.front();
+            }
 
-			// choose what card to play
-			static euchre_card choose_card(
-				const std::vector<euchre_card>& cards_played_,
-				const e_suit trump_suit_,
-				const euchre_hand& hand_,
-				const euchre_seat_position who_called_trump_,
-				const uint8_t trick_num_,
-				const uint8_t num_tricks_team_,
-				const uint8_t num_tricks_opponent_,
-				const bool is_loner_)
+            // choose what card to play, if someone else already led
+            static euchre_card choose_card_to_follow(const euchre_algo_choose_card_to_play_context &ctx)
+            {
+                // start with all cards in hand
+                std::vector<euchre_card> hand_cards(ctx.hand.cbegin(), ctx.hand.cend());
 
-			{
-				euchre_algo_choose_card_to_play_context ctx(
-					cards_played_,
-					trump_suit_,
-					hand_,
-					std::vector<euchre_card>(hand_.cbegin(), hand_.cend()),
-					who_called_trump_,
-					trick_num_,
-					num_tricks_team_,
-					num_tricks_opponent_,
-					is_loner_);
+                // what suit was lead
+                const e_suit suit_lead = euchre_algo::get_effective_suit(ctx.cards_played.front(), ctx.trump_suit);
 
-				if (ctx.hand.empty())
-					return euchre_card();
+                // check if this hand can follow suit
+                const bool can_follow_suit = std::any_of(hand_cards.cbegin(), hand_cards.cend(),
+                                                         [ctx, suit_lead](auto &c) {
+                                                             return euchre_algo::get_effective_suit(c.suit(), trump_suit) == ctx.suit_lead;
+                                                         });
 
-				else if (ctx.hand.size() == 1)
-					return *(ctx.hand.cbegin());
+                // if we can follow suit, remove all cards that aren't the suit lead
+                hand_cards.erase(std::remove_if(hand_cards.begin(), hand_cards.end(),
+                                                [ctx, suit_lead](auto &c) {
+                                                    return euchre_algo::get_effective_suit(c.suit(), trump_suit) != ctx.suit_lead;
+                                                }),
+                                 hand_cards.end());
 
-				else if (ctx.cards_played.empty())
-					return choose_card_to_lead(ctx);
+                // if there is only one card, return it
+                if (hand_cards.size() == 1)
+                    return hand_cards.front();
 
-				else
-					return choose_card_to_follow(ctx);
-			}
+                // we have multiple cards that can be played... Now to choose one.
 
-		} // namespace euchre_algo_choose_card_to_play
+                // TODO
 
-	} // namespace euchre
+                return hand_cards.front();
+            }
+
+            // choose what card to play
+            static euchre_card choose_card(
+                const std::vector<euchre_card> &cards_played_,
+                const e_suit trump_suit_,
+                const euchre_hand &hand_,
+                const euchre_seat_position who_called_trump_,
+                const uint8_t trick_num_,
+                const uint8_t num_tricks_team_,
+                const uint8_t num_tricks_opponent_,
+                const bool is_loner_)
+
+            {
+                euchre_algo_choose_card_to_play_context ctx(
+                    cards_played_,
+                    trump_suit_,
+                    hand_,
+                    std::vector<euchre_card>(hand_.cbegin(), hand_.cend()),
+                    who_called_trump_,
+                    trick_num_,
+                    num_tricks_team_,
+                    num_tricks_opponent_,
+                    is_loner_);
+
+                if (ctx.hand.empty())
+                    return euchre_card();
+
+                else if (ctx.hand.size() == 1)
+                    return *(ctx.hand.cbegin());
+
+                else if (ctx.cards_played.empty())
+                    return choose_card_to_lead(ctx);
+
+                else
+                    return choose_card_to_follow(ctx);
+            }
+
+        } // namespace euchre_algo_choose_card_to_play
+
+    } // namespace euchre
 
 } // namespace rda
