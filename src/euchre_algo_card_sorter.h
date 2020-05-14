@@ -126,33 +126,20 @@ namespace rda
                 return (card.rank() == e_rank::JACK && card.suit() == get_hoyle_suit(trump));
             }
 
-            // return true if 'c' is the highest card of it's suit in the deck, given a trump suit, and a list of excepted cards
-            static bool is_highest_of_non_trump_suit_except(const euchre_card &c,
-                                                            const std::vector<euchre_card> &deck,
-                                                            const e_suit trump_suit,
-                                                            const std::vector<euchre_card> &except)
-            {
-                const e_suit hoyle_suit = get_hoyle_suit(trump_suit);
-
-                return false;
-
-                // TODO
-            }
-
             // comparator to compare euchre cards
             class card_comp_by_suit
             {
             private:
-                const deck_metrics &metrics;
+                const deck_metrics& metrics;
 
             public:
-                card_comp_by_suit(const deck_metrics &dm)
+                card_comp_by_suit(const deck_metrics& dm)
                     : metrics(dm)
                 {
                 }
 
                 // returns true if c1 comes before c2 in the sort
-                bool operator()(const euchre_card &c1, const euchre_card &c2) const
+                bool operator()(const euchre_card& c1, const euchre_card& c2) const
                 {
                     // if the cards are equal, just return
                     if (c1 == c2)
@@ -194,12 +181,49 @@ namespace rda
             };
 
             // sort a vector of cards, given a trump suit
-            static void sort_deck_by_suit(std::vector<euchre_card> &deck, const e_suit trump_suit)
+            static void sort_deck_by_suit(std::vector<euchre_card>& deck, const e_suit trump_suit)
             {
                 // create metrics for the deck
                 const deck_metrics dm(trump_suit, deck);
                 // sort the deck
                 std::sort(deck.begin(), deck.end(), card_comp_by_suit(dm));
+            }
+
+            // returns highest card in deck, of a given suit, with given trump suit, and possibly excluding cards.
+            static euchre_card highest_card_in_deck(const std::vector<euchre_card> &input_deck,
+                                                    const e_suit suit,
+                                                    const e_suit trump_suit,
+                                                    const std::vector<euchre_card>& except = {} )
+            {
+                // first, copy the input deck
+                std::vector<euchre_card> deck(input_deck);
+
+                // erase all excluded cards, and cards not matching effective suit
+                deck.erase(std::remove_if(deck.begin(), deck.end(),
+                    [=] (auto & c)
+                    {
+                        // if is in list of exclusions, remove it
+                        if (std::find(except.cbegin(), except.cend(), c) != except.cend())
+                            return true;
+
+                        // if the suit doesn't match, remove it
+                        if (get_effective_suit(c, trump_suit) != suit)
+                            return true;
+
+                        // else, keep it
+                        return false;
+                    }), deck.end());
+
+                // if the deck is not empty
+                if (!deck.empty())
+                {
+                    // sort the deck, and return the first card
+                    sort_deck_by_suit(deck, trump_suit);
+                    return deck.front();
+                }
+
+                // no card found. just return default invalid card.
+                return euchre_card();
             }
 
         } // namespace euchre_algo

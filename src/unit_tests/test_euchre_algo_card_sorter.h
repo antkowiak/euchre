@@ -232,6 +232,33 @@ namespace rda
             ASSERT_TRUE(deck[23] == euchre_card{e_suit::SPADES, e_rank::NINE});
         }
 
+        static void test_010(const size_t testNum, TestInput& input)
+        {
+            using namespace rda::euchre::euchre_algo;
+            using namespace rda::euchre;
+
+            auto deck = get_full_deck(e_suit::SPADES);
+            seed_randomizer();
+            std::random_shuffle(deck.begin(), deck.end());
+
+            // highest card of trump suit is jack of trump
+            auto card = highest_card_in_deck(deck, e_suit::SPADES, e_suit::SPADES);
+            ASSERT_TRUE(card == euchre_card{ e_suit::SPADES, e_rank::JACK });
+
+            // highest card of trump suit, when excluding jack of trump, will be left bower
+            card = highest_card_in_deck(deck, e_suit::SPADES, e_suit::SPADES, { {e_suit::SPADES, e_rank::JACK } });
+            ASSERT_TRUE(card == euchre_card{ e_suit::CLUBS, e_rank::JACK });
+
+            // highest card of a non trump suit will be ace
+            card = highest_card_in_deck(deck, e_suit::CLUBS, e_suit::SPADES);
+            ASSERT_TRUE(card == euchre_card{ e_suit::CLUBS, e_rank::ACE });
+
+            // highest card of a non trump suit will be king, if ace is excluded
+            card = highest_card_in_deck(deck, e_suit::CLUBS, e_suit::SPADES, { {e_suit::CLUBS, e_rank::ACE} });
+            ASSERT_TRUE(card == euchre_card{ e_suit::CLUBS, e_rank::KING });
+
+        }
+
         static void run_tests()
         {
             // vector to hold functions to unit tests
@@ -248,6 +275,7 @@ namespace rda
             test_vec.push_back(test_007);
             test_vec.push_back(test_008);
             test_vec.push_back(test_009);
+            test_vec.push_back(test_010);
 
             // run each unit test
             for (size_t i = 0; i < test_vec.size(); ++i)
