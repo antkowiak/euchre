@@ -12,6 +12,7 @@
 #include "euchre_algo_card_sorter.h"
 #include "euchre_card.h"
 #include "euchre_hand.h"
+#include "euchre_perception.h"
 #include "euchre_utils.h"
 #include "euchre_seat_position.h"
 
@@ -33,7 +34,10 @@ namespace rda
                     const uint8_t trick_num_,
                     const uint8_t num_tricks_team_,
                     const uint8_t num_tricks_opponent_,
-                    const bool is_loner_)
+                    const bool is_loner_,
+                    const euchre_perception &left_perception_,
+                    const euchre_perception &partner_perception_,
+                    const euchre_perception &right_perception_)
                     : cards_played(cards_played_),
                       trump_suit(trump_suit_),
                       hand(hand_),
@@ -42,7 +46,10 @@ namespace rda
                       trick_num(trick_num_),
                       num_tricks_team(num_tricks_team_),
                       num_tricks_opponent(num_tricks_opponent_),
-                      is_loner(is_loner_)
+                      is_loner(is_loner_),
+                      left_perception(left_perception_),
+                      partner_perception(partner_perception_),
+                      right_perception(right_perception_)
                 {
                 }
 
@@ -72,6 +79,15 @@ namespace rda
 
                 // true if this hand is being played alone by the caller of trump
                 const bool is_loner;
+
+                // left-side opponent perception
+                const euchre_perception &left_perception;
+
+                // partner perception
+                const euchre_perception &partner_perception;
+
+                // right-side opponent perception
+                const euchre_perception &right_perception;
             };
 
             // predicate to check if a hand contains a card
@@ -189,7 +205,10 @@ namespace rda
                 const uint8_t trick_num_,
                 const uint8_t num_tricks_team_,
                 const uint8_t num_tricks_opponent_,
-                const bool is_loner_)
+                const bool is_loner_,
+                const euchre_perception &left_perception_,
+                const euchre_perception &partner_perception_,
+                const euchre_perception &right_perception_)
 
             {
                 euchre_algo_choose_card_to_play_context ctx(
@@ -201,7 +220,10 @@ namespace rda
                     trick_num_,
                     num_tricks_team_,
                     num_tricks_opponent_,
-                    is_loner_);
+                    is_loner_,
+                    left_perception_,
+                    partner_perception_,
+                    right_perception_);
 
                 if (ctx.hand.empty())
                     return euchre_card();
