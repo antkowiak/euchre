@@ -2,9 +2,9 @@
 
 namespace rda
 {
-	namespace algo
-	{
+    namespace algo
+    {
 
-	} // namespace algo
+    } // namespace algo
 
 } // namespace rda
