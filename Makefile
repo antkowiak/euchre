@@ -30,6 +30,9 @@ format :
 line_endings :
 	dos2unix src/*.cpp src/*.h src/unit_tests/*.h
 
+tidy :
+	clang-tidy -checks="modernize-use-override" -header-filter=.* --format-style=file src/main.cpp
+
 clean :
 	\rm -f euchre_gnu euchre_clang
 

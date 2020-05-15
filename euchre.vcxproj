@@ -140,6 +140,7 @@
   <ItemGroup>
     <None Include=".clang-format" />
     <None Include=".gitignore" />
+    <None Include="compile_commands.json" />
     <None Include="euchre.json" />
     <None Include="Makefile" />
     <None Include="README.md" />
@@ -174,6 +175,7 @@
     <ClInclude Include="src\euchre_player_human.h" />
     <ClInclude Include="src\random_seeder.h" />
     <ClInclude Include="src\euchre_scoreboard.h" />
+    <ClInclude Include="src\rda_algo.h" />
     <ClInclude Include="src\score_trump_call.h" />
     <ClInclude Include="src\euchre_seat_position.h" />
     <ClInclude Include="src\score_trump_call_context.h" />

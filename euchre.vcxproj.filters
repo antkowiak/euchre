@@ -32,6 +32,7 @@
       <Filter>Source Files</Filter>
     </None>
     <None Include="euchre.json" />
+    <None Include="compile_commands.json" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\main.cpp">
@@ -133,6 +134,9 @@
       <Filter>Unit Tests</Filter>
     </ClInclude>
     <ClInclude Include="src\euchre_algo_choose_card_to_play.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\rda_algo.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
