@@ -3,7 +3,7 @@
 //
 // euchre_algo_card_sorter.h - Algorithms to sort a vector of euchre cards
 //
-// Written by Ryan Antkowiak (antkowiak@gmail.com)
+// Written by Ryan Antkowiak 
 //
 
 #include <algorithm>

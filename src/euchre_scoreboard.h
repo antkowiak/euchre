@@ -3,7 +3,7 @@
 //
 // euchre_scoreboard.h - The euchre game scoreboard
 //
-// Written by Ryan Antkowiak (antkowiak@gmail.com)
+// Written by Ryan Antkowiak 
 //
 
 #include <cstdint>

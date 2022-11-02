@@ -3,7 +3,7 @@
 //
 // random_seeder.h - Seed a random engine with the time
 //
-// Written by Ryan Antkowiak (antkowiak@gmail.com)
+// Written by Ryan Antkowiak 
 //
 
 #include <chrono>

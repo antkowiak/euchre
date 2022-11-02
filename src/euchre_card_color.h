@@ -3,7 +3,7 @@
 //
 // euchre_card_color.h - Color of a euchre card
 //
-// Written by Ryan Antkowiak (antkowiak@gmail.com)
+// Written by Ryan Antkowiak 
 //
 
 #include <cstdint>

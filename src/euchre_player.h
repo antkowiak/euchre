@@ -3,7 +3,7 @@
 //
 // euchre_player.h - Player in a euchre game
 //
-// Written by Ryan Antkowiak (antkowiak@gmail.com)
+// Written by Ryan Antkowiak 
 //
 
 #include <algorithm>

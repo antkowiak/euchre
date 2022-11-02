@@ -3,7 +3,7 @@
 //
 // test_INSERT_TEXT_HERE.h - Unit tests for INSERT_TEST_HERE.h.
 //
-// Written by Ryan Antkowiak (antkowiak@gmail.com)
+// Written by Ryan Antkowiak 
 //
 
 #include <functional>

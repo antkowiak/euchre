@@ -3,7 +3,7 @@
 //
 // euchre_trump_decision.h - Result of decision when offered trump
 //
-// Written by Ryan Antkowiak (antkowiak@gmail.com)
+// Written by Ryan Antkowiak 
 //
 
 #include <cstdint>

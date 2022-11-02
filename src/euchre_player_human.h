@@ -3,7 +3,7 @@
 //
 // euchre_player_human.h - Human player in a euchre game
 //
-// Written by Ryan Antkowiak (antkowiak@gmail.com)
+// Written by Ryan Antkowiak 
 //
 
 #include <cstdint>

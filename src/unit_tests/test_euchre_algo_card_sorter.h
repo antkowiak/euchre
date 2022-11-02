@@ -3,7 +3,7 @@
 //
 // test_euchre_algo_card_sorter.h - Unit tests for euchre_algo_card_sorter.h.
 //
-// Written by Ryan Antkowiak (antkowiak@gmail.com)
+// Written by Ryan Antkowiak 
 //
 
 #include <algorithm>

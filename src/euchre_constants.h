@@ -3,7 +3,7 @@
 //
 // euchre_constants.h - Constant values for euchre games
 //
-// Written by Ryan Antkowiak (antkowiak@gmail.com)
+// Written by Ryan Antkowiak 
 //
 
 #include <cstdint>

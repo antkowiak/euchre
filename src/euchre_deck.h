@@ -3,7 +3,7 @@
 //
 // euchre_deck.h - Euchre deck of cards
 //
-// Written by Ryan Antkowiak (antkowiak@gmail.com)
+// Written by Ryan Antkowiak 
 //
 
 #include <algorithm>

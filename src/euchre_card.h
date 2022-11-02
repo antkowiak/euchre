@@ -3,7 +3,7 @@
 //
 // euchre_card.h - Playing card in a euchre deck
 //
-// Written by Ryan Antkowiak (antkowiak@gmail.com)
+// Written by Ryan Antkowiak 
 //
 
 #include <cstdint>

@@ -3,7 +3,7 @@
 //
 // euchre_algo_choose_card_to_play.h - Algorithm to choose what card to play
 //
-// Written by Ryan Antkowiak (antkowiak@gmail.com)
+// Written by Ryan Antkowiak 
 //
 
 #include <algorithm>

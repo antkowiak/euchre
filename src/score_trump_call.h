@@ -3,7 +3,7 @@
 //
 // score_trump_call.h - Utility to score the calling of a trump suit
 //
-// Written by Ryan Antkowiak (antkowiak@gmail.com)
+// Written by Ryan Antkowiak 
 //
 
 #include <cstdint>

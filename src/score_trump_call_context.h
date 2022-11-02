@@ -3,7 +3,7 @@
 //
 // score_trump_call_context.h - Data context used when scoring trump
 //
-// Written by Ryan Antkowiak (antkowiak@gmail.com)
+// Written by Ryan Antkowiak 
 //
 
 #include <array>

@@ -3,7 +3,7 @@
 //
 // test_euchre.h - Unit tests for euchre
 //
-// Written by Ryan Antkowiak (antkowiak@gmail.com)
+// Written by Ryan Antkowiak 
 //
 
 #include <functional>

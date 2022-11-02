@@ -3,7 +3,7 @@
 //
 // euchre_utils.h - Utility functions for euchre
 //
-// Written by Ryan Antkowiak (antkowiak@gmail.com)
+// Written by Ryan Antkowiak 
 //
 
 #include <cstdint>

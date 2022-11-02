@@ -2,7 +2,7 @@
 //
 // main.cpp - Euchre program entry point
 //
-// Written by Ryan Antkowiak (antkowiak@gmail.com)
+// Written by Ryan Antkowiak 
 //
 
 #include <iostream>

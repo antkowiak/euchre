@@ -3,7 +3,7 @@
 //
 // euchre_card_suit.h - Suit of a euchre card
 //
-// Written by Ryan Antkowiak (antkowiak@gmail.com)
+// Written by Ryan Antkowiak 
 //
 
 #include <cstdint>

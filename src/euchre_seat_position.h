@@ -3,7 +3,7 @@
 //
 // euchre_seat_position.h - The relative seat position
 //
-// Written by Ryan Antkowiak (antkowiak@gmail.com)
+// Written by Ryan Antkowiak 
 //
 
 #include <stdint.h>
